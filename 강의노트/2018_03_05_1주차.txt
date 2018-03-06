@@ -1,0 +1,15 @@
+Standalne applications
+
+//독립적으로 존재하는 앱
+
+
+.java ->(JAVAC compiler) .class ->(JVM) -> MachineCode
+//.java 확장자를 JAVAC 컴파일러로 .class로 만들어주고 이 .class를 JVM을 통해 각기 다른 OS에서 돌아갈 수 있게끔 만듬
+
+compiler vs interpreter
+
+//compiler는 해당 파일을 input으로 받아서 Low-level-language로 이루어진 output이 존재하지만
+//interpreter은 해당 파일을 input으로 받아서 output으로 이루어진 파일을 바로 메모리에 올려서 output으로 존재하는 파일이 존재하지 않는다.
+//compiler같이 해당파일을 만들어 놓고 나중에 쓸 수 있게 만들어 놓은 것을 off-line
+//interpreter과 같이 해당파일을 바로 메모리에 올리는 것을 on-line
+
