@@ -1,0 +1,15 @@
+Java class 
+
+ClassName objectName = new ClassName(anyArgs);
+
+//만약에 constructor을 다시 불러오고 싶으면 new를 사용하면 된다. 그렇게 되면 objectName에 담겨있던 오브젝트는 사라지게 되고 새로운 오브젝트가 생성된다.
+
+accessor
+
+//인스턴스 변수의 값을 리턴하는 역할(주로 get함수들)
+
+mutator
+
+//인스턴스 변수의 값을 설정하는 역할(주로 set함수들)
+
+
