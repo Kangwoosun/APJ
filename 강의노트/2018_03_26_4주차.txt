@@ -1,0 +1,32 @@
+Static Class Member Method
+//static 함수는 non-static 클래스맴버을 사용할 수 없음
+//그 이유는 static함수는 object가 없더라도 불러올 수 있기 때문
+//같은 이유로 static함수에서는 this참조를 사용할 수 없음
+//this는 특정 클래스의 객체를 언급해야 되는데 static 함수가 콜되었을 때 참조할 수 있는 객체가 없기때문임
+//만약 static 변수가 초기화 되지않으면 컴파일러는 디폴트값을 부여한다 (int형 '0')
+
+
+
+Static Class Member Variables
+//static 변수는 한 객체에 속한게 아니라 클래스에 속해서 하나의 클래스에 하나의 변수를 사용할 수 있음 (객체당 한개가 아님)
+//static 변수는 클래스이 모든 객체들이 읽고 바꾸는 것이 가능함
+//static 함수는 instance 변수에 접근할 수 없지만 static 변수에는 접근이 가능함
+//static 변수는 instance 변수랑 똑같이 선언하면 되는데 static만 추가해주면 됨
+
+
+Static Variables
+//static 변수는 선언과 초기화가 동시에 가능함
+//static 변수를 초기화 하지않으면 자동으로 디폴트값이 설정됨(boolean은 false로)(다른 주요 타입들은 그 타입의 0으로 초기화해줌)
+
+
+
+Static Import
+
+ex) import static java.lang.Math.*;
+
+//Static 맴버만 import함, 이렇게 static import를 활용해 static맴버를 사용할 때 클래스 이름이나 .은 사용하지 않아도 됨
+
+
+
+
+Packages
