@@ -1,0 +1,40 @@
+Polymorphism
+
+//객체지향의 중요한 특성중 하나임
+
+ex)
+	class Animanls(superclass)
+	class Cat (subclass)
+
+	Animals A = new Cat();
+
+//이렇게 child class의 객체가 parent class의 형태로 선언할 수 있는 것을 Polymorphism이라고 함 이때 Animals의 객체인 A는 Cat객체를 가리키고 있음
+
+//또한 Polymorphism에서 Parent 레퍼런스에 Child class 객체가 들어가는 것을 Upcasting이라고 하고 반대의 경우에 downcasting이라고 함
+
+//Polymorphism에서 Upcasting을 할 때는 Java에서 자동으로 형변환을 해줌
+
+//보통의 경우에는 Upcasting을 하는데 경우에 따라서는 downcasting을 할 수 있음 하지만 downcasting를 쓸 경우에는 Child 객체가 Parent보다 담고 있는 정보가 많기 때문에 업캐스팅이 선행되지 않는경우 컴파일에러 or 런타임 에러가 발생한다
+
+ex)
+	Child child = new Parent();
+	//컴파일 에러(Parent의 정보가 Child의 정보를 충족시킬 수 없으므로)
+
+	Child child = (Child)new Parent();
+	//런타임 에러(Child 데이터가 무엇인지 몰라서 default값을 넣어줄 수 가 없으므로)
+
+	Parent parent = new Child();
+	Child child = (Child)parent;
+	//parent의 태생이 Child()이므로 태생정보인 Child 클래스 데이터 형으로 다운캐스팅이 가능함
+
+Abstract Class
+
+//abstract method를 가지려면 abstract class이어야함 (심지어 몇개의 함수는 사용되어도 abstract class 선언을 해주어야함)
+
+ex)
+	for(Class temp_classname : objectarray_name)
+	//objectarray_name의 element인 object들을 for문안에서 temp_classname이 사용된 곳에 대입해서 반복문(for문)을 수행함
+
+
+Interface
+//
