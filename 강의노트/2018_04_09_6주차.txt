@@ -37,4 +37,20 @@ ex)
 
 
 Interface
-//
+ex)
+	interface ISpeak{
+		public void speak();
+	}
+
+	class Cat implements ISpeak{
+		public void speak(){
+			System.out.println("Meow meow");
+		}
+	}
+
+//interface에 있는 모든 method들은 bstract임
+//interface method를 선언할 때 interface키워드를 사용해서 선언하고 사용할 때는 implements를 이용하면 됨
+//abstract class와 마찬가지로 독립적으로 존재함
+
+
+
