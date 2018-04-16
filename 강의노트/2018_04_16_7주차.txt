@@ -1,0 +1,39 @@
+GUI(Graphical User Interface)
+
+AWT
+//이 라이브러리에는 c,c++로 이루어진 곳이 존재하기 때문에 다른 OS에서는 사용할 수 없음
+//또한 system native GUI(Windows GUI)에 의존하기 때문에 이 component가 heavyweight component라고 불림 
+
+//
+
+
+
+
+
+
+Swing
+
+//이 라이브러리에는 java코드로만 이루어져 있기 때문에 다른 라이브러리에도 사용이 가능함
+//또한 system native GUI(Windows GUI)에 의존하지 않기 때문에 lightweight라고도 불림
+
+
+GUI Terminology
+
+Window
+//frame, dialog box, applet
+
+Component
+//button, text box, label
+
+Container
+//panel, box
+
+Graphical Events
+
+event
+//
+
+listener
+//이벤트를 기다리고 반응해주는 객체
+
+Action Events
