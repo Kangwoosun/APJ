@@ -4,6 +4,14 @@ ClassName objectName = new ClassName(anyArgs);
 
 //만약에 constructor을 다시 불러오고 싶으면 new를 사용하면 된다. 그렇게 되면 objectName에 담겨있던 오브젝트는 사라지게 되고 새로운 오브젝트가 생성된다.
 
+Primitive Type Values  vs  Class Type Values
+
+//Primitive type value는 하나의 데이터 조각임, 그에 반해 class type value는 여러개의 데이터 조각뿐만 아니라 함수또한 가지고 있음
+
+
+
+
+
 accessor
 
 //인스턴스 변수의 값을 리턴하는 역할(주로 get함수들)
