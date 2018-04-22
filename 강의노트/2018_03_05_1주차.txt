@@ -11,5 +11,51 @@ compiler vs interpreter
 //compiler는 해당 파일을 input으로 받아서 Low-level-language로 이루어진 output이 존재하지만
 //interpreter은 해당 파일을 input으로 받아서 output으로 이루어진 파일을 바로 메모리에 올려서 output으로 존재하는 파일이 존재하지 않는다.
 //compiler같이 해당파일을 만들어 놓고 나중에 쓸 수 있게 만들어 놓은 것을 off-line
-//interpreter과 같이 해당파일을 바로 메모리에 올리는 것을 on-line
+//interpreter와 같이 해당파일을 바로 메모리에 올리는 것을 on-line
+
+
+Compiling a program
+//high-level language(HLL) 소스코드를 머신코드로 바꾸는 것
+
+Compiler
+//HLL소스코드를 머신코드로 바꾸는 프로그램
+
+Assembly
+//assemble 언어 소스코드를 머신코드로 번역해주는 것
+
+Assembler
+//assembly 소스코드를 머신코드로 바꿔주는 프로그램
+
+//컴파일러는 특정하드웨어가 무엇인지 알야됨(운영체제마다 사용하는 기계어가 다르기 때문에)
+
+Java Program Translation
+
+//Compilation과 Interpretation의 속성을 둘다 가지고 있음
+
+Byte Code
+//Intermediate Code임 어셈블리 코드와 비슷하지만 하드웨어와는 독립적임
+//Interpreter가 일반적인 byte code를 특정 하드웨어의 머신코드로 바꿔줌
+
+//java compiler에 의해 생성되고 다양한 운영체제의 머신코드로 번역되고 java interpreter에 의해 실행됨
+
+- 장점
+//이식성
+
+- 단점
+//컴파일러와 인터프리터가 둘다 필요함, 실행이 느림
+
+OOP의 특징
+- Encapsulation
+
+- Polymorphism
+
+- Inheritance 
+
+
+
+
+
+
+
+
 

@@ -55,6 +55,16 @@ Ex. Java multidimensional arrays)
 
 //while loop에서 C++에서의 goto가 Java에서는 break로 쓸 수 있음
 
+Method Overloading
+
+ex) 
+	in C++
+	void Cpp(int a = 3){}
+	void Cpp(float a = 3.14){}
+	
+	in Java
+	void Java(int a){}
+	void Java(float a){}
 //
 
 
