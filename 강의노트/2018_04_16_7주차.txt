@@ -7,10 +7,6 @@ AWT
 //
 
 
-
-
-
-
 Swing
 
 //이 라이브러리에는 java코드로만 이루어져 있기 때문에 다른 라이브러리에도 사용이 가능함
@@ -18,6 +14,7 @@ Swing
 
 
 GUI Terminology
+
 
 Window
 //frame, dialog box, applet
@@ -37,3 +34,12 @@ listener
 //이벤트를 기다리고 반응해주는 객체
 
 Action Events
+
+MVC(Model-View-Controller) model
+
+- Model:data model calsses
+
+- View: user interface
+
+- Controller: interacts with View, manipulates Model
+
