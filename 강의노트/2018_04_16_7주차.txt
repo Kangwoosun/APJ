@@ -43,3 +43,55 @@ MVC(Model-View-Controller) model
 
 - Controller: interacts with View, manipulates Model
 
+/////////////////////////////////////////////////////////////////////////////
+AWT: contain C++ code(매번 컴파일 해야함, os에따라 dependent(heavyweight))
+Swing:자바만 있음 그래서 portable ->이걸 배울거임
+
+javax-> interface
+
+AWT 는 look and feel을 바꿀수 없다 그냥 그 os대로,약간빠르다
+SWings는 look and feel를 선택할수 있다. (more features), 약간느리다
+하나의 컴포넌트들은 하나의 클래스(많은 메소드갖고있다)
+
+
+button2.setBackground(Color.RED);
+Color.RED->public static value라서 바로 접근가능(object없이)
+
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+->숨긴다
+
+FlowLayout
+그냥 옆으로 ,자리없으면 아래로
+
+BorderLayout
+BOrderLayout-myFrame.add(new JButton("Button 1"), BorderLayout.NORTH);
+NORTH,WEST,CENTER,EAST,SOUTH
+
+
+gridlayout
+public GridLayout(int rows, int columns);
+
+
+하나의 컴포넌트마다 하나 이상의 listener가 있다.
+
+
+import java.awt.event.*;(event 들이 다 여기들어있다.)
+event마다 listener가있따.
+EventObject->classes
+EventListener->interfaces
+
+listener와 button을 연결(doSomething class는addActionListener를 implement해야한다(must).)
+doSomething object=new doSomething();
+button1.addActionListener(object);
+->button1.addActionListener(new doSomething()); 한줄로 가능 
+new doSomething(): anonymous object 이름없는 객체
+
+다른방법
+class Test extends JFrame{
+main(){
+Test object=...
+}
+}
+
+
+
