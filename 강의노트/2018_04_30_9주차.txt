@@ -1,0 +1,80 @@
+Multithreading
+
+//멀티 프로세스와 비슷함
+//하나의 프로세스에 여러개의 쓰레드를 실행시키는 것
+//멀티쓰레드가 구현된 프로세스는 하나의 CPU에 할당되는 것이 아닌 여러개의 CPU에 할당됨
+
+Multithreading을 구현하는 방법
+
+1. Implementing the Runnalbe interface
+
+ex)
+	public class HelloRunnable implements Runnable{
+		public void run(){
+			System.out.println("Hello from a thread!");
+		}
+
+		public static void main(String args[]){
+			Thread x = new Thread(new HelloRunnable());
+			x.start();
+		}
+	}
+
+//interface에서 implement한 run() method를 구현해서 thread가 실행할 코드를 작성함
+//Thread class의 생성자 인자에 구현한 class 객체를 넣어서 실행시킴
+
+
+2. Subclassing the Thread class 
+
+ex)
+	public class threading extends Thread{
+		public void run(){
+			System.out.println("Hello from a thread!");
+		}
+
+		public static void main(String args[]){
+			threading x = new threading();
+			x.start();
+		}
+	}
+
+//Thread를 extends한 subclass의 객체를 생성하여 실행시킴
+
+	
+
+//이 둘중 하나를 사용해서 run() method를 통해서 multithread를 구현함
+//start(), sleep(), yield(), wait(), notify() 등의 method를 통해서 컨트롤 함
+
+Thread States
+
+//쓰레는 4가지의 상태(Created, Running, Blocked and Dead) 중 하나의 상태이어야 함
+
+//Thread의 생성자 두번째 인자로 쓰레드의 이름을 넣을 수 있음
+
+**
+//Thread의 생성자에 넣은 객체의 맴버는 동일 객체를 넣은 Thread모두가 공유함
+
+
+ThreadGruop
+
+ex) 
+	ThreadGroup tg = new ThreadGruop ("subgroup 1");
+	Thread t1 = new Thread(tg, "thread1");
+	Thread t2 = new Thread(tg, "thread2");
+	Thread t3 = new Thread(tg, "thread3");
+//Gruop단위로 Thread를 start()method를 실행할 수 없고 Thread 하나하나 start() method를 실행해주어야함
+
+
+Thread synchronization
+
+//synchronized를 선언해주면 처음 이 메소드를 실행한 쓰레드 외에는 접근이 불가능함
+//이 첫번째 스레드가 완료되기 전까지 다른 Thread는 일시중단이 됨
+
+
+
+
+
+
+
+
+
