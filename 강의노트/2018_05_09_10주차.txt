@@ -1,0 +1,34 @@
+Java Exceptions
+
+
+- ArithmeticException(e.g., divide by zero)
+- ClassCastException(e.g., attempt to cast a String Objec to Integer)
+- IndexOutOfBoundsException
+- NullPointerException
+- FileNotFoundException(e.g., attempt to open a non-existent file for reading)
+
+try/catch
+
+ex)
+	try{
+	}catch(ExceptionType1 e1) {
+	}catch(ExceptionType2 e2) {
+	}catch(ExceptionType3 e3) {
+	}finally {
+	}
+
+//finally블록은 항상 실행됨
+
+
+ex)
+	throw new MyException();
+
+//Exception을 상속받은 클래스에서 ExceptionFunction을 정의해주고 해당 예외처리가 필요한 곳에 사용이 가능함
+
+ex)
+
+	catch(MyException e2){
+		e2.getMessage() 
+	}
+
+//MyException의 정의부분에서 super()안에 넣은 String을 리턴함
