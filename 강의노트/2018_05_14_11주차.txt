@@ -1,0 +1,124 @@
+File I/0
+
+Input Stream
+
+// Input Source(keyboard, file, network, program)에서 Java Program으로 가는 통로
+
+Output Stream
+// Java Program에서 Output(console, file, network, program)로 가는 통로
+
+Input Stream과 Output Stream은 직접적으로 데이터를 주고 받을 수 없음
+
+PrintWriter
+
+//PrintWriter 클래스는 print, println 함수를 가지고 있음
+//Writing to a Text File은 System.out 함수와 이름이 비슷하지만 화면에 output하는 것이 아닌 text file에 output하는 것임
+
+- java.io.PrintWriter
+- java.io.FileOutputStream
+- java.io.FileNotFoundException
+
+
+ex)
+	PrintWriter outputStreamName;
+	outputStreamName = new PrintWriter(new FileOutputStream(FileName));
+
+//FileOutputStream 클래스는 file의 이름을 String타입으로 파라미터로 받음
+//PrintWriter 클래스는 FileOutputStream 객체를 파라미터로 받음
+
+Scanner
+
+ex)
+	FileInputStream fileObject = new FileInputStream("data.txt");
+	Scanner x = new Scanner(fileObject);
+	String s = new String();
+	while(x.hasNext()){
+	s = s+x.nextLine()+"\n";
+	}
+	
+
+//System.in
+
+
+
+BufferedReader
+
+- java.io.BufferedReader
+- java.io.FileReader
+- java.io.FileNotFoundException
+- java.io.IOException
+
+ex)
+	FileReader fr = new FileReader("your_file.txt");
+	BufferReader br = new BufferedReader(fr);
+	
+	String sCurrentLine;
+	while((sCurrentLine = br.readLine()) != null) {
+		System.out.println(sCurrentLine);
+	}
+	br.close();
+
+
+//Scanner은 타입변환이 자동으로 가능하고 BufferedReader은 타입변환을 프로그래머가 알아서 해줘야됨
+
+
+
+Binary File
+
+[ObjectOutputStream]
+
+- java.io.ObjectOutputStream
+- java.io.FileOutStream
+- java.io.IOException
+
+ex)
+	ObjectOutputStream outputStreamName = new ObjectOutputStream(new FileOutputStream(FileName));
+	
+[ObjectInputStream]
+
+- java.io.ObjectInputStream
+- java.io.FileInputStream
+- java.io.IOException
+
+ex)
+	ObjectInputStream InStreamName = new ObjectInputStream(new FileInputStream(FileName));
+
+//Binaray File의 마지막을 체크는 EOFException으로 하면됨
+
+
+Serializable Interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
