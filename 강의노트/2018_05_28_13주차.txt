@@ -1,0 +1,27 @@
+Generic Collections
+
+
+Wrapper Classes
+
+ex)
+	Integer[] integerArray 
+//ArrayList, linkedList, Vector, Set, Queue 등에 값을 넣을때 WrapperClass를 사용해서 넣어줘야됨
+
+boxing conversion
+//위 처럼 배열에 값을 넣어줄때 WrapperClass를 사용해서 넣어주는 행위
+
+unboxing conversion
+//WrapperClass의 값을 basic type으로 바꿔주는 것
+
+autoboxing, auto-unboxing
+//위의 행위들을 자바에서 자동적으로 해주는 것
+
+//MultiThreading을 구현할 때는 Vector가 낫고 중간에 값을 넣을때는 LinkedList가 나음
+
+ex)
+	Vector DynamicArray = new Vector();
+	DynamicArray.add(12);
+	DynamicArray.add("Hello");
+	DynamicArray.add(2.3);
+
+//Vector과 같이 Collection들은 Object로 값을 변환해서 추가시키기때문에 다른 데이터타입들도 한 Collection안에 넣어줄 수 있음. 다만 한가지의 데이터타입만 수용하고 싶으면 Vector<data type>을 데이터타입으로 넣어주면 됨
