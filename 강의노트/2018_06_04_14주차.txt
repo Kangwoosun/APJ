@@ -1,0 +1,27 @@
+String and Regular Expressions
+
+- getChars(), charAt()
+- startsWith(), endWith()
+- compareTo(), compareToIgnoreCase()
+- indexOf(), substring()
+
+ex)
+	String X = "Hello";
+	X = X + " World";
+
+// X가 "Hello"문자열을 참조하고 있다가 두번째 문장이 실행되면 "Hello" 문자열 참조를 끝내고 "Hello World"라는 문자열을 새로 만들고 참조함
+
+StringBuilder and StringBuffer
+
+//append와 같은 작업이 String < StringBuilder < StringBuffer 순으로 빠르다
+
+ex)
+	char [] array = new char[5];
+	String xx = new String("Hello World!");
+	xx.getChars(4, 9, array, 0);
+
+//getChars(시작위치, 끝 위치, 복사할 배열명, 복사할 인덱스 위치)
+
+trim()
+
+//String의 시작과 끝의 공백을 없애줌
