@@ -13,8 +13,8 @@ ex)
 
 StringBuilder and StringBuffer
 
-//append와 같은 작업이 String < StringBuilder < StringBuffer 순으로 빠르다
-
+//append와 같은 작업이 String < StringBuilder < StringBuffer 순으로 빠름
+//하지만 Thread의 안전도는 String > StringBuilder > StringBuffer 순으로 안전함
 ex)
 	char [] array = new char[5];
 	String xx = new String("Hello World!");
