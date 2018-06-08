@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -32,6 +33,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+
 import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
@@ -42,25 +45,33 @@ import java.awt.Insets;
 import javax.swing.border.MatteBorder;
 
 public class Day_View_Frame extends JFrame{
+	public static final int ADD = 1;
+	public static final int EDIT = 2;
+	public static final int DELETE = 3;
+	
 	private JTable table;
-	private JScrollPane jspWn;
-	private JPanel panel;
+	private JScrollPane clockTable;
+	private JPanel option_Panel;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
-	private JPanel panel_1;
-	private JTextPane txtpnAbcdefg_1;
-	private JTextPane txtpnAbcdefg;
-	private JSplitPane splitPane_1;
-	private JSplitPane splitPane;
+	private JPanel time_doing_Panel;
+	private JSplitPane main_Pane;
+	private JSplitPane dialog_Pane;
 	private JTextField txtTime;
 	private JTextField txtToDo;
 	private JFrame Frame = this;
+	private JList<Doing> list;
+	private DefaultListModel<Doing> listModel;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+	private JList list_1;
+	
 	public Day_View_Frame() {
 		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
-		
-		splitPane_1 = new JSplitPane();
-		getContentPane().add(splitPane_1);
+	
+		main_Pane = new JSplitPane();
+		getContentPane().add(main_Pane);
 
 		this.setSize(870, 560);
 				
@@ -98,50 +109,61 @@ public class Day_View_Frame extends JFrame{
 				table.setRowHeight(50);
 				
 				
-				jspWn = new JScrollPane(table);
-				splitPane_1.setLeftComponent(jspWn);
+				clockTable = new JScrollPane(table);
+				main_Pane.setLeftComponent(clockTable);
 				
-				splitPane = new JSplitPane();
+				dialog_Pane = new JSplitPane();
 				
-				splitPane_1.setRightComponent(splitPane);
-				splitPane_1.setDividerLocation((int)this.getSize().getWidth()/5*2);
-				splitPane_1.setDividerSize(15);
+				main_Pane.setRightComponent(dialog_Pane);
+				main_Pane.setDividerLocation((int)this.getSize().getWidth()/5*2);
+				main_Pane.setDividerSize(15);
 				
-				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+				dialog_Pane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				
-				panel = new JPanel();
-				panel.setBorder(new EmptyBorder(8, 10, 8, 10));
-				splitPane.setLeftComponent(panel);
-				panel.setLayout(new GridLayout(0, 3, 0, 0));
+				option_Panel = new JPanel();
+				option_Panel.setBorder(new EmptyBorder(8, 10, 8, 10));
+				dialog_Pane.setLeftComponent(option_Panel);
+				option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
 				
 				btnNewButton = new JButton("Add");
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame);
+						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.ADD);
+						dlg.setVisible(true);
+						
+						Doing ps = dlg.getDoing();
+			            if(ps != null) {
+			               listModel.addElement(dlg.getDoing());
+			            }
+			            
+			            list.setModel(listModel);
+			            
 					}
 				});
-				panel.add(btnNewButton);
+				option_Panel.add(btnNewButton);
 				
 				btnNewButton_1 = new JButton("Edit");
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.EDIT);
+						dlg.setVisible(true);
 					}
 				});
-				panel.add(btnNewButton_1);
+				option_Panel.add(btnNewButton_1);
 				
 				btnNewButton_2 = new JButton("Delete");
 				btnNewButton_2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.DELETE);
+						dlg.setVisible(true);
 					}
 				});
-				panel.add(btnNewButton_2);
+				option_Panel.add(btnNewButton_2);
 				
-				panel_1 = new JPanel();
-				panel_1.setBackground(Color.LIGHT_GRAY);
-				panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-				splitPane.setRightComponent(panel_1);
+				time_doing_Panel = new JPanel();
+				time_doing_Panel.setBackground(Color.LIGHT_GRAY);
+				time_doing_Panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+				dialog_Pane.setRightComponent(time_doing_Panel);
 //				
 //				
 //				splitPane.setSize((int)splitPane_1.getRightComponent().getSize().getWidth(),
@@ -149,15 +171,15 @@ public class Day_View_Frame extends JFrame{
 //				
 //				
 //				splitPane.setDividerLocation((int)splitPane.getSize().getHeight()/5);
-				splitPane.setDividerLocation(65);
-				splitPane.setDividerSize(30);
+				dialog_Pane.setDividerLocation(65);
+				dialog_Pane.setDividerSize(30);
 				
-				GridBagLayout gbl_panel_1 = new GridBagLayout();
-				gbl_panel_1.columnWidths = new int[]{151, 0, 0, 0, 0};
-				gbl_panel_1.rowHeights = new int[]{0, 26, 0, 0};
-				gbl_panel_1.columnWeights = new double[]{1.0, 1.0, 2.0, 1.0, Double.MIN_VALUE};
-				gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-				panel_1.setLayout(gbl_panel_1);
+				GridBagLayout gbl_time_doing_Panel = new GridBagLayout();
+				gbl_time_doing_Panel.columnWidths = new int[]{151, 0, 0, 0, 0};
+				gbl_time_doing_Panel.rowHeights = new int[]{0, 26, 0, 0};
+				gbl_time_doing_Panel.columnWeights = new double[]{1.0, 1.0, 2.0, 1.0, Double.MIN_VALUE};
+				gbl_time_doing_Panel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+				time_doing_Panel.setLayout(gbl_time_doing_Panel);
 				
 				txtTime = new JTextField();
 				txtTime.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 18));
@@ -168,7 +190,7 @@ public class Day_View_Frame extends JFrame{
 				gbc_txtTime.fill = GridBagConstraints.BOTH;
 				gbc_txtTime.gridx = 0;
 				gbc_txtTime.gridy = 0;
-				panel_1.add(txtTime, gbc_txtTime);
+				time_doing_Panel.add(txtTime, gbc_txtTime);
 				txtTime.setColumns(10);
 				
 				txtToDo = new JTextField();
@@ -182,29 +204,41 @@ public class Day_View_Frame extends JFrame{
 				gbc_txtToDo.fill = GridBagConstraints.BOTH;
 				gbc_txtToDo.gridx = 1;
 				gbc_txtToDo.gridy = 0;
-				panel_1.add(txtToDo, gbc_txtToDo);
+				time_doing_Panel.add(txtToDo, gbc_txtToDo);
 				
-				txtpnAbcdefg = new JTextPane();
-				txtpnAbcdefg.setFont(new Font("µ¸¿ò", Font.PLAIN, 18));
-				txtpnAbcdefg.setForeground(Color.RED);
-				GridBagConstraints gbc_txtpnAbcdefg = new GridBagConstraints();
-				gbc_txtpnAbcdefg.insets = new Insets(0, 0, 0, 5);
-				gbc_txtpnAbcdefg.fill = GridBagConstraints.BOTH;
-				gbc_txtpnAbcdefg.gridx = 0;
-				gbc_txtpnAbcdefg.gridy = 2;
-				panel_1.add(txtpnAbcdefg, gbc_txtpnAbcdefg);
 				
-				txtpnAbcdefg_1 = new JTextPane();
-				txtpnAbcdefg_1.setFont(new Font("µ¸¿ò", Font.PLAIN, 18));
-				txtpnAbcdefg_1.setForeground(Color.RED);
-				GridBagConstraints gbc_txtpnAbcdefg_1 = new GridBagConstraints();
-				gbc_txtpnAbcdefg_1.gridwidth = 3;
-				gbc_txtpnAbcdefg_1.fill = GridBagConstraints.BOTH;
-				gbc_txtpnAbcdefg_1.gridx = 1;
-				gbc_txtpnAbcdefg_1.gridy = 2;
-				panel_1.add(txtpnAbcdefg_1, gbc_txtpnAbcdefg_1);
+				
+				
+				
+				listModel = new DefaultListModel<Doing>();
+				list = new JList(listModel);
+				list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+			      //PhonebookApp.getContentPane().add(list, BorderLayout.CENTER);
+			      
+			    scrollPane = new JScrollPane(list);
+				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+				gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+				gbc_scrollPane.fill = GridBagConstraints.BOTH;
+				gbc_scrollPane.gridx = 0;
+				gbc_scrollPane.gridy = 2;
+				time_doing_Panel.add(scrollPane, gbc_scrollPane);
+				
+				
+				scrollPane_1 = new JScrollPane();
+				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+				gbc_scrollPane_1.gridwidth = 3;
+				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+				gbc_scrollPane_1.gridx = 1;
+				gbc_scrollPane_1.gridy = 2;
+				time_doing_Panel.add(scrollPane_1, gbc_scrollPane_1);
+				
+				list_1 = new JList();
+				list_1.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+				scrollPane_1.setViewportView(list_1);
 				this.setVisible(true);
 				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			   
+				
 	}
 	
 	
