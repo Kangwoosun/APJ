@@ -56,14 +56,15 @@ public class Day_View_Frame extends JFrame{
 	private JTextField txtTime;
 	private JTextField txtToDo;
 	private JFrame Frame = this;
-	public Day_View_Frame() {
+	
+	public Day_View_Frame(String str) {
 		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
 		
 		splitPane_1 = new JSplitPane();
 		getContentPane().add(splitPane_1);
 
 		this.setSize(870, 560);
-				
+		this.setTitle(str);
 				table = new JTable();
 				table.setFont(new Font("HY∞ﬂ∏Ì¡∂", Font.PLAIN, 18));
 

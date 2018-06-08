@@ -29,7 +29,6 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       return doing;
    }
 
-
    /**
     * Create the dialog.
     */
