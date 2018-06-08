@@ -61,22 +61,24 @@ public class Day_View_Frame extends JFrame{
 	private JTextField txtTime;
 	private JTextField txtToDo;
 	private JFrame Frame = this;
+
+	public Day_View_Frame(String str) {
+
 	private JList<Doing> list;
 	private DefaultListModel<Doing> listModel;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 	private JList list_1;
-	
-	public Day_View_Frame() {
+
 		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
 	
 		main_Pane = new JSplitPane();
 		getContentPane().add(main_Pane);
 
 		this.setSize(870, 560);
-				
+		this.setTitle(str);
 				table = new JTable();
-				table.setFont(new Font("HY∞ﬂ∏Ì¡∂", Font.PLAIN, 18));
+				table.setFont(new Font("HY¬∞√ü¬∏√≠√Å¬∂", Font.PLAIN, 18));
 
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
@@ -182,7 +184,7 @@ public class Day_View_Frame extends JFrame{
 				time_doing_Panel.setLayout(gbl_time_doing_Panel);
 				
 				txtTime = new JTextField();
-				txtTime.setFont(new Font("HY∞ﬂ∞ÌµÒ", Font.PLAIN, 18));
+				txtTime.setFont(new Font("HY¬∞√ü¬∞√≠¬µ√±", Font.PLAIN, 18));
 				txtTime.setText("Time");
 				GridBagConstraints gbc_txtTime = new GridBagConstraints();
 				gbc_txtTime.gridheight = 2;
@@ -194,7 +196,7 @@ public class Day_View_Frame extends JFrame{
 				txtTime.setColumns(10);
 				
 				txtToDo = new JTextField();
-				txtToDo.setFont(new Font("HY∞ﬂ∞ÌµÒ", Font.PLAIN, 18));
+				txtToDo.setFont(new Font("HY¬∞√ü¬∞√≠¬µ√±", Font.PLAIN, 18));
 				txtToDo.setText("To Do");
 				txtToDo.setColumns(10);
 				GridBagConstraints gbc_txtToDo = new GridBagConstraints();
