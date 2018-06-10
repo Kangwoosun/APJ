@@ -15,13 +15,62 @@ StringBuilder and StringBuffer
 
 //append와 같은 작업이 String < StringBuilder < StringBuffer 순으로 빠름
 //하지만 Thread의 안전도는 String > StringBuilder > StringBuffer 순으로 안전함
+
+String
+
 ex)
 	char [] array = new char[5];
 	String xx = new String("Hello World!");
 	xx.getChars(4, 9, array, 0);
 
-//getChars(시작위치, 끝 위치, 복사할 배열명, 복사할 인덱스 위치)
+//getChars(시작위치, 끝 위치, 복사내용을 넣을 배열명, 복사할 인덱스 위치)
 
 trim()
 
 //String의 시작과 끝의 공백을 없애줌
+
+substring()
+
+// beginIndex를 인자로 넣어주면 그 인덱스부터 끝까지의 string을 return함
+
+Regular Expressions
+
+.matches(regexp)
+
+.replaceAll(regexp, text)
+
+.replaceFirst(regexp, text)
+
+.split(delimiter, [limit])
+
+등을 사용하여 정규표현식을 사용함
+
+Concatenation
+
+- ab == "ab"
+- (ab)c == "abc"
+
+Union
+
+- a|b == "a" or "b"
+- [abc] == "a" or "b" pr "c"
+
+Closure
+
+- (ab)* == "ab" or "abab" or "ababab" ...
+- [ab]* == "a" or "b" or "aa" or "ab" ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
