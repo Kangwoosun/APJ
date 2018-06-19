@@ -22,9 +22,9 @@ import javax.swing.border.SoftBevelBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class MonthViewFrame implements ActionListener{	
+public class Month_View_Frame implements ActionListener{	
 	private GregorianCalendar cal1, cal2;
-	private JFrame frame;
+	JFrame frame;
 	private JPanel main;
 	private JPanel up;
 	private JPanel down;
@@ -51,22 +51,12 @@ public class MonthViewFrame implements ActionListener{
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MonthViewFrame window = new MonthViewFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {				e.printStackTrace();
-				}
-			}
-		});
-	}
 
+	
 	/**
 	 * Create the application.
 	 */
-	public MonthViewFrame() {
+	public Month_View_Frame() {
 		initialize();
 	}
 

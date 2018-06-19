@@ -29,6 +29,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       return doing;
    }
 
+
    /**
     * Create the dialog.
     */
@@ -78,7 +79,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             JButton btOk = new JButton("OK");
             btOk.addActionListener(new ActionListener() {
                public void actionPerformed(ActionEvent e) {
-            	   //ADD버튼을 눌렀을 때
+            	   //ADD버튼을 눌렀을 때 구현완료
             	   if(Type == Day_View_Frame.ADD) {
             	   try {
             		  
@@ -119,7 +120,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	  
                  	  toHour = Integer.parseInt(splitData[0]);
                  	 if (toHour >= 24) {
-                 		 JOptionPane.showMessageDialog(parent, "Error: To Time's hour should be under than 24", "Wrong number",
+                 		 JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24", "Wrong number",
 								  JOptionPane.ERROR_MESSAGE, null);
 
 						 return;
@@ -134,7 +135,12 @@ public class Add_Edit_Delete_Dialog extends JDialog {
   						 return;
   						 }
   					 
-  					 
+  					 if(txtEvent.getText().contains(".")) {
+  						JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo", "Wrong String",
+								  JOptionPane.ERROR_MESSAGE, null);
+
+						 return;
+  					 }
   				    doing.setTimeFrom(doing_from);
                     doing.setTimeTo(doing_to);
                     doing.setToDo(txtEvent.getText());
@@ -147,7 +153,10 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   
             	   setVisible(false);
             	   }
-            	   //Edit버튼을 눌렀을 때
+            	   
+            	   
+            	 
+            	   //Edit버튼을 눌렀을 때 구현중
             	   else if (Type == Day_View_Frame.EDIT) {
             		   try {
             			   
@@ -155,6 +164,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
+                      	  
                       	  //From txt에 input된 값이 형식을 맞췄는지 검사
                       	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
                       	  if(!check) {
@@ -163,6 +173,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
       						 return;
                       	  }
+                      	  
                       	//To txt에 input된 값이 형식을 맞췄는지 검사
                       	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
                       	  if(!check) {
@@ -204,11 +215,12 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	   
                  	   setVisible(false);
             	   }
-            	   //Delete버튼을 눌렀을 때
+            	   
+            	   //Delete버튼을 눌렀을 때 아직 구현X
             	   else {
             		   try {
                  		  
-                 		  String splitData[];
+                 		  
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
@@ -230,7 +242,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       						 
                       	  }
                       	  //:을 기준으로 쪼개서 시간과 분을 분리
-                 		  splitData= txtFrom.getText().split(":");
+                      	  String splitData[] = txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
                       	  fromMin = Integer.parseInt(splitData[1]);
