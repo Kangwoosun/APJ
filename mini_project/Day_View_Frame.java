@@ -64,6 +64,7 @@ public class Day_View_Frame extends JFrame{
 	private JTextField txtTime;
 	private JTextField txtToDo;
 	private JFrame Frame = this;
+
 	private JList<String> list;
 	private JList<String> list_1;
 	private DefaultListModel<String> listModel;
@@ -71,6 +72,7 @@ public class Day_View_Frame extends JFrame{
 	private DefaultListModel<Doing> listDoing;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
+
 
 
 
@@ -85,7 +87,7 @@ public class Day_View_Frame extends JFrame{
 		this.setSize(870, 560);
 		this.setTitle(str);
 				table = new JTable();
-				table.setFont(new Font("HYÂ°ÃŸÂ¸Ã­ÃÂ¶", Font.PLAIN, 18));
+				table.setFont(new Font("HYæ³è„½èµ‚é“†è„•éœ²", Font.PLAIN, 18));
 
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
@@ -134,7 +136,7 @@ public class Day_View_Frame extends JFrame{
 				dialog_Pane.setLeftComponent(option_Panel);
 				option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
 				
-				btnNewButton = new JButton("Add"); // ±¸ÇöÁß (AddÇÏÀÚ¸¶ÀÚ Sort¿Ï·á, FileIO ±¸ÇöÇØ¾ßµÊ)
+				btnNewButton = new JButton("Add"); // å¤‡æ³…å (Addçªç£Šä»˜ç£Š Sortè‚¯ä¸°, FileIO å¤‡æ³…ç§¦å…·å‡³)
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.ADD);
@@ -146,7 +148,7 @@ public class Day_View_Frame extends JFrame{
 			            	String divide[] = new String[2];
 			            	
 			                listDoing.addElement(tmpDoing);
-			                //AddÇÏÀÚ¸¶ÀÚ SortÇØÁÖ´Â ºÎºĞ
+			                //Addçªç£Šä»˜ç£Š Sortç§¦æ—ç»° ä½•ç›’
 			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
 			                Collections.sort(doingList);
 			                
@@ -167,14 +169,14 @@ public class Day_View_Frame extends JFrame{
 			                }
 			            }
 			            
-			            //listModelÀ» GUI¿¡ Ãâ·Â
+			            //listModelé˜‘ GUIä¿Š å…ä»¿
 			            list.setModel(listModel);
 			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton);
 				
-				btnNewButton_1 = new JButton("Edit"); // ±¸ÇöÁß
+				btnNewButton_1 = new JButton("Edit"); // å¤‡æ³…å
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.EDIT);
@@ -186,7 +188,7 @@ public class Day_View_Frame extends JFrame{
 			            	String divide[] = new String[2];
 			            	
 			                listDoing.addElement(tmpDoing);
-			                //AddÇÏÀÚ¸¶ÀÚ SortÇØÁÖ´Â ºÎºĞ
+			                //Addçªç£Šä»˜ç£Š Sortç§¦æ—ç»° ä½•ç›’
 			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
 			                Collections.sort(doingList);
 			                
@@ -207,14 +209,14 @@ public class Day_View_Frame extends JFrame{
 			                }
 			            }
 			            
-			            //listModelÀ» GUI¿¡ Ãâ·Â
+			            //listModelé˜‘ GUIä¿Š å…ä»¿
 			            list.setModel(listModel);
 			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton_1);
 				
-				btnNewButton_2 = new JButton("Delete");//¾ÆÁ÷ ±¸Çö X
+				btnNewButton_2 = new JButton("Delete");//é…’æµ å¤‡æ³… X
 				btnNewButton_2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.DELETE);
@@ -239,7 +241,7 @@ public class Day_View_Frame extends JFrame{
 				time_doing_Panel.setLayout(gbl_time_doing_Panel);
 				
 				txtTime = new JTextField();
-				txtTime.setFont(new Font("HYÂ°ÃŸÂ°Ã­ÂµÃ±", Font.PLAIN, 18));
+				txtTime.setFont(new Font("HYæ³è„½æ³é“†ç¢Œå¸½", Font.PLAIN, 18));
 				txtTime.setText("Time");
 				GridBagConstraints gbc_txtTime = new GridBagConstraints();
 				gbc_txtTime.gridheight = 2;
@@ -251,7 +253,7 @@ public class Day_View_Frame extends JFrame{
 				txtTime.setColumns(10);
 				
 				txtToDo = new JTextField();
-				txtToDo.setFont(new Font("HYÂ°ÃŸÂ°Ã­ÂµÃ±", Font.PLAIN, 18));
+				txtToDo.setFont(new Font("HYæ³è„½æ³é“†ç¢Œå¸½", Font.PLAIN, 18));
 				txtToDo.setText("To Do");
 				txtToDo.setColumns(10);
 				GridBagConstraints gbc_txtToDo = new GridBagConstraints();
