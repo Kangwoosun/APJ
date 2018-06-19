@@ -62,13 +62,13 @@ public class Day_View_Frame extends JFrame{
 	private JTextField txtToDo;
 	private JFrame Frame = this;
 
-	public Day_View_Frame(String str) {
-
 	private JList<Doing> list;
 	private DefaultListModel<Doing> listModel;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 	private JList list_1;
+	
+	public Day_View_Frame(String str) {
 
 		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
 	
