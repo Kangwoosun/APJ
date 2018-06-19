@@ -15,7 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JScrollPane;
@@ -61,15 +64,19 @@ public class Day_View_Frame extends JFrame{
 	private JTextField txtTime;
 	private JTextField txtToDo;
 	private JFrame Frame = this;
+	private JList<String> list;
+	private JList<String> list_1;
+	private DefaultListModel<String> listModel;
+	private DefaultListModel<String> listModel_1;
+	private DefaultListModel<Doing> listDoing;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+
+
 
 	public Day_View_Frame(String str) {
 
-	private JList<Doing> list;
-	private DefaultListModel<Doing> listModel;
-	private JScrollPane scrollPane;
-	private JScrollPane scrollPane_1;
-	private JList list_1;
-
+	
 		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
 	
 		main_Pane = new JSplitPane();
@@ -127,33 +134,87 @@ public class Day_View_Frame extends JFrame{
 				dialog_Pane.setLeftComponent(option_Panel);
 				option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
 				
-				btnNewButton = new JButton("Add");
+				btnNewButton = new JButton("Add"); // 구현중 (Add하자마자 Sort완료, FileIO 구현해야됨)
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.ADD);
 						dlg.setVisible(true);
 						
-						Doing ps = dlg.getDoing();
-			            if(ps != null) {
-			               listModel.addElement(dlg.getDoing());
+						Doing tmpDoing = dlg.getDoing();
+			            if(tmpDoing != null) {
+			            	
+			            	String divide[] = new String[2];
+			            	
+			                listDoing.addElement(tmpDoing);
+			                //Add하자마자 Sort해주는 부분
+			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
+			                Collections.sort(doingList);
+			                
+			                listDoing.clear();
+			                listModel.clear();
+			            	listModel_1.clear();
+			            	
+			                // add Doing list to model
+			                ListIterator<Doing> iter = doingList.listIterator();
+			                while(iter.hasNext()) {
+			                   tmpDoing = iter.next();
+			                   listDoing.addElement(tmpDoing);
+
+			                   divide = tmpDoing.toString().split("\\.");
+			                   listModel.addElement(divide[0]);
+			                   listModel_1.addElement(divide[1]);
+			                   
+			                }
 			            }
 			            
+			            //listModel을 GUI에 출력
 			            list.setModel(listModel);
-			            
+			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton);
 				
-				btnNewButton_1 = new JButton("Edit");
+				btnNewButton_1 = new JButton("Edit"); // 구현중
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.EDIT);
 						dlg.setVisible(true);
+						
+						Doing tmpDoing = dlg.getDoing();
+			            if(tmpDoing != null) {
+			            	
+			            	String divide[] = new String[2];
+			            	
+			                listDoing.addElement(tmpDoing);
+			                //Add하자마자 Sort해주는 부분
+			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
+			                Collections.sort(doingList);
+			                
+			                listDoing.clear();
+			                listModel.clear();
+			            	listModel_1.clear();
+			            	
+			                // add Doing list to model
+			                ListIterator<Doing> iter = doingList.listIterator();
+			                while(iter.hasNext()) {
+			                   tmpDoing = iter.next();
+			                   listDoing.addElement(tmpDoing);
+
+			                   divide = tmpDoing.toString().split("\\.");
+			                   listModel.addElement(divide[0]);
+			                   listModel_1.addElement(divide[1]);
+			                   
+			                }
+			            }
+			            
+			            //listModel을 GUI에 출력
+			            list.setModel(listModel);
+			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton_1);
 				
-				btnNewButton_2 = new JButton("Delete");
+				btnNewButton_2 = new JButton("Delete");//아직 구현 X
 				btnNewButton_2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.DELETE);
@@ -166,13 +227,7 @@ public class Day_View_Frame extends JFrame{
 				time_doing_Panel.setBackground(Color.LIGHT_GRAY);
 				time_doing_Panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 				dialog_Pane.setRightComponent(time_doing_Panel);
-//				
-//				
-//				splitPane.setSize((int)splitPane_1.getRightComponent().getSize().getWidth(),
-//						(int)splitPane_1.getRightComponent().getSize().getHeight());
-//				
-//				
-//				splitPane.setDividerLocation((int)splitPane.getSize().getHeight()/5);
+
 				dialog_Pane.setDividerLocation(65);
 				dialog_Pane.setDividerSize(30);
 				
@@ -208,14 +263,17 @@ public class Day_View_Frame extends JFrame{
 				gbc_txtToDo.gridy = 0;
 				time_doing_Panel.add(txtToDo, gbc_txtToDo);
 				
+	
+				listDoing = new DefaultListModel<Doing>();
 				
-				
-				
-				
-				listModel = new DefaultListModel<Doing>();
-				list = new JList(listModel);
+				listModel = new DefaultListModel<String>();
+				list = new JList<String>(listModel);
 				list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-			      //PhonebookApp.getContentPane().add(list, BorderLayout.CENTER);
+				
+				listModel_1 = new DefaultListModel<String>();
+				list_1 = new JList<String>(listModel_1);
+				list_1.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+
 			      
 			    scrollPane = new JScrollPane(list);
 				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -226,7 +284,7 @@ public class Day_View_Frame extends JFrame{
 				time_doing_Panel.add(scrollPane, gbc_scrollPane);
 				
 				
-				scrollPane_1 = new JScrollPane();
+				scrollPane_1 = new JScrollPane(list_1);
 				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 				gbc_scrollPane_1.gridwidth = 3;
 				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
@@ -234,9 +292,7 @@ public class Day_View_Frame extends JFrame{
 				gbc_scrollPane_1.gridy = 2;
 				time_doing_Panel.add(scrollPane_1, gbc_scrollPane_1);
 				
-				list_1 = new JList();
-				list_1.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-				scrollPane_1.setViewportView(list_1);
+				
 				this.setVisible(true);
 				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			   
