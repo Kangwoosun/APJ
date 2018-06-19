@@ -69,7 +69,8 @@ Thread synchronization
 
 //synchronized를 선언해주면 처음 이 메소드를 실행한 쓰레드 외에는 접근이 불가능함
 //이 첫번째 스레드가 완료되기 전까지 다른 Thread는 일시중단이 됨
-
+//synchronization 선언을 안해주거나 거의 안하면 데이터충돌이 일어남
+//synchronization 선언을 너무많이 해주면 deadlock 이나 시스템이 멈춤
 
 
 

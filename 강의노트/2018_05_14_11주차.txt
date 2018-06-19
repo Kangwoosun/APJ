@@ -104,6 +104,7 @@ ex)
 
 //Interface이기 때문에 implements 명시자를 이용하여 사용함
 //Serializable를 사용해야 객체의 데이터를 연속적인 데이터로 변형하여 Stream을 통해 데이터를 읽도록 해줌
+//다른 객체를 맴버변수로 가지고 있는 경우 해당 객체또한 Serializable이 적용된 상태여야만  직렬화가 가능함
 
 Array Objects in Binary Files
 
@@ -111,6 +112,12 @@ Array Objects in Binary Files
 
 ex)
 	SomeClass[] someObject = (SomeClass [])objectInputStream.readObject();	
+
+
+Random Access to Binary Files
+
+//파일이 이미 존재하면 파일을 열 때 길이가 0으로 재설정 되지않고 파일의 포인터가 파일의 시작 부분에 배치됨
+//이전데이터를 손실시키지 않고 파일포인터가 읽기(쓰기X) 가능성이 가장 높은 위치로 설정됨
 
 	
 		
