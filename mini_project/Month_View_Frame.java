@@ -27,7 +27,7 @@ import javax.swing.border.BevelBorder;
 
 public class Month_View_Frame implements ActionListener{	
 	private GregorianCalendar cal1, cal2;
-	private JFrame frame;
+	JFrame frame;
 	private JPanel main;
 	private JPanel up;
 	private JPanel down;
@@ -54,6 +54,7 @@ public class Month_View_Frame implements ActionListener{
 	/**
 	 * Launch the application.
 	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -67,6 +68,8 @@ public class Month_View_Frame implements ActionListener{
 		});
 	}
 
+
+	
 	/**
 	 * Create the application.
 	 */
@@ -95,7 +98,7 @@ public class Month_View_Frame implements ActionListener{
 		
 		/* change the look & feel
 		try{
-			UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");//LookAndFeel Windows ½ºÅ¸ÀÏ Àû¿ë
+			UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");//LookAndFeel Windows ìŠ¤íƒ€ì¼ ì ìš©
 			SwingUtilities.updateComponentTreeUI(frame) ;
 		}catch(Exception e){
 			//bottomInfo.setText("ERROR : LookAndFeel setting failed");
@@ -107,7 +110,7 @@ public class Month_View_Frame implements ActionListener{
 		frame.getContentPane().add(main, BorderLayout.CENTER);
 		main.setLayout(new BorderLayout(0, 0));
 
-		// »ó´Ü¹Ù ±¸¼º ÆĞ³Î
+		// ìƒë‹¨ë°” êµ¬ì„± íŒ¨ë„
 		up = new JPanel();
 		up.setBackground(Color.white);
 		main.add(up, BorderLayout.NORTH);
@@ -118,7 +121,7 @@ public class Month_View_Frame implements ActionListener{
 		previous_button.setSize(0, 50);
 		previous_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selectMonth = monthChoice.getSelectedIndex();// ¼±ÅÃÇÑ ¿ùÀÇ ÀÎÅØ½º¸¦ ¾Ë¾Æ³¿
+				int selectMonth = monthChoice.getSelectedIndex();// ì„ íƒí•œ ì›”ì˜ ì¸í…ìŠ¤ë¥¼ ì•Œì•„ëƒ„
 				if (selectMonth == 0) {
 					cal1.set(Calendar.YEAR, currentYear - 1);
 					currentYear = cal1.get(Calendar.YEAR);
@@ -128,7 +131,7 @@ public class Month_View_Frame implements ActionListener{
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
 					monthChoice.setSelectedIndex(selectMonth - 1);
-					cal1.set(Calendar.MONTH, selectMonth - 1);// ¼±ÅÃÇÑ ¿ùÀ» ÇöÀç ´Ş·Î ¼³Á¤
+					cal1.set(Calendar.MONTH, selectMonth - 1);// ì„ íƒí•œ ì›”ì„ í˜„ì¬ ë‹¬ë¡œ ì„¤ì •
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
@@ -137,7 +140,7 @@ public class Month_View_Frame implements ActionListener{
 		up.add(previous_button);
 
 		monthChoice = new JComboBox<String>();
-		monthChoice.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		monthChoice.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 		for (int i = 0; i < months.length; i++) {
 			monthChoice.addItem(months[i]);
 		}
@@ -147,9 +150,9 @@ public class Month_View_Frame implements ActionListener{
 		monthChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// Object o = ae.getSource();
-				int selectMonth = monthChoice.getSelectedIndex();// ¼±ÅÃÇÑ ¿ùÀÇ ÀÎÅØ½º¸¦ ¾Ë¾Æ³¿.
+				int selectMonth = monthChoice.getSelectedIndex();// ì„ íƒí•œ ì›”ì˜ ì¸í…ìŠ¤ë¥¼ ì•Œì•„ëƒ„.
 				monthChoice.setSelectedIndex(selectMonth);
-				cal1.set(Calendar.MONTH, selectMonth);// ¼±ÅÃÇÑ ¿ùÀ» ÇöÀç ´Ş·Î ¼³Á¤
+				cal1.set(Calendar.MONTH, selectMonth);// ì„ íƒí•œ ì›”ì„ í˜„ì¬ ë‹¬ë¡œ ì„¤ì •
 				currentMonth = cal1.get(Calendar.MONTH);
 				display_cal();
 			}
@@ -159,16 +162,16 @@ public class Month_View_Frame implements ActionListener{
 		up.add(monthChoice);
 
 		year = new JLabel("" + currentYear, JLabel.LEFT);
-		year.setFont(new Font("±¼¸²", Font.PLAIN, 18));
-		// year.setFont(new Font("±¼¸²", Font.PLAIN, 20));
-		// year.setFont(new Font("°íµñ",Font.ITALIC, 20));
+		year.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 18));
+		// year.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 20));
+		// year.setFont(new Font("ê³ ë”•",Font.ITALIC, 20));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		next_button = new JButton(">");
 		next_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selectMonth = monthChoice.getSelectedIndex();// ¼±ÅÃÇÑ ¿ùÀÇ ÀÎÅØ½º¸¦ ¾Ë¾Æ³¿
+				int selectMonth = monthChoice.getSelectedIndex();// ì„ íƒí•œ ì›”ì˜ ì¸í…ìŠ¤ë¥¼ ì•Œì•„ëƒ„
 				if (selectMonth == 11) {
 					cal1.set(Calendar.YEAR, currentYear + 1);
 					currentYear = cal1.get(Calendar.YEAR);
@@ -177,8 +180,8 @@ public class Month_View_Frame implements ActionListener{
 					cal1.set(Calendar.MONTH, 0);
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
-					monthChoice.setSelectedIndex(selectMonth + 1); // ¼±ÅÃÇÑ ¿ùÀ» Combobox¿¡ Ç¥½Ã
-					cal1.set(Calendar.MONTH, selectMonth + 1); // ¼±ÅÃÇÑ ¿ùÀ» ÇöÀç ´Ş·Î ¼³Á¤
+					monthChoice.setSelectedIndex(selectMonth + 1); // ì„ íƒí•œ ì›”ì„ Comboboxì— í‘œì‹œ
+					cal1.set(Calendar.MONTH, selectMonth + 1); // ì„ íƒí•œ ì›”ì„ í˜„ì¬ ë‹¬ë¡œ ì„¤ì •
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
@@ -232,21 +235,21 @@ public class Month_View_Frame implements ActionListener{
 
 	public void display_cal() {
 		cal2 = new GregorianCalendar(currentYear, currentMonth, 1);
-		currentDay = cal2.get(GregorianCalendar.DAY_OF_WEEK);// ÇöÀç ´ŞÀÇ Ã¹Â°¿äÀÏÀ» ¾Ë¾Æ³½´Ù.
-		int MaxDate = cal2.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);// ÇöÀç ´ŞÀÇ ¸¶Áö¸· ³¯Â¥¸¦ ¾Ë¾Æ³½´Ù.
-		int date_Now = 1;// ÇöÀç ³¯Â¥¸¦ ³ªÅ¸³½´Ù.
-		boolean ok = true;// ºó ¶óº§ °³¼ö ¿©ºÎ.
+		currentDay = cal2.get(GregorianCalendar.DAY_OF_WEEK);// í˜„ì¬ ë‹¬ì˜ ì²«ì§¸ìš”ì¼ì„ ì•Œì•„ë‚¸ë‹¤.
+		int MaxDate = cal2.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);// í˜„ì¬ ë‹¬ì˜ ë§ˆì§€ë§‰ ë‚ ì§œë¥¼ ì•Œì•„ë‚¸ë‹¤.
+		int date_Now = 1;// í˜„ì¬ ë‚ ì§œë¥¼ ë‚˜íƒ€ë‚¸ë‹¤.
+		boolean ok = true;// ë¹ˆ ë¼ë²¨ ê°œìˆ˜ ì—¬ë¶€.
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				if (monthButtons[i][j] != null) {
-					//monthButtons[i][j].setBorder(new EtchedBorder()); // Å×µÎ¸®¿¡ È¨ÀÌ ÆÄ¿©ÀÖ´Â ´À³¦
+					//monthButtons[i][j].setBorder(new EtchedBorder()); // í…Œë‘ë¦¬ì— í™ˆì´ íŒŒì—¬ìˆëŠ” ëŠë‚Œ
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
 					monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
-					monthButtons[i][j].setFont(new Font("°íµñ",Font.ITALIC, 15));
-					if (date_Now == 1 && j + 1 < currentDay) {// 1ÀÏÀÌ ÀÏ¿äÀÏÀÌ ¾Æ´Ï¶ó¸é ¿äÀÏ±îÁö ºó¹öÆ°.
+					monthButtons[i][j].setFont(new Font("ê³ ë”•",Font.ITALIC, 15));
+					if (date_Now == 1 && j + 1 < currentDay) {// 1ì¼ì´ ì¼ìš”ì¼ì´ ì•„ë‹ˆë¼ë©´ ìš”ì¼ê¹Œì§€ ë¹ˆë²„íŠ¼.
 						monthButtons[i][j].setText("");						
-					} else if (date_Now > MaxDate) {// ³¯Â¥°¡ ¸¶Áö¸· ³¯Â¥º¸´Ù Ä¿Áö¸é
+					} else if (date_Now > MaxDate) {// ë‚ ì§œê°€ ë§ˆì§€ë§‰ ë‚ ì§œë³´ë‹¤ ì»¤ì§€ë©´
 						monthButtons[i][j].setText("");						
 					}
 					else {
@@ -254,7 +257,7 @@ public class Month_View_Frame implements ActionListener{
 						monthArr[i][j] = date_Now;
 						monthButtons[i][j].setText(today);
 						date_Now++;
-						// ¹öÆ° Å¬¸¯ÇÏ¸é ±× ³âµµ,¿ù,ÀÏ¿¡ ÇØ´çÇÏ´Â ÆÄÀÏÀ» ¿­¾î¼­ ±×¿¡ ´ëÇÑ Day_view_frame Ãâ·Â
+						// ë²„íŠ¼ í´ë¦­í•˜ë©´ ê·¸ ë…„ë„,ì›”,ì¼ì— í•´ë‹¹í•˜ëŠ” íŒŒì¼ì„ ì—´ì–´ì„œ ê·¸ì— ëŒ€í•œ Day_view_frame ì¶œë ¥
 					}
 				}
 				if(j==0) {

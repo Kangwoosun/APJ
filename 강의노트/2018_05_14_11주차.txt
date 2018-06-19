@@ -24,7 +24,9 @@ ex)
 	outputStreamName = new PrintWriter(new FileOutputStream(FileName));
 
 //FileOutputStream 클래스는 file의 이름을 String타입으로 파라미터로 받음
-//PrintWriter 클래스는 FileOutputStream 객체를 파라미터로 받음
+//PrintWriter 클래스는 FileOutputStream 객체를 생성자 파라미터로 받음
+//파일을 이어 쓸때는 FileOutputStream 생성자의 두번째 알규먼트로 true를 넣어주면 됨
+
 
 Scanner
 
@@ -58,8 +60,9 @@ ex)
 	}
 	br.close();
 
-
-//Scanner은 타입변환이 자동으로 가능하고 BufferedReader은 타입변환을 프로그래머가 알아서 해줘야됨
+//BufferedReader에서 FileNotFoundException의 예외처리가 일어날 수 있음
+//readLine에서 IOException의 예외처리가 일어날 수 있음
+//읽은 데이터를 변수에 넣어줄 때 Scanner은 타입변환이 자동으로 가능하고 BufferedReader은 타입변환을 프로그래머가 알아서 해줘야됨
 
 
 
@@ -74,6 +77,12 @@ Binary File
 ex)
 	ObjectOutputStream outputStreamName = new ObjectOutputStream(new FileOutputStream(FileName));
 	
+//FileOutputStream에서 FileNotFoundException의 예외처리가 일어날 수 있음
+//ObjectOutputStream에서 IOException의 예외처리가 일어날 수 있음
+//writeInt, writeDouble, wrtieChar, writeBoolean등의 메소드를 사용하여 BinaryFile을 이용함
+//또한 stream은 wrting후 close 해줘야됨
+
+
 [ObjectInputStream]
 
 - java.io.ObjectInputStream
@@ -83,19 +92,28 @@ ex)
 ex)
 	ObjectInputStream InStreamName = new ObjectInputStream(new FileInputStream(FileName));
 
+//FileInputStream에서 FileNotFoundExceoption의 예외처리가 일어날 수 있음
+//ObjectInputStream에서 IOException의 예외처리가 일어날 수 있음
 //Binaray File의 마지막을 체크는 EOFException으로 하면됨
 
 
 Serializable Interface
 
+ex)
+	public class SomeClass implements Serializable
 
+//Interface이기 때문에 implements 명시자를 이용하여 사용함
+//Serializable를 사용해야 객체의 데이터를 연속적인 데이터로 변형하여 Stream을 통해 데이터를 읽도록 해줌
 
+Array Objects in Binary Files
 
+//readObject, writeObject를 사용하면 됨
 
+ex)
+	SomeClass[] someObject = (SomeClass [])objectInputStream.readObject();	
 
-
-
-
+	
+		
 
 
 
