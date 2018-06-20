@@ -33,7 +33,8 @@ public class Doing implements Comparable<Doing>{
 	
 	@Override
 	public String toString() {
-		return String.format("%02d:%02d - %02d:%02d.%s", timeFrom/60, timeFrom%60, timeTo/60, timeTo%60, toDo);
+		return String.format("%02d:%02d - %02d:%02d %45s %s", timeFrom/60, timeFrom%60,
+				timeTo/60, timeTo%60, new String("") ,toDo);
 	}
 	
 	@Override

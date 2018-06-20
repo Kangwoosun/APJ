@@ -1,8 +1,10 @@
 package mini_project;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -17,289 +20,316 @@ import java.awt.event.ActionEvent;
 
 public class Add_Edit_Delete_Dialog extends JDialog {
 
-	private final JPanel main_Panel = new JPanel();
-	private JTextField txtEvent;
-	private JTextField txtFrom;
-	private JTextField txtTo;
-	private Doing doing;
 
-	public Doing getDoing() {
-		return doing;
-	}
+   private final JPanel main_Panel = new JPanel();
+   private JTextField txtEvent;
+   private JTextField txtFrom;
+   private JTextField txtTo;
+   private Doing doing;
+  
+   
+   public Doing getDoing() {
+      return doing;
+   }
 
-	/**
-	 * Create the dialog.
-	 */
-	public Add_Edit_Delete_Dialog(JFrame parent, int Type) {
 
-		super(parent, true);
-		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
-		setTitle(parent.getTitle());
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
-		main_Panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(main_Panel, BorderLayout.CENTER);
-		main_Panel.setLayout(new GridLayout(3, 2, 15, 15));
-		{
-			JLabel labelEvent = new JLabel("Event");
-			main_Panel.add(labelEvent);
-		}
+   /**
+    * Create the dialog.
+    */
+   public Add_Edit_Delete_Dialog(Day_View_Frame parent, int Type) {
+      
+      super(parent,true);
+      getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
+      setTitle(parent.getTitle());
+      setBounds(100, 100, 450, 300);
+      getContentPane().setLayout(new BorderLayout());
+      main_Panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+      getContentPane().add(main_Panel, BorderLayout.CENTER);
+      main_Panel.setLayout(new GridLayout(3, 2, 15, 15));
+      {
+         JLabel labelEvent = new JLabel("Event");
+         main_Panel.add(labelEvent);
+      }
+      
+      {
+         txtEvent = new JTextField();
+         main_Panel.add(txtEvent);
+         txtEvent.setColumns(10);
+      }
+      {
+         JLabel labelFrom = new JLabel("From");
+         main_Panel.add(labelFrom);
+      }
+      {
+         txtFrom = new JTextField();
+         main_Panel.add(txtFrom);
+         txtFrom.setColumns(10);
+      }
+      {
+      	JLabel labelTo = new JLabel("To");
+      	main_Panel.add(labelTo);
+      }
+      {
+      	txtTo = new JTextField();
+      	txtTo.setColumns(10);
+      	main_Panel.add(txtTo);
+      }
+      
+      {
+         JPanel btPane = new JPanel();
+         btPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+         getContentPane().add(btPane, BorderLayout.SOUTH);
+         {
+            JButton btOk = new JButton("OK");
+            btOk.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+            	   //ADDë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ êµ¬í˜„ì™„ë£Œ
+            	   if(Type == Day_View_Frame.ADD) {
+            	   try {
+            		  
+            		  String splitData[];
+            		  int fromHour, fromMin, doing_from;
+                 	  int toHour, toMin, doing_to;
+                 	  boolean check;
+                 	  //From txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§žì·„ëŠ”ì§€ ê²€ì‚¬
+                 	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                 	  if(!check) {
+                 		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
+ 								  JOptionPane.ERROR_MESSAGE, null);
+ 						 return;
+                 	  }
+                 	//To txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§žì·„ëŠ”ì§€ ê²€ì‚¬
+                 	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                 	  if(!check) {
+                 		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
+ 								  JOptionPane.ERROR_MESSAGE, null);
 
-		{
-			txtEvent = new JTextField();
-			main_Panel.add(txtEvent);
-			txtEvent.setColumns(10);
-		}
-		{
-			JLabel labelFrom = new JLabel("From");
-			main_Panel.add(labelFrom);
-		}
-		{
-			txtFrom = new JTextField();
-			main_Panel.add(txtFrom);
-			txtFrom.setColumns(10);
-		}
-		{
-			JLabel labelTo = new JLabel("To");
-			main_Panel.add(labelTo);
-		}
-		{
-			txtTo = new JTextField();
-			txtTo.setColumns(10);
-			main_Panel.add(txtTo);
-		}
-		{
-			JPanel btPane = new JPanel();
-			btPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(btPane, BorderLayout.SOUTH);
-			{
-				JButton btOk = new JButton("OK");
-				btOk.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						// ADD¹öÆ°À» ´­·¶À» ¶§ ±¸Çö¿Ï·á
-						if (Type == Day_View_Frame.ADD) {
-							try {
+ 						 return;
+ 						 
+                 	  }
+                 	  //:ì„ ê¸°ì¤€ìœ¼ë¡œ ìª¼ê°œì„œ ì‹œê°„ê³¼ ë¶„ì„ ë¶„ë¦¬
+            		  splitData= txtFrom.getText().split(":");
+                 	  
+                 	  fromHour = Integer.parseInt(splitData[0]);
+                 	  if (fromHour >= 24) {
+                 		 JOptionPane.showMessageDialog(parent, "Error: From Time's hour should be under than 24", "Wrong number",
+								  JOptionPane.ERROR_MESSAGE, null);
 
-								String splitData[];
-								int fromHour, fromMin, doing_from;
-								int toHour, toMin, doing_to;
-								boolean check;
+						 return;
+                 	  }
+                 	  fromMin = Integer.parseInt(splitData[1]);
+                 	  doing_from = fromHour*60 + fromMin;
+                 	  
+                 	  splitData = txtTo.getText().split(":");
+                 	  
+                 	  toHour = Integer.parseInt(splitData[0]);
+                 	 if (toHour >= 24) {
+                 		 JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24", "Wrong number",
+								  JOptionPane.ERROR_MESSAGE, null);
 
-								// From txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
-								check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
-								if (!check) {
-									JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
-									return;
-								}
+						 return;
+                 	  }
+                 	  toMin = Integer.parseInt(splitData[1]);
+            		  doing_to = toHour*60 + toMin;
+            		   
+  					 if(0> doing_from || doing_from >= doing_to ){
+  						 JOptionPane.showMessageDialog(parent, "Error: The start Time must be before the end Time", "Wrong range",
+  								  JOptionPane.ERROR_MESSAGE, null);
 
-								// To txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
-								check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
-								if (!check) {
-									JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
-									return;
-								}
+  						 return;
+  						 }
+  					 
+  					 if(txtEvent.getText().contains(".")) {
+  						JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo", "Wrong String",
+								  JOptionPane.ERROR_MESSAGE, null);
 
-								// ½ÃÀÛ ½Ã°£ **:**¸¦ :¸¦ ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºÐÀ» ºÐ¸®ÇØ¼­ doing_fromÀ» °è»ê
-								splitData = txtFrom.getText().split(":");
+						 return;
+  					 }
+  				    doing.setTimeFrom(doing_from);
+                    doing.setTimeTo(doing_to);
+                    doing.setToDo(txtEvent.getText());
+  					 
+            	   } catch (NumberFormatException ex) {
+            		  JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
+							  JOptionPane.ERROR_MESSAGE, null);
+  						return;
+            	   }
+            	   
+            	   setVisible(false);
+            	   }
+            	   
+            	   
+            	 
+            	   //Editë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ êµ¬í˜„ì¤‘
+            	   else if (Type == Day_View_Frame.EDIT) {
+            		   try {
+            			  
+            			  
+            			  String splitData[];
+                 		  int fromHour, fromMin, doing_from;
+                      	  int toHour, toMin, doing_to;
+                      	  boolean check;
+                      	  //From txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§žì·„ëŠ”ì§€ ê²€ì‚¬
+                      	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                      	  if(!check) {
+                      		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
+      								  JOptionPane.ERROR_MESSAGE, null);
+      						 return;
+                      	  }
+                      	//To txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§žì·„ëŠ”ì§€ ê²€ì‚¬
+                      	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                      	  if(!check) {
+                      		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
+      								  JOptionPane.ERROR_MESSAGE, null);
 
-								fromHour = Integer.parseInt(splitData[0]);
-								if (fromHour >= 24) {
-									JOptionPane.showMessageDialog(parent,
-											"Error: From Time's hour should be under than 24", "Wrong number",
-											JOptionPane.ERROR_MESSAGE, null);
-									return;
-								}
+      						 return;
+      						 
+                      	  }
+                      	  //:ì„ ê¸°ì¤€ìœ¼ë¡œ ìª¼ê°œì„œ ì‹œê°„ê³¼ ë¶„ì„ ë¶„ë¦¬
+                 		  splitData= txtFrom.getText().split(":");
+                      	  
+                      	  fromHour = Integer.parseInt(splitData[0]);
+                      	  if (fromHour >= 24) {
+                      		 JOptionPane.showMessageDialog(parent, "Error: From Time's hour should be under than 24", "Wrong number",
+     								  JOptionPane.ERROR_MESSAGE, null);
 
-								fromMin = Integer.parseInt(splitData[1]);
-								doing_from = fromHour * 60 + fromMin;
+     						 return;
+                      	  }
+                      	  fromMin = Integer.parseInt(splitData[1]);
+                      	  doing_from = fromHour*60 + fromMin;
+                      	  
+                      	  splitData = txtTo.getText().split(":");
+                      	  
+                      	  toHour = Integer.parseInt(splitData[0]);
+                      	 if (toHour >= 24) {
+                      		 JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24", "Wrong number",
+     								  JOptionPane.ERROR_MESSAGE, null);
 
-								splitData = txtTo.getText().split(":");
+     						 return;
+                      	  }
+                      	  toMin = Integer.parseInt(splitData[1]);
+                 		  doing_to = toHour*60 + toMin;
+                 		   
+       					 if(0> doing_from || doing_from >= doing_to ){
+       						 JOptionPane.showMessageDialog(parent, "Error: The start Time must be before the end Time", "Wrong range",
+       								  JOptionPane.ERROR_MESSAGE, null);
 
-								// ³¡³ª´Â  ½Ã°£ **:**¸¦ :¸¦ ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºÐÀ» ºÐ¸®ÇØ¼­ doing_toÀ» °è»ê
-								toHour = Integer.parseInt(splitData[0]);
-								if (toHour >= 24) {
-									JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
+       						 return;
+       						 }
+       					 
+       					 if(txtEvent.getText().contains(".")) {
+       						JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo", "Wrong String",
+     								  JOptionPane.ERROR_MESSAGE, null);
 
-									return;
-								}
-								toMin = Integer.parseInt(splitData[1]);
-								doing_to = toHour * 60 + toMin;
+     						 return;
+       					 }
+       				    doing.setTimeFrom(doing_from);
+                         doing.setTimeTo(doing_to);
+                         doing.setToDo(txtEvent.getText());
+       					 
+                 	   } catch (NumberFormatException ex) {
+                 		  JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
+     							  JOptionPane.ERROR_MESSAGE, null);
+       						return;
+                 	   }
+                 	   
+                 	   setVisible(false);
+            	   }
+            	   
+            	   //Deleteë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì•„ì§ êµ¬í˜„X
+            	   else {
+            		   try {
+                 		  
+                 		  
+                 		  int fromHour, fromMin, doing_from;
+                      	  int toHour, toMin, doing_to;
+                      	  boolean check;
+                      	  //From txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§žì·„ëŠ”ì§€ ê²€ì‚¬
+                      	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
+                      	  if(!check) {
+                      		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
+      								  JOptionPane.ERROR_MESSAGE, null);
 
-								if (0 > doing_from || doing_from >= doing_to) {
-									JOptionPane.showMessageDialog(parent,
-											"Error: The start Time must be before the end Time", "Wrong range",
-											JOptionPane.ERROR_MESSAGE, null);
+      						 return;
+                      	  }
+                      	//To txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§žì·„ëŠ”ì§€ ê²€ì‚¬
+                      	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
+                      	  if(!check) {
+                      		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
+      								  JOptionPane.ERROR_MESSAGE, null);
 
-									return;
-								}
+      						 return;
+      						 
+                      	  }
+                      	  //:ì„ ê¸°ì¤€ìœ¼ë¡œ ìª¼ê°œì„œ ì‹œê°„ê³¼ ë¶„ì„ ë¶„ë¦¬
+                      	  String splitData[] = txtFrom.getText().split(":");
+                      	  
+                      	  fromHour = Integer.parseInt(splitData[0]);
+                      	  fromMin = Integer.parseInt(splitData[1]);
+                      	  doing_from = fromHour*60 + fromMin;
+                      	  
+                      	  splitData = txtTo.getText().split(":");
+                      	  
+                      	  toHour = Integer.parseInt(splitData[0]);
+                      	  toMin = Integer.parseInt(splitData[1]);
+                 		  doing_to = toHour*60 + toMin;
+                 		   
+       					 if(0> doing_from || doing_from >= doing_to ){
+       						 JOptionPane.showMessageDialog(parent, "Error: The start Time must be before the end Time", "Wrong range",
+       								  JOptionPane.ERROR_MESSAGE, null);
 
-								if (txtEvent.getText().contains(".")) {
-									JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo",
-											"Wrong String", JOptionPane.ERROR_MESSAGE, null);
+       						 return;
+       						 }
+       					 
+       					 
+       				    doing.setTimeFrom(doing_from);
+                         doing.setTimeTo(doing_to);
+                         doing.setToDo(txtEvent.getText());
+       					 
+                 	   } catch (NumberFormatException ex) {
+                 		  JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
+     							  JOptionPane.ERROR_MESSAGE, null);
+       						return;
+                 	   }
+                 	   
+                 	   setVisible(false);
+                   }
+                   
+                	   
+            	   
+            	}
+               
+               
+            });
+            btOk.setActionCommand("OK");
+            btPane.add(btOk);
+            getRootPane().setDefaultButton(btOk);
+         }
+         
+         {
+            JButton btCancel = new JButton("Cancel");
+            btCancel.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                  // store info
+                  doing = null;
+                  
+                  //close the Dialog
+                  setVisible(false);
+               }
+            });
+            btCancel.setActionCommand("Cancel");
+            btPane.add(btCancel);
+         }
+      }
+      if(Type == Day_View_Frame.EDIT) {
+	      Doing tmpDoing = parent.getlistDoing().getElementAt(parent.getselectNo());
+		  txtFrom.setText(String.format("%02d:%02d",tmpDoing.getTimeFrom()/60, tmpDoing.getTimeFrom()%60));
+		  txtTo.setText(String.format("%02d:%02d", tmpDoing.getTimeTo()/60, tmpDoing.getTimeTo()%60));
+		  
+		  txtEvent.setText(tmpDoing.getToDo());
+      }
+      doing = new Doing(0,0,"");
+   }
 
-									return;
-								}
-								
-								//doing°´Ã¼¿¡ ½ÃÀÛ½Ã°£°ú ³¡³ª´Â ½Ã°£°ú ÇÒÀÏ ÀúÀå
-								doing.setTimeFrom(doing_from);
-								doing.setTimeTo(doing_to);
-								doing.setToDo(txtEvent.getText());
-
-							} catch (NumberFormatException ex) {
-								JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
-										JOptionPane.ERROR_MESSAGE, null);
-								return;
-							}
-
-							setVisible(false);
-						}
-
-						// Edit¹öÆ°À» ´­·¶À» ¶§ ±¸ÇöÁß
-						else if (Type == Day_View_Frame.EDIT) {
-							try {
-
-								String splitData[];
-								int fromHour, fromMin, doing_from;
-								int toHour, toMin, doing_to;
-								boolean check;
-
-								// From txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
-								check = txtFrom.getText().matches("\\d{2}:\\d{2}");
-								if (!check) {
-									JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
-
-									return;
-								}
-
-								// To txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
-								check = txtTo.getText().matches("\\d{2}:\\d{2}");
-								if (!check) {
-									JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
-
-									return;
-								}
-								// :À» ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºÐÀ» ºÐ¸®
-								splitData = txtFrom.getText().split(":");
-
-								fromHour = Integer.parseInt(splitData[0]);
-								fromMin = Integer.parseInt(splitData[1]);
-								doing_from = fromHour * 60 + fromMin;
-
-								splitData = txtTo.getText().split(":");
-
-								toHour = Integer.parseInt(splitData[0]);
-								toMin = Integer.parseInt(splitData[1]);
-								doing_to = toHour * 60 + toMin;
-
-								if (0 > doing_from || doing_from >= doing_to) {
-									JOptionPane.showMessageDialog(parent,
-											"Error: The start Time must be before the end Time", "Wrong range",
-											JOptionPane.ERROR_MESSAGE, null);
-
-									return;
-								}
-
-								doing.setTimeFrom(doing_from);
-								doing.setTimeTo(doing_to);
-								doing.setToDo(txtEvent.getText());
-
-							} catch (NumberFormatException ex) {
-								JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
-										JOptionPane.ERROR_MESSAGE, null);
-								return;
-							}
-
-							setVisible(false);
-						}
-
-						// Delete¹öÆ°À» ´­·¶À» ¶§ ¾ÆÁ÷ ±¸ÇöX
-						else {
-							try {
-
-								int fromHour, fromMin, doing_from;
-								int toHour, toMin, doing_to;
-								boolean check;
-								// From txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
-								check = txtFrom.getText().matches("\\d{2}:\\d{2}");
-								if (!check) {
-									JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
-
-									return;
-								}
-								// To txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
-								check = txtTo.getText().matches("\\d{2}:\\d{2}");
-								if (!check) {
-									JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX",
-											"Wrong number", JOptionPane.ERROR_MESSAGE, null);
-
-									return;
-
-								}
-								// :À» ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºÐÀ» ºÐ¸®
-								String splitData[] = txtFrom.getText().split(":");
-
-								fromHour = Integer.parseInt(splitData[0]);
-								fromMin = Integer.parseInt(splitData[1]);
-								doing_from = fromHour * 60 + fromMin;
-
-								splitData = txtTo.getText().split(":");
-
-								toHour = Integer.parseInt(splitData[0]);
-								toMin = Integer.parseInt(splitData[1]);
-								doing_to = toHour * 60 + toMin;
-
-								if (0 > doing_from || doing_from >= doing_to) {
-									JOptionPane.showMessageDialog(parent,
-											"Error: The start Time must be before the end Time", "Wrong range",
-											JOptionPane.ERROR_MESSAGE, null);
-
-									return;
-								}
-
-								doing.setTimeFrom(doing_from);
-								doing.setTimeTo(doing_to);
-								doing.setToDo(txtEvent.getText());
-
-							} catch (NumberFormatException ex) {
-								JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
-										JOptionPane.ERROR_MESSAGE, null);
-								return;
-							}
-
-							setVisible(false);
-						}
-
-					}
-
-				});
-				btOk.setActionCommand("OK");
-				btPane.add(btOk);
-				getRootPane().setDefaultButton(btOk);
-			}
-
-			{
-				JButton btCancel = new JButton("Cancel");
-				btCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						// store info
-						doing = null;
-
-						// close the Dialog
-						setVisible(false);
-					}
-				});
-				btCancel.setActionCommand("Cancel");
-				btPane.add(btCancel);
-			}
-		}
-
-		doing = new Doing(0, 0, "");
-	}
 
 }

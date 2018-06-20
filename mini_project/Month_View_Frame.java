@@ -17,16 +17,16 @@ import java.util.TimeZone;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.border.BevelBorder;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
+
 
 public class Month_View_Frame implements ActionListener {
 	private GregorianCalendar cal1, cal2;
@@ -41,6 +41,7 @@ public class Month_View_Frame implements ActionListener {
 	private JPanel datep;
 	private JPanel dayp;
 
+  
 	private int currentMonth;
 	private int currentYear;
 	private int currentDay;
@@ -50,6 +51,16 @@ public class Month_View_Frame implements ActionListener {
 	// private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 	// };
 
+	private int currentMonth;// 현재월
+	private int currentYear;// 현재연도
+	private int currentDay;// 현재요일
+	private String days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+			"October", "November", "December" };
+	//private int daysInMonth[] = new int[12];
+    //private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+
 	private JButton[][] monthButtons = new JButton[6][7];
 	private JLabel[] dayLabels = new JLabel[7];
 	private int[][] monthArr = new int[6][7];
@@ -57,6 +68,7 @@ public class Month_View_Frame implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
+
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -70,6 +82,7 @@ public class Month_View_Frame implements ActionListener {
 			}
 		});
 	}
+
 
 	/**
 	 * Create the application.
@@ -85,16 +98,20 @@ public class Month_View_Frame implements ActionListener {
 	private void initialize() {
 
 		// calculate the current Year and current Month using class GregorianCalendar
+
 		cal1 = (GregorianCalendar) Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		cal1.setTimeZone(TimeZone.getTimeZone("Asia/Korea")); // Calcutt
+		cal1.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
 		currentYear = cal1.get(Calendar.YEAR);
 		currentMonth = cal1.get(Calendar.MONTH);
 
+
 		// main frame- frame
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Calendars");
+
 
 		/*
 		 * change the look & feel try{ UIManager.setLookAndFeel
@@ -104,6 +121,7 @@ public class Month_View_Frame implements ActionListener {
 		 */
 
 		// main panel
+		
 		main = new JPanel();
 		frame.getContentPane().add(main, BorderLayout.CENTER);
 		main.setLayout(new BorderLayout(0, 0));
@@ -114,11 +132,13 @@ public class Month_View_Frame implements ActionListener {
 		up.setPreferredSize(new Dimension(750, 50));
 
 		previous_button = new JButton("<");
+
 		previous_button.setLocation(116, 0);
 		previous_button.setSize(70, 50);
 		previous_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selectMonth = monthChoice.getSelectedIndex();
+
 				if (selectMonth == 0) {
 					cal1.set(Calendar.YEAR, currentYear - 1);
 					currentYear = cal1.get(Calendar.YEAR);
@@ -128,7 +148,11 @@ public class Month_View_Frame implements ActionListener {
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
 					monthChoice.setSelectedIndex(selectMonth - 1);
+
 					cal1.set(Calendar.MONTH, selectMonth - 1);
+
+					cal1.set(Calendar.MONTH, selectMonth - 1);// 선택한 월을 현재 달로 설정
+
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
@@ -138,8 +162,10 @@ public class Month_View_Frame implements ActionListener {
 		up.add(previous_button);
 
 		monthChoice = new JComboBox<String>();
+
 		monthChoice.setBounds(200, 0, 161, 50);
-		monthChoice.setFont(new Font("����", Font.PLAIN, 15));
+		monthChoice.setFont(new Font("굴림", Font.PLAIN, 15));
+
 		for (int i = 0; i < months.length; i++) {
 			monthChoice.addItem(months[i]);
 		}
@@ -148,9 +174,12 @@ public class Month_View_Frame implements ActionListener {
 		monthChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// Object o = ae.getSource();
+
 				int selectMonth = monthChoice.getSelectedIndex();
 				monthChoice.setSelectedIndex(selectMonth);
 				cal1.set(Calendar.MONTH, selectMonth);
+
+			
 				currentMonth = cal1.get(Calendar.MONTH);
 				display_cal();
 			}
@@ -158,11 +187,13 @@ public class Month_View_Frame implements ActionListener {
 
 		up.add(monthChoice);
 
+
 		year = new JButton("" + currentYear);
 		year.setBounds(373, 0, 138, 48);
-		year.setFont(new Font("����", Font.BOLD, 17));
+		year.setFont(new Font("굴림", Font.BOLD, 17));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
+
 
 		next_button = new JButton(">");
 		//next_button.setBorder(new EtchedBorder());
@@ -170,7 +201,9 @@ public class Month_View_Frame implements ActionListener {
 		next_button.setBounds(525, 0, 70, 50);
 		next_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				int selectMonth = monthChoice.getSelectedIndex();
+
 				if (selectMonth == 11) {
 					cal1.set(Calendar.YEAR, currentYear + 1);
 					currentYear = cal1.get(Calendar.YEAR);
@@ -179,8 +212,10 @@ public class Month_View_Frame implements ActionListener {
 					cal1.set(Calendar.MONTH, 0);
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
+
 					monthChoice.setSelectedIndex(selectMonth + 1);
 					cal1.set(Calendar.MONTH, selectMonth + 1);
+
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
@@ -233,23 +268,27 @@ public class Month_View_Frame implements ActionListener {
 
 	public void display_cal() {
 		cal2 = new GregorianCalendar(currentYear, currentMonth, 1);
+
 		currentDay = cal2.get(GregorianCalendar.DAY_OF_WEEK);
 		int MaxDate = cal2.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		int date_Now = 1;
 		boolean ok = true;
 
+
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				if (monthButtons[i][j] != null) {
+
 					monthButtons[i][j].setBorder(new EtchedBorder()); //
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
 					//monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
-					monthButtons[i][j].setFont(new Font("����", Font.ITALIC, 15));
+					monthButtons[i][j].setFont(new Font("고딕", Font.ITALIC, 15));
 					if (date_Now == 1 && j + 1 < currentDay) {
 						monthButtons[i][j].setText("");
 					} else if (date_Now > MaxDate) {
 						monthButtons[i][j].setText("");
 					} else {
+
 						String today = "" + date_Now;
 						monthArr[i][j] = date_Now;
 						monthButtons[i][j].setText(today);
