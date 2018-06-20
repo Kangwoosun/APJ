@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
+import java.awt.Paint;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -24,8 +25,10 @@ import javax.swing.border.SoftBevelBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.BevelBorder;
+import java.awt.SystemColor;
+import javax.swing.border.LineBorder;
 
-public class Month_View_Frame implements ActionListener{	
+public class Month_View_Frame implements ActionListener {
 	private GregorianCalendar cal1, cal2;
 	JFrame frame;
 	private JPanel main;
@@ -33,24 +36,24 @@ public class Month_View_Frame implements ActionListener{
 	private JPanel down;
 	private JButton previous_button;
 	private JComboBox<String> monthChoice;
-	private JLabel year;
+	private JButton year;
 	private JButton next_button;
 	private JPanel datep;
-	private JPanel dayp;	
+	private JPanel dayp;
 
-	private int currentMonth;  
-	private int currentYear; 
-	private int currentDay; 
+	private int currentMonth;
+	private int currentYear;
+	private int currentDay;
 	private String days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 			"October", "November", "December" };
-    //private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	// private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+	// };
 
 	private JButton[][] monthButtons = new JButton[6][7];
 	private JLabel[] dayLabels = new JLabel[7];
 	private int[][] monthArr = new int[6][7];
-	
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -61,15 +64,13 @@ public class Month_View_Frame implements ActionListener{
 				try {
 					Month_View_Frame window = new Month_View_Frame();
 					window.frame.setVisible(true);
-				} catch (Exception e) {				
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
 
-
-	
 	/**
 	 * Create the application.
 	 */
@@ -80,48 +81,44 @@ public class Month_View_Frame implements ActionListener{
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	
+
 	private void initialize() {
-		
+
 		// calculate the current Year and current Month using class GregorianCalendar
 		cal1 = (GregorianCalendar) Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 		cal1.setTimeZone(TimeZone.getTimeZone("Asia/Korea")); // Calcutt
 		currentYear = cal1.get(Calendar.YEAR);
 		currentMonth = cal1.get(Calendar.MONTH);
-		
+
 		// main frame- frame
 		frame = new JFrame();
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Calendars");
-		
-		
-		/* change the look & feel
-		try{
-			UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");//LookAndFeel Windows 스타일 적용
-			SwingUtilities.updateComponentTreeUI(frame) ;
-		}catch(Exception e){
-			//bottomInfo.setText("ERROR : LookAndFeel setting failed");
-		}
-		*/
-		
+
+		/*
+		 * change the look & feel try{ UIManager.setLookAndFeel
+		 * ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		 * SwingUtilities.updateComponentTreeUI(frame) ; }catch(Exception e){
+		 * //bottomInfo.setText("ERROR : LookAndFeel setting failed"); }
+		 */
+
 		// main panel
 		main = new JPanel();
 		frame.getContentPane().add(main, BorderLayout.CENTER);
 		main.setLayout(new BorderLayout(0, 0));
 
-		// 상단바 구성 패널
 		up = new JPanel();
 		up.setBackground(Color.white);
 		main.add(up, BorderLayout.NORTH);
-		up.setLayout(new GridLayout(1, 4, 0, 0));
 		up.setPreferredSize(new Dimension(750, 50));
-		
+
 		previous_button = new JButton("<");
-		previous_button.setSize(0, 50);
+		previous_button.setLocation(116, 0);
+		previous_button.setSize(70, 50);
 		previous_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selectMonth = monthChoice.getSelectedIndex();// 선택한 월의 인텍스를 알아냄
+				int selectMonth = monthChoice.getSelectedIndex();
 				if (selectMonth == 0) {
 					cal1.set(Calendar.YEAR, currentYear - 1);
 					currentYear = cal1.get(Calendar.YEAR);
@@ -131,47 +128,49 @@ public class Month_View_Frame implements ActionListener{
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
 					monthChoice.setSelectedIndex(selectMonth - 1);
-					cal1.set(Calendar.MONTH, selectMonth - 1);// 선택한 월을 현재 달로 설정
+					cal1.set(Calendar.MONTH, selectMonth - 1);
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
 			}
 		});
+		up.setLayout(null);
 		up.add(previous_button);
 
 		monthChoice = new JComboBox<String>();
-		monthChoice.setFont(new Font("굴림", Font.PLAIN, 15));
+		monthChoice.setBounds(200, 0, 161, 50);
+		monthChoice.setFont(new Font("����", Font.PLAIN, 15));
 		for (int i = 0; i < months.length; i++) {
 			monthChoice.addItem(months[i]);
 		}
-		
-		monthChoice.setBorder(null);
+
 		monthChoice.setSelectedIndex(currentMonth);
 		monthChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// Object o = ae.getSource();
-				int selectMonth = monthChoice.getSelectedIndex();// 선택한 월의 인텍스를 알아냄.
+				int selectMonth = monthChoice.getSelectedIndex();
 				monthChoice.setSelectedIndex(selectMonth);
-				cal1.set(Calendar.MONTH, selectMonth);// 선택한 월을 현재 달로 설정
+				cal1.set(Calendar.MONTH, selectMonth);
 				currentMonth = cal1.get(Calendar.MONTH);
 				display_cal();
 			}
-		});	
-		
-		
+		});
+
 		up.add(monthChoice);
 
-		year = new JLabel("" + currentYear, JLabel.LEFT);
-		year.setFont(new Font("굴림", Font.PLAIN, 18));
-		// year.setFont(new Font("굴림", Font.PLAIN, 20));
-		// year.setFont(new Font("고딕",Font.ITALIC, 20));
+		year = new JButton("" + currentYear);
+		year.setBounds(373, 0, 138, 48);
+		year.setFont(new Font("����", Font.BOLD, 17));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
-		
+
 		next_button = new JButton(">");
+		//next_button.setBorder(new EtchedBorder());
+		//next_button.setBackground(Color.white);
+		next_button.setBounds(525, 0, 70, 50);
 		next_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selectMonth = monthChoice.getSelectedIndex();// 선택한 월의 인텍스를 알아냄
+				int selectMonth = monthChoice.getSelectedIndex();
 				if (selectMonth == 11) {
 					cal1.set(Calendar.YEAR, currentYear + 1);
 					currentYear = cal1.get(Calendar.YEAR);
@@ -180,8 +179,8 @@ public class Month_View_Frame implements ActionListener{
 					cal1.set(Calendar.MONTH, 0);
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
-					monthChoice.setSelectedIndex(selectMonth + 1); // 선택한 월을 Combobox에 표시
-					cal1.set(Calendar.MONTH, selectMonth + 1); // 선택한 월을 현재 달로 설정
+					monthChoice.setSelectedIndex(selectMonth + 1);
+					cal1.set(Calendar.MONTH, selectMonth + 1);
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
@@ -196,7 +195,7 @@ public class Month_View_Frame implements ActionListener{
 
 		dayp = new JPanel();
 		dayp.setPreferredSize(new Dimension(750, 30));
-		dayp.setBackground(Color.white);	
+		dayp.setBackground(Color.white);
 		dayp.setLayout(new GridLayout(1, 7));
 		for (int i = 0; i < days.length; i++) {
 			dayLabels[i] = new JLabel(days[i] + "   ");
@@ -211,8 +210,8 @@ public class Month_View_Frame implements ActionListener{
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				//count_i = i;
-				//count_j = j;
+				// count_i = i;
+				// count_j = j;
 				monthButtons[i][j] = new JButton("");
 				monthButtons[i][j].addActionListener(this);
 				datep.add(monthButtons[i][j]);
@@ -221,52 +220,48 @@ public class Month_View_Frame implements ActionListener{
 		down.add(datep, BorderLayout.CENTER);
 		display_cal();
 	}
-	
+
 	public void actionPerformed(ActionEvent ae) {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				if(ae.getSource()== monthButtons[i][j]) {
-					Day_View_Frame dayframe = new Day_View_Frame(
-					months[currentMonth] + " - " + monthArr[i][j]);
+				if (ae.getSource() == monthButtons[i][j]) {
+					Day_View_Frame dayframe = new Day_View_Frame(months[currentMonth] + " - " + monthArr[i][j]);
 				}
 			}
-			}
+		}
 	}
 
 	public void display_cal() {
 		cal2 = new GregorianCalendar(currentYear, currentMonth, 1);
-		currentDay = cal2.get(GregorianCalendar.DAY_OF_WEEK);// 현재 달의 첫째요일을 알아낸다.
-		int MaxDate = cal2.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);// 현재 달의 마지막 날짜를 알아낸다.
-		int date_Now = 1;// 현재 날짜를 나타낸다.
-		boolean ok = true;// 빈 라벨 개수 여부.
+		currentDay = cal2.get(GregorianCalendar.DAY_OF_WEEK);
+		int MaxDate = cal2.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		int date_Now = 1;
+		boolean ok = true;
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				if (monthButtons[i][j] != null) {
-					//monthButtons[i][j].setBorder(new EtchedBorder()); // 테두리에 홈이 파여있는 느낌
+					monthButtons[i][j].setBorder(new EtchedBorder()); //
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
-					monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
-					monthButtons[i][j].setFont(new Font("고딕",Font.ITALIC, 15));
-					if (date_Now == 1 && j + 1 < currentDay) {// 1일이 일요일이 아니라면 요일까지 빈버튼.
-						monthButtons[i][j].setText("");						
-					} else if (date_Now > MaxDate) {// 날짜가 마지막 날짜보다 커지면
-						monthButtons[i][j].setText("");						
-					}
-					else {
+					//monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
+					monthButtons[i][j].setFont(new Font("����", Font.ITALIC, 15));
+					if (date_Now == 1 && j + 1 < currentDay) {
+						monthButtons[i][j].setText("");
+					} else if (date_Now > MaxDate) {
+						monthButtons[i][j].setText("");
+					} else {
 						String today = "" + date_Now;
 						monthArr[i][j] = date_Now;
 						monthButtons[i][j].setText(today);
 						date_Now++;
-						// 버튼 클릭하면 그 년도,월,일에 해당하는 파일을 열어서 그에 대한 Day_view_frame 출력
+
 					}
 				}
-				if(j==0) {
-					monthButtons[i][j].setBackground(Color.red);
+				if (j == 0) {
+					monthButtons[i][j].setBackground(Color.PINK);
+					// monthButtons[i][j].setBackground(Color.red);
 				}
 			}
 		}
 	}
 }
-
-
-

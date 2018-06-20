@@ -73,21 +73,16 @@ public class Day_View_Frame extends JFrame{
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 
-
-
-
 	public Day_View_Frame(String str) {
-
-	
 		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
 	
 		main_Pane = new JSplitPane();
 		getContentPane().add(main_Pane);
-
+		this.setVisible(true);
 		this.setSize(870, 560);
 		this.setTitle(str);
 				table = new JTable();
-				table.setFont(new Font("HY掳脽赂铆脕露", Font.PLAIN, 18));
+				table.setFont(new Font("HY�렢�꽲壅귡뱠�꽀�쑓", Font.PLAIN, 18));
 
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
@@ -120,12 +115,12 @@ public class Day_View_Frame extends JFrame{
 				table.setRowHeight(50);
 				
 				
-				clockTable = new JScrollPane(table);
-				main_Pane.setLeftComponent(clockTable);
+				clockTable = new JScrollPane(table); // put table inside the clockTable
+				main_Pane.setLeftComponent(clockTable); // put clockTable to the left side inside the main_Pane 
 				
 				dialog_Pane = new JSplitPane();
 				
-				main_Pane.setRightComponent(dialog_Pane);
+				main_Pane.setRightComponent(dialog_Pane); // put dialog_Pane to the left side inside the main_Pane
 				main_Pane.setDividerLocation((int)this.getSize().getWidth()/5*2);
 				main_Pane.setDividerSize(15);
 				
@@ -136,28 +131,33 @@ public class Day_View_Frame extends JFrame{
 				dialog_Pane.setLeftComponent(option_Panel);
 				option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
 				
-				btnNewButton = new JButton("Add"); // 备泅吝 (Add窍磊付磊 Sort肯丰, FileIO 备泅秦具凳)
+				btnNewButton = new JButton("Add"); // 
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.ADD);
 						dlg.setVisible(true);
-						
 						Doing tmpDoing = dlg.getDoing();
+						
 			            if(tmpDoing != null) {
 			            	
 			            	String divide[] = new String[2];
 			            	
 			                listDoing.addElement(tmpDoing);
-			                //Add窍磊付磊 Sort秦林绰 何盒
+			                // DefaultListModel인 listDoing에 Add_Edit 창에서 입력받은 객체를 추가한다
+			                
+			                // Before add tmpDoing to listsDoing and divide into list and list_1
+			                // sort the object tmpDoing for time order
 			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
 			                Collections.sort(doingList);
+			                // listDoing에 들어있는 객체들을 ArrayList인 doingList에 순서대로 정렬
 			                
 			                listDoing.clear();
 			                listModel.clear();
 			            	listModel_1.clear();
 			            	
 			                // add Doing list to model
-			                ListIterator<Doing> iter = doingList.listIterator();
+			                // iterator를 이용해 listDoing에 doingList에 들어있는 객체들을 순서대로 추가
+			            	ListIterator<Doing> iter = doingList.listIterator();
 			                while(iter.hasNext()) {
 			                   tmpDoing = iter.next();
 			                   listDoing.addElement(tmpDoing);
@@ -165,18 +165,20 @@ public class Day_View_Frame extends JFrame{
 			                   divide = tmpDoing.toString().split("\\.");
 			                   listModel.addElement(divide[0]);
 			                   listModel_1.addElement(divide[1]);
-			                   
+			                   // String형 DefaultListModel인 listModel에 12:00 -> 12*60 = 720 저장
+			                   // String형 DefaultListModel인 listModel_1에 12:55 -> 12*60+55 = 775 저장
+			                
 			                }
 			            }
 			            
-			            //listModel阑 GUI俊 免仿
+			            //listModel�삊 GUI岳� �뀓餓�
 			            list.setModel(listModel);
 			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton);
 				
-				btnNewButton_1 = new JButton("Edit"); // 备泅吝
+				btnNewButton_1 = new JButton("Edit"); // 鸚뉑퀏�맃
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.EDIT);
@@ -188,7 +190,7 @@ public class Day_View_Frame extends JFrame{
 			            	String divide[] = new String[2];
 			            	
 			                listDoing.addElement(tmpDoing);
-			                //Add窍磊付磊 Sort秦林绰 何盒
+			                //Add囹띸즸餓섊즸 Sort燁��옑瀯� 鵝뺟썟
 			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
 			                Collections.sort(doingList);
 			                
@@ -209,14 +211,14 @@ public class Day_View_Frame extends JFrame{
 			                }
 			            }
 			            
-			            //listModel阑 GUI俊 免仿
+			            //listModel�삊 GUI岳� �뀓餓�
 			            list.setModel(listModel);
 			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton_1);
 				
-				btnNewButton_2 = new JButton("Delete");//酒流 备泅 X
+				btnNewButton_2 = new JButton("Delete");//�뀙役� 鸚뉑퀏 X
 				btnNewButton_2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.DELETE);
@@ -241,7 +243,7 @@ public class Day_View_Frame extends JFrame{
 				time_doing_Panel.setLayout(gbl_time_doing_Panel);
 				
 				txtTime = new JTextField();
-				txtTime.setFont(new Font("HY掳脽掳铆碌帽", Font.PLAIN, 18));
+				txtTime.setFont(new Font("HY�렢�꽲�렢�뱠閻뚦맒", Font.PLAIN, 18));
 				txtTime.setText("Time");
 				GridBagConstraints gbc_txtTime = new GridBagConstraints();
 				gbc_txtTime.gridheight = 2;
@@ -253,7 +255,7 @@ public class Day_View_Frame extends JFrame{
 				txtTime.setColumns(10);
 				
 				txtToDo = new JTextField();
-				txtToDo.setFont(new Font("HY掳脽掳铆碌帽", Font.PLAIN, 18));
+				txtToDo.setFont(new Font("HY�렢�꽲�렢�뱠閻뚦맒", Font.PLAIN, 18));
 				txtToDo.setText("To Do");
 				txtToDo.setColumns(10);
 				GridBagConstraints gbc_txtToDo = new GridBagConstraints();
@@ -293,15 +295,7 @@ public class Day_View_Frame extends JFrame{
 				gbc_scrollPane_1.gridx = 1;
 				gbc_scrollPane_1.gridy = 2;
 				time_doing_Panel.add(scrollPane_1, gbc_scrollPane_1);
-				
-				
-				this.setVisible(true);
-				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			   
-				
 	}
-	
-	
 }
 
 
