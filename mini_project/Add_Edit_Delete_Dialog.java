@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
 public class Add_Edit_Delete_Dialog extends JDialog {
+
 
    private final JPanel main_Panel = new JPanel();
    private JTextField txtEvent;
@@ -83,7 +83,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             JButton btOk = new JButton("OK");
             btOk.addActionListener(new ActionListener() {
                public void actionPerformed(ActionEvent e) {
-            	   //ADD¹öÆ°À» ´­·¶À» ¶§ ±¸Çö¿Ï·á
+            	   //ADDë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ êµ¬í˜„ì™„ë£Œ
             	   if(Type == Day_View_Frame.ADD) {
             	   try {
             		  
@@ -91,14 +91,14 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             		  int fromHour, fromMin, doing_from;
                  	  int toHour, toMin, doing_to;
                  	  boolean check;
-                 	  //From txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
+                 	  //From txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§ì·„ëŠ”ì§€ ê²€ì‚¬
                  	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                  	  if(!check) {
                  		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
  								  JOptionPane.ERROR_MESSAGE, null);
  						 return;
                  	  }
-                 	//To txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
+                 	//To txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§ì·„ëŠ”ì§€ ê²€ì‚¬
                  	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                  	  if(!check) {
                  		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -107,7 +107,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
  						 return;
  						 
                  	  }
-                 	  //:À» ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºĞÀ» ºĞ¸®
+                 	  //:ì„ ê¸°ì¤€ìœ¼ë¡œ ìª¼ê°œì„œ ì‹œê°„ê³¼ ë¶„ì„ ë¶„ë¦¬
             		  splitData= txtFrom.getText().split(":");
                  	  
                  	  fromHour = Integer.parseInt(splitData[0]);
@@ -160,7 +160,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   
             	   
             	 
-            	   //Edit¹öÆ°À» ´­·¶À» ¶§ ±¸ÇöÁß
+            	   //Editë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ êµ¬í˜„ì¤‘
             	   else if (Type == Day_View_Frame.EDIT) {
             		   try {
             			  
@@ -169,14 +169,14 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
-                      	  //From txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
+                      	  //From txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§ì·„ëŠ”ì§€ ê²€ì‚¬
                       	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
       								  JOptionPane.ERROR_MESSAGE, null);
       						 return;
                       	  }
-                      	//To txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
+                      	//To txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§ì·„ëŠ”ì§€ ê²€ì‚¬
                       	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -185,7 +185,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       						 return;
       						 
                       	  }
-                      	  //:À» ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºĞÀ» ºĞ¸®
+                      	  //:ì„ ê¸°ì¤€ìœ¼ë¡œ ìª¼ê°œì„œ ì‹œê°„ê³¼ ë¶„ì„ ë¶„ë¦¬
                  		  splitData= txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
@@ -236,7 +236,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	   setVisible(false);
             	   }
             	   
-            	   //Delete¹öÆ°À» ´­·¶À» ¶§ ¾ÆÁ÷ ±¸ÇöX
+            	   //Deleteë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì•„ì§ êµ¬í˜„X
             	   else {
             		   try {
                  		  
@@ -244,7 +244,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
-                      	  //From txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
+                      	  //From txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§ì·„ëŠ”ì§€ ê²€ì‚¬
                       	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
@@ -252,7 +252,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
       						 return;
                       	  }
-                      	//To txt¿¡ inputµÈ °ªÀÌ Çü½ÄÀ» ¸ÂÃè´ÂÁö °Ë»ç
+                      	//To txtì— inputëœ ê°’ì´ í˜•ì‹ì„ ë§ì·„ëŠ”ì§€ ê²€ì‚¬
                       	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -261,7 +261,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       						 return;
       						 
                       	  }
-                      	  //:À» ±âÁØÀ¸·Î ÂÉ°³¼­ ½Ã°£°ú ºĞÀ» ºĞ¸®
+                      	  //:ì„ ê¸°ì¤€ìœ¼ë¡œ ìª¼ê°œì„œ ì‹œê°„ê³¼ ë¶„ì„ ë¶„ë¦¬
                       	  String splitData[] = txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
@@ -330,5 +330,6 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       }
       doing = new Doing(0,0,"");
    }
+
 
 }
