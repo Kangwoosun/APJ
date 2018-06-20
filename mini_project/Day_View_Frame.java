@@ -37,12 +37,15 @@ import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.SwingUtilities;
 
 import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.border.MatteBorder;
@@ -64,15 +67,11 @@ public class Day_View_Frame extends JFrame{
 	private JTextField txtTime;
 	private JTextField txtToDo;
 	private JFrame Frame = this;
+	private JList<Doing> list;
+	private int selectNo;
 
-	private JList<String> list;
-	private JList<String> list_1;
-	private DefaultListModel<String> listModel;
-	private DefaultListModel<String> listModel_1;
 	private DefaultListModel<Doing> listDoing;
 	private JScrollPane scrollPane;
-	private JScrollPane scrollPane_1;
-
 
 
 
@@ -87,7 +86,7 @@ public class Day_View_Frame extends JFrame{
 		this.setSize(870, 560);
 		this.setTitle(str);
 				table = new JTable();
-				table.setFont(new Font("HYÊé≥ËÑΩËµÇÈìÜËÑïÈú≤", Font.PLAIN, 18));
+				table.setFont(new Font("HY¬∞√ü¬∏√≠√Å¬∂", Font.PLAIN, 18));
 
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
@@ -136,10 +135,10 @@ public class Day_View_Frame extends JFrame{
 				dialog_Pane.setLeftComponent(option_Panel);
 				option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
 				
-				btnNewButton = new JButton("Add"); // Â§áÊ≥ÖÂêù (AddÁ™çÁ£ä‰ªòÁ£ä SortËÇØ‰∏∞, FileIO Â§áÊ≥ÖÁß¶ÂÖ∑Âá≥)
+				btnNewButton = new JButton("Add"); // ±∏«ˆ¡ﬂ (Add«œ¿⁄∏∂¿⁄ Sortøœ∑·, FileIO ±∏«ˆ«ÿæﬂµ )
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.ADD);
+						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog((Day_View_Frame)Frame, Day_View_Frame.ADD);
 						dlg.setVisible(true);
 						
 						Doing tmpDoing = dlg.getDoing();
@@ -148,13 +147,13 @@ public class Day_View_Frame extends JFrame{
 			            	String divide[] = new String[2];
 			            	
 			                listDoing.addElement(tmpDoing);
-			                //AddÁ™çÁ£ä‰ªòÁ£ä SortÁß¶ÊûóÁª∞ ‰ΩïÁõí
+			                //Add«œ¿⁄∏∂¿⁄ Sort«ÿ¡÷¥¬ ∫Œ∫–
 			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
 			                Collections.sort(doingList);
 			                
 			                listDoing.clear();
-			                listModel.clear();
-			            	listModel_1.clear();
+//			                listModel.clear();
+//			            	listModel_1.clear();
 			            	
 			                // add Doing list to model
 			                ListIterator<Doing> iter = doingList.listIterator();
@@ -163,38 +162,44 @@ public class Day_View_Frame extends JFrame{
 			                   listDoing.addElement(tmpDoing);
 
 			                   divide = tmpDoing.toString().split("\\.");
-			                   listModel.addElement(divide[0]);
-			                   listModel_1.addElement(divide[1]);
+//			                   listModel.addElement(divide[0]);
+//			                   listModel_1.addElement(divide[1]);
 			                   
 			                }
 			            }
 			            
-			            //listModelÈòë GUI‰øä ÂÖç‰ªø
-			            list.setModel(listModel);
-			            list_1.setModel(listModel_1);
+			            //listModel¿ª GUIø° √‚∑¬
+//			            list.setModel(listModel);
+//			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton);
 				
-				btnNewButton_1 = new JButton("Edit"); // Â§áÊ≥ÖÂêù
+				btnNewButton_1 = new JButton("Edit"); // ±∏«ˆ¡ﬂ
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.EDIT);
+						
+						if(list.isSelectionEmpty()) {
+							JOptionPane.showMessageDialog(Frame, "Error: You should select to edit ", "Nothing Select",
+									  JOptionPane.ERROR_MESSAGE, null);
+		  						return;
+						}
+						setselectNo(list.getSelectedIndex());
+						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog((Day_View_Frame)Frame, Day_View_Frame.EDIT);
 						dlg.setVisible(true);
 						
 						Doing tmpDoing = dlg.getDoing();
 			            if(tmpDoing != null) {
 			            	
-			            	String divide[] = new String[2];
 			            	
-			                listDoing.addElement(tmpDoing);
-			                //AddÁ™çÁ£ä‰ªòÁ£ä SortÁß¶ÊûóÁª∞ ‰ΩïÁõí
+			                listDoing.setElementAt(tmpDoing, getselectNo());
+			                //Add«œ¿⁄∏∂¿⁄ Sort«ÿ¡÷¥¬ ∫Œ∫–
 			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
 			                Collections.sort(doingList);
 			                
 			                listDoing.clear();
-			                listModel.clear();
-			            	listModel_1.clear();
+//			                listModel.clear();
+//			            	listModel_1.clear();
 			            	
 			                // add Doing list to model
 			                ListIterator<Doing> iter = doingList.listIterator();
@@ -202,25 +207,30 @@ public class Day_View_Frame extends JFrame{
 			                   tmpDoing = iter.next();
 			                   listDoing.addElement(tmpDoing);
 
-			                   divide = tmpDoing.toString().split("\\.");
-			                   listModel.addElement(divide[0]);
-			                   listModel_1.addElement(divide[1]);
+			                   
+//			                   listModel.addElement(divide[0]);
+//			                   listModel_1.addElement(divide[1]);
 			                   
 			                }
 			            }
 			            
-			            //listModelÈòë GUI‰øä ÂÖç‰ªø
-			            list.setModel(listModel);
-			            list_1.setModel(listModel_1);
+			            //listModel¿ª GUIø° √‚∑¬
+//			            list.setModel(listModel);
+//			            list_1.setModel(listModel_1);
 					}
 				});
 				option_Panel.add(btnNewButton_1);
 				
-				btnNewButton_2 = new JButton("Delete");//ÈÖíÊµÅ Â§áÊ≥Ö X
+				btnNewButton_2 = new JButton("Delete");//æ∆¡˜ ±∏«ˆ X
 				btnNewButton_2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog(Frame, Day_View_Frame.DELETE);
-						dlg.setVisible(true);
+						if(list.isSelectionEmpty()) {
+							JOptionPane.showMessageDialog(Frame, "Error: You should select to edit ", "Nothing Select",
+									  JOptionPane.ERROR_MESSAGE, null);
+		  						return;
+						}
+						listDoing.removeElementAt(list.getSelectedIndex());
+						
 					}
 				});
 				option_Panel.add(btnNewButton_2);
@@ -241,7 +251,7 @@ public class Day_View_Frame extends JFrame{
 				time_doing_Panel.setLayout(gbl_time_doing_Panel);
 				
 				txtTime = new JTextField();
-				txtTime.setFont(new Font("HYÊé≥ËÑΩÊé≥ÈìÜÁ¢åÂ∏Ω", Font.PLAIN, 18));
+				txtTime.setFont(new Font("HY¬∞√ü¬∞√≠¬µ√±", Font.PLAIN, 18));
 				txtTime.setText("Time");
 				GridBagConstraints gbc_txtTime = new GridBagConstraints();
 				gbc_txtTime.gridheight = 2;
@@ -253,7 +263,7 @@ public class Day_View_Frame extends JFrame{
 				txtTime.setColumns(10);
 				
 				txtToDo = new JTextField();
-				txtToDo.setFont(new Font("HYÊé≥ËÑΩÊé≥ÈìÜÁ¢åÂ∏Ω", Font.PLAIN, 18));
+				txtToDo.setFont(new Font("HY¬∞√ü¬∞√≠¬µ√±", Font.PLAIN, 18));
 				txtToDo.setText("To Do");
 				txtToDo.setColumns(10);
 				GridBagConstraints gbc_txtToDo = new GridBagConstraints();
@@ -268,31 +278,22 @@ public class Day_View_Frame extends JFrame{
 	
 				listDoing = new DefaultListModel<Doing>();
 				
-				listModel = new DefaultListModel<String>();
-				list = new JList<String>(listModel);
+//				listModel = new DefaultListModel<String>();
+				list = new JList<Doing>(listDoing);
+				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 				
-				listModel_1 = new DefaultListModel<String>();
-				list_1 = new JList<String>(listModel_1);
-				list_1.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+//				listModel_1 = new DefaultListModel<String>();
 
 			      
 			    scrollPane = new JScrollPane(list);
 				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+				gbc_scrollPane.gridwidth = 4;
 				gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 				gbc_scrollPane.fill = GridBagConstraints.BOTH;
 				gbc_scrollPane.gridx = 0;
 				gbc_scrollPane.gridy = 2;
 				time_doing_Panel.add(scrollPane, gbc_scrollPane);
-				
-				
-				scrollPane_1 = new JScrollPane(list_1);
-				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-				gbc_scrollPane_1.gridwidth = 3;
-				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-				gbc_scrollPane_1.gridx = 1;
-				gbc_scrollPane_1.gridy = 2;
-				time_doing_Panel.add(scrollPane_1, gbc_scrollPane_1);
 				
 				
 				this.setVisible(true);
@@ -301,7 +302,19 @@ public class Day_View_Frame extends JFrame{
 				
 	}
 	
-	
+	public int getselectNo() {
+		return selectNo;
+	}
+	public void setselectNo(int selectNo) {
+		this.selectNo = selectNo;
+	}
+	public DefaultListModel<Doing> getlistDoing(){
+		return listDoing;
+	}
+	public void setlistDoing(DefaultListModel<Doing> listDoing) {
+		this.listDoing = listDoing;
+		
+	}
 }
 
 

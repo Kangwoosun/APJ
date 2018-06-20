@@ -1,8 +1,10 @@
 package mini_project;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -33,7 +36,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
    /**
     * Create the dialog.
     */
-   public Add_Edit_Delete_Dialog(JFrame parent, int Type) {
+   public Add_Edit_Delete_Dialog(Day_View_Frame parent, int Type) {
       
       super(parent,true);
       getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
@@ -71,6 +74,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       	txtTo.setColumns(10);
       	main_Panel.add(txtTo);
       }
+      
       {
          JPanel btPane = new JPanel();
          btPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -159,39 +163,50 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   //Edit버튼을 눌렀을 때 구현중
             	   else if (Type == Day_View_Frame.EDIT) {
             		   try {
-            			   
-                 		  String splitData[];
+            			  
+            			  
+            			  String splitData[];
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
-                      	  
                       	  //From txt에 input된 값이 형식을 맞췄는지 검사
-                      	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
+                      	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
       								  JOptionPane.ERROR_MESSAGE, null);
-
       						 return;
                       	  }
-                      	  
                       	//To txt에 input된 값이 형식을 맞췄는지 검사
-                      	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
+                      	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
       								  JOptionPane.ERROR_MESSAGE, null);
 
       						 return;
+      						 
                       	  }
                       	  //:을 기준으로 쪼개서 시간과 분을 분리
                  		  splitData= txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
+                      	  if (fromHour >= 24) {
+                      		 JOptionPane.showMessageDialog(parent, "Error: From Time's hour should be under than 24", "Wrong number",
+     								  JOptionPane.ERROR_MESSAGE, null);
+
+     						 return;
+                      	  }
                       	  fromMin = Integer.parseInt(splitData[1]);
                       	  doing_from = fromHour*60 + fromMin;
                       	  
                       	  splitData = txtTo.getText().split(":");
                       	  
                       	  toHour = Integer.parseInt(splitData[0]);
+                      	 if (toHour >= 24) {
+                      		 JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24", "Wrong number",
+     								  JOptionPane.ERROR_MESSAGE, null);
+
+     						 return;
+                      	  }
                       	  toMin = Integer.parseInt(splitData[1]);
                  		  doing_to = toHour*60 + toMin;
                  		   
@@ -200,9 +215,14 @@ public class Add_Edit_Delete_Dialog extends JDialog {
        								  JOptionPane.ERROR_MESSAGE, null);
 
        						 return;
+       						 }
+       					 
+       					 if(txtEvent.getText().contains(".")) {
+       						JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo", "Wrong String",
+     								  JOptionPane.ERROR_MESSAGE, null);
+
+     						 return;
        					 }
-       					 
-       					 
        				    doing.setTimeFrom(doing_from);
                          doing.setTimeTo(doing_to);
                          doing.setToDo(txtEvent.getText());
@@ -301,7 +321,13 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             btPane.add(btCancel);
          }
       }
-      
+      if(Type == Day_View_Frame.EDIT) {
+	      Doing tmpDoing = parent.getlistDoing().getElementAt(parent.getselectNo());
+		  txtFrom.setText(String.format("%02d:%02d",tmpDoing.getTimeFrom()/60, tmpDoing.getTimeFrom()%60));
+		  txtTo.setText(String.format("%02d:%02d", tmpDoing.getTimeTo()/60, tmpDoing.getTimeTo()%60));
+		  
+		  txtEvent.setText(tmpDoing.getToDo());
+      }
       doing = new Doing(0,0,"");
    }
 
