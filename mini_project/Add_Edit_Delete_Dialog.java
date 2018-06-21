@@ -83,7 +83,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             JButton btOk = new JButton("OK");
             btOk.addActionListener(new ActionListener() {
                public void actionPerformed(ActionEvent e) {
-            	   //ADD버튼을 눌렀을 때 구현완료
+            	   //ADD踰꾪듉�쓣 �닃���쓣 �븣 援ы쁽�셿猷�
             	   if(Type == Day_View_Frame.ADD) {
             	   try {
             		  
@@ -91,14 +91,14 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             		  int fromHour, fromMin, doing_from;
                  	  int toHour, toMin, doing_to;
                  	  boolean check;
-                 	  //From txt에 input된 값이 형식을 맞췄는지 검사
+                 	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                  	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                  	  if(!check) {
                  		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
  								  JOptionPane.ERROR_MESSAGE, null);
  						 return;
                  	  }
-                 	//To txt에 input된 값이 형식을 맞췄는지 검사
+                 	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                  	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                  	  if(!check) {
                  		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -107,7 +107,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
  						 return;
  						 
                  	  }
-                 	  //:을 기준으로 쪼개서 시간과 분을 분리
+                 	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
             		  splitData= txtFrom.getText().split(":");
                  	  
                  	  fromHour = Integer.parseInt(splitData[0]);
@@ -158,9 +158,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   setVisible(false);
             	   }
             	   
-            	   
-            	 
-            	   //Edit버튼을 눌렀을 때 구현중
+            	  
             	   else if (Type == Day_View_Frame.EDIT) {
             		   try {
             			  
@@ -169,14 +167,14 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
-                      	  //From txt에 input된 값이 형식을 맞췄는지 검사
+                      	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                       	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
       								  JOptionPane.ERROR_MESSAGE, null);
       						 return;
                       	  }
-                      	//To txt에 input된 값이 형식을 맞췄는지 검사
+                      	  //To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                       	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -185,7 +183,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       						 return;
       						 
                       	  }
-                      	  //:을 기준으로 쪼개서 시간과 분을 분리
+                      	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
                  		  splitData= txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
@@ -236,7 +234,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	   setVisible(false);
             	   }
             	   
-            	   //Delete버튼을 눌렀을 때 아직 구현X
+            	   //Delete踰꾪듉�쓣 �닃���쓣 �븣 �븘吏� 援ы쁽X
             	   else {
             		   try {
                  		  
@@ -244,7 +242,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
-                      	  //From txt에 input된 값이 형식을 맞췄는지 검사
+                      	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                       	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
@@ -252,7 +250,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
       						 return;
                       	  }
-                      	//To txt에 input된 값이 형식을 맞췄는지 검사
+                      	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                       	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -261,7 +259,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       						 return;
       						 
                       	  }
-                      	  //:을 기준으로 쪼개서 시간과 분을 분리
+                      	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
                       	  String splitData[] = txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
