@@ -92,7 +92,9 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	  int toHour, toMin, doing_to;
                  	  boolean check;
                  	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
+
                  	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
+
                  	  if(!check) {
                  		 JOptionPane.showMessageDialog(parent, 
                  				 "Error: From Number should be XX:XX", "Wrong format",
@@ -100,7 +102,9 @@ public class Add_Edit_Delete_Dialog extends JDialog {
  						 return;
                  	  }
                  	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
+
                  	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
+
                  	  if(!check) {
                  		 JOptionPane.showMessageDialog(parent, 
                  				 "Error: To Number should be XX:XX", "Wrong format",
@@ -109,7 +113,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
  						 return;
  						 
                  	  }
-                 	  
+
                  	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
             		  splitData= txtFrom.getText().split(":");
                  	  
@@ -171,9 +175,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   setVisible(false);
             	   }
             	   
-            	   
-            	 
-            	   //Edit踰꾪듉�쓣 �닃���쓣 �븣 援ы쁽以�
+
             	   else if (Type == Day_View_Frame.EDIT) {
             		   try {
             			  
@@ -189,7 +191,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       								  JOptionPane.ERROR_MESSAGE, null);
       						 return;
                       	  }
-                      	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
+
                       	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -243,7 +245,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   }
             	   
             	   //Delete踰꾪듉�쓣 �닃���쓣 �븣 �븘吏� 援ы쁽X
-            	   
+
                    
                 	   
             	   

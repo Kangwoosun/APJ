@@ -38,7 +38,6 @@ import java.awt.SystemColor;
 
 import javax.swing.border.LineBorder;
 
-
 public class Month_View_Frame implements ActionListener {
 	private GregorianCalendar cal1, cal2;
 	JFrame frame;
@@ -58,8 +57,6 @@ public class Month_View_Frame implements ActionListener {
 	private String days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 			"October", "November", "December" };
-	// private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-	// };
 
 	private JButton[][] monthButtons = new JButton[6][7];
 	private JLabel[] dayLabels = new JLabel[7];
@@ -70,10 +67,24 @@ public class Month_View_Frame implements ActionListener {
 	 * Launch the application.
 	 */
 
+
 	private OutputStream output_S;
 	private BufferedOutputStream bOutput_S;
 	private ObjectOutputStream objOutput_S;
-	
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Month_View_Frame window = new Month_View_Frame();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 
 
 	/**
@@ -90,7 +101,6 @@ public class Month_View_Frame implements ActionListener {
 	private void initialize() {
 
 		// calculate the current Year and current Month using class GregorianCalendar
-
 		cal1 = (GregorianCalendar) Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 		cal1.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
 		currentYear = cal1.get(Calendar.YEAR);
@@ -98,12 +108,10 @@ public class Month_View_Frame implements ActionListener {
 
 
 		// main frame- frame
-
 		frame = new JFrame();
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Calendars");
-
 
 		/*
 		 * change the look & feel try{ UIManager.setLookAndFeel
@@ -117,7 +125,7 @@ public class Month_View_Frame implements ActionListener {
 		main = new JPanel();
 		frame.getContentPane().add(main, BorderLayout.CENTER);
 		main.setLayout(new BorderLayout(0, 0));
-
+		
 		up = new JPanel();
 		up.setBackground(Color.white);
 		main.add(up, BorderLayout.NORTH);
@@ -140,23 +148,20 @@ public class Month_View_Frame implements ActionListener {
 					currentMonth = cal1.get(Calendar.MONTH);
 				} else {
 					monthChoice.setSelectedIndex(selectMonth - 1);
-
 					cal1.set(Calendar.MONTH, selectMonth - 1);
-
-
-
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
 				}
 			}
 		});
+		
 		up.setLayout(null);
 		up.add(previous_button);
 
 		monthChoice = new JComboBox<String>();
 
 		monthChoice.setBounds(200, 0, 161, 50);
-		monthChoice.setFont(new Font("굴림", Font.PLAIN, 15));
+		monthChoice.setFont(new Font("援대┝", Font.PLAIN, 15));
 
 		for (int i = 0; i < months.length; i++) {
 			monthChoice.addItem(months[i]);
@@ -182,7 +187,7 @@ public class Month_View_Frame implements ActionListener {
 
 		year = new JButton("" + currentYear);
 		year.setBounds(373, 0, 138, 48);
-		year.setFont(new Font("굴림", Font.BOLD, 17));
+		year.setFont(new Font("援대┝", Font.BOLD, 17));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -323,26 +328,27 @@ public class Month_View_Frame implements ActionListener {
 		int date_Now = 1;
 		boolean ok = true;
 
-
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
+				monthButtons[i][j].setEnabled(true);
+				
 				if (monthButtons[i][j] != null) {
 					
 					monthButtons[i][j].setBorder(new EtchedBorder()); //
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
 					//monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
-					monthButtons[i][j].setFont(new Font("고딕", Font.ITALIC, 15));
+					monthButtons[i][j].setFont(new Font("怨좊뵓", Font.ITALIC, 15));
 					if (date_Now == 1 && j + 1 < currentDay) {
 						monthButtons[i][j].setText("");
+						monthButtons[i][j].setEnabled(false);
 					} else if (date_Now > MaxDate) {
 						monthButtons[i][j].setText("");
+						monthButtons[i][j].setEnabled(false);
 					} else {
-
 						String today = "" + date_Now;
 						monthArr[i][j] = date_Now;
 						monthButtons[i][j].setText(today);
 						date_Now++;
-
 					}
 				}
 				if (j == 0) {
