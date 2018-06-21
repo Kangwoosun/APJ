@@ -6,6 +6,8 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -15,8 +17,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
 
@@ -25,6 +34,8 @@ import java.awt.Dimension;
 
 import javax.swing.border.BevelBorder;
 import java.awt.SystemColor;
+
+
 import javax.swing.border.LineBorder;
 
 
@@ -40,7 +51,6 @@ public class Month_View_Frame implements ActionListener {
 	private JButton next_button;
 	private JPanel datep;
 	private JPanel dayp;
-
   
 	private int currentMonth;
 	private int currentYear;
@@ -51,37 +61,19 @@ public class Month_View_Frame implements ActionListener {
 	// private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 	// };
 
-	private int currentMonth;// 현재월
-	private int currentYear;// 현재연도
-	private int currentDay;// 현재요일
-	private String days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
-			"October", "November", "December" };
-	//private int daysInMonth[] = new int[12];
-    //private int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-
 	private JButton[][] monthButtons = new JButton[6][7];
 	private JLabel[] dayLabels = new JLabel[7];
 	private int[][] monthArr = new int[6][7];
 
+	
 	/**
 	 * Launch the application.
 	 */
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Month_View_Frame window = new Month_View_Frame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private OutputStream output_S;
+	private BufferedOutputStream bOutput_S;
+	private ObjectOutputStream objOutput_S;
+	
 
 
 	/**
@@ -151,7 +143,7 @@ public class Month_View_Frame implements ActionListener {
 
 					cal1.set(Calendar.MONTH, selectMonth - 1);
 
-					cal1.set(Calendar.MONTH, selectMonth - 1);// 선택한 월을 현재 달로 설정
+
 
 					currentMonth = cal1.get(Calendar.MONTH);
 					display_cal();
@@ -260,7 +252,64 @@ public class Month_View_Frame implements ActionListener {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				if (ae.getSource() == monthButtons[i][j]) {
-					Day_View_Frame dayframe = new Day_View_Frame(months[currentMonth] + " - " + monthArr[i][j]);
+					try {
+						Day_View_Frame day_view_frame =  new Day_View_Frame(frame,new String[] {Integer.toString(currentYear),
+								months[currentMonth], Integer.toString(monthArr[i][j])});
+						
+						// save day_view_frame's listDoing
+						DefaultListModel<Doing> tmplistOriginDoing = day_view_frame.getlistDoing();
+						day_view_frame.setVisible(true);
+						
+						DefaultListModel<Doing> tmplistDoing = day_view_frame.getlistDoing();
+					
+						// if there's no inputfile and day_view_frame's listDoing is null, it doesn't output Objectfile
+						if(tmplistDoing.isEmpty() && !day_view_frame.getcheckFile())
+							return;
+						// if there's inputfile and day_view_frame's listDoing is null, it delete file that read by program
+						if(tmplistDoing.isEmpty() && day_view_frame.getcheckFile()) {
+							File f = new File(String.format("%d%02d%02d.dat",
+										currentYear, currentMonth+1,monthArr[i][j] ));
+							f.delete();
+							return;
+						}
+						
+						// check listOriginDoing and listDoing are equal
+						boolean check = false;
+						if(tmplistDoing.getSize() == tmplistOriginDoing.getSize())
+							for(int l = 0; l<tmplistDoing.getSize(); l++) {
+								check = tmplistDoing.getElementAt(l).equals(tmplistOriginDoing.getElementAt(l));
+								if(!check)
+									break;
+							}
+						// if listOriginDoing and listDoing aren't equal, then it write Object
+						if(check == false) {
+							
+								try {
+									output_S = new FileOutputStream(String.format("%d%02d%02d.dat",
+											currentYear, currentMonth+1,monthArr[i][j] ));
+									bOutput_S = new BufferedOutputStream(output_S);
+									objOutput_S = new ObjectOutputStream(bOutput_S);
+									objOutput_S.writeObject(tmplistDoing);
+								}catch (Exception e) {
+									e.printStackTrace();
+								}finally {
+									try {
+										objOutput_S.close();
+									}catch(IOException e) {
+										e.printStackTrace();
+									}
+								
+								}
+						}
+						
+						
+					}catch (Exception e) {
+							e.printStackTrace();
+					}
+				
+					
+					
+					return;
 				}
 			}
 		}
@@ -278,7 +327,7 @@ public class Month_View_Frame implements ActionListener {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				if (monthButtons[i][j] != null) {
-
+					
 					monthButtons[i][j].setBorder(new EtchedBorder()); //
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
 					//monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
