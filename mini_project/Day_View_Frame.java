@@ -1,4 +1,5 @@
 package mini_project;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -6,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -32,6 +34,7 @@ import javax.swing.UIManager;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
@@ -43,18 +46,22 @@ import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.OverlayLayout;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.border.MatteBorder;
 
-public class Day_View_Frame extends JFrame{
+public class Day_View_Frame extends JFrame {
 	public static final int ADD = 1;
 	public static final int EDIT = 2;
 	public static final int DELETE = 3;
-	
+
 	private JTable table;
 	private JScrollPane clockTable;
 	private JPanel option_Panel;
@@ -66,6 +73,7 @@ public class Day_View_Frame extends JFrame{
 	private JSplitPane dialog_Pane;
 	private JTextField txtTime;
 	private JTextField txtToDo;
+
 	private JFrame Frame = this;
 	private JList<Doing> list;
 	private int selectNo;
@@ -73,294 +81,284 @@ public class Day_View_Frame extends JFrame{
 	private DefaultListModel<Doing> listDoing;
 	private JScrollPane scrollPane;
 
-
-
-
+	private ArrayList<Doing> doingList;
 
 	public Day_View_Frame(String str) {
-		getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
-	
+		getContentPane().setLayout(null);
+
 		main_Pane = new JSplitPane();
+		main_Pane.setBounds(0, 0, 852, 513);
+
 		getContentPane().add(main_Pane);
 		this.setVisible(true);
 		this.setSize(870, 560);
 		this.setTitle(str);
-				table = new JTable();
+		
+		clockTable = new JScrollPane(new ScrollPaneArtifacts());
+		clockTable.getViewport().setPreferredSize(new Dimension(300, 600));
+		clockTable.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-				table.setFont(new Font("HY掳脽赂铆脕露", Font.PLAIN, 18));
+		main_Pane.setLeftComponent(clockTable); // put clockTable to the left side inside the main_Pane
 
+		dialog_Pane = new JSplitPane();
 
-				table.setModel(new DefaultTableModel(
-					new Object[][] {
-						{"00:00"}, {"01:00"}, {"02:00"}, {"03:00"},
-						{"04:00"},
-						{"05:00"},
-						{"06:00"},
-						{"07:00"},
-						{"08:00"},
-						{"09:00"},
-						{"10:00"},
-						{"11:00"},
-						{"12:00"},
-						{"13:00"},
-						{"14:00"},
-						{"15:00"},
-						{"16:00"},
-						{"17:00"},
-						{"18:00"},
-						{"19:00"},
-						{"20:00"},
-						{"21:00"},
-						{"22:00"},
-						{"23:00"},
-					},
-					new String[] {
-						"Clock"
+		main_Pane.setRightComponent(dialog_Pane); // put dialog_Pane to the left side inside the main_Pane
+		main_Pane.setDividerLocation((int) this.getSize().getWidth() / 5 * 2);
+		main_Pane.setDividerSize(15);
+
+		dialog_Pane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+
+		option_Panel = new JPanel();
+		option_Panel.setBorder(new EmptyBorder(8, 10, 8, 10));
+		dialog_Pane.setLeftComponent(option_Panel);
+		option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
+
+		btnNewButton = new JButton("Add"); //
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog((Day_View_Frame) Frame, Day_View_Frame.ADD);
+				dlg.setVisible(true);
+				Doing tmpDoing = dlg.getDoing();
+				if (tmpDoing != null) {
+
+					String divide[] = new String[2];
+
+					// Add tmpDoing object to listDoing(DefaultListModel)
+					listDoing.addElement(tmpDoing);
+
+					// Before add tmpDoing to listsDoing and divide into list and list_1
+					// sort the object tmpDoing for time order
+
+					doingList = Collections.list(listDoing.elements());
+					Collections.sort(doingList);
+
+					listDoing.clear();
+
+					// add tmpDoing to listDoing
+					ListIterator<Doing> iter = doingList.listIterator();
+					while (iter.hasNext()) {
+						tmpDoing = iter.next();
+						listDoing.addElement(tmpDoing);
+
+						divide = tmpDoing.toString().split("\\.");
 					}
-				));
-				table.setRowHeight(50);
-				
-				
-				clockTable = new JScrollPane(table); // put table inside the clockTable
-				main_Pane.setLeftComponent(clockTable); // put clockTable to the left side inside the main_Pane 
-				
-				dialog_Pane = new JSplitPane();
-				
-				main_Pane.setRightComponent(dialog_Pane); // put dialog_Pane to the left side inside the main_Pane
-				main_Pane.setDividerLocation((int)this.getSize().getWidth()/5*2);
-				main_Pane.setDividerSize(15);
-				
-				dialog_Pane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				
-				option_Panel = new JPanel();
-				option_Panel.setBorder(new EmptyBorder(8, 10, 8, 10));
-				dialog_Pane.setLeftComponent(option_Panel);
-				option_Panel.setLayout(new GridLayout(0, 3, 0, 0));
-				
+					clockTable.repaint();
+				}
+			}
+		});
+		option_Panel.add(btnNewButton);
 
-				btnNewButton = new JButton("Add"); // 备泅吝 (Add窍磊付磊 Sort肯丰, FileIO 备泅秦具凳)
+		
+		btnNewButton_1 = new JButton("Edit");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog((Day_View_Frame)Frame, Day_View_Frame.ADD);
-						dlg.setVisible(true);
-						Doing tmpDoing = dlg.getDoing();
-						
-			            if(tmpDoing != null) {
-			            	
-			            	String divide[] = new String[2];
-			            	
-			                listDoing.addElement(tmpDoing);
+				if (list.isSelectionEmpty()) {
+					JOptionPane.showMessageDialog(Frame, "Error: You should select to edit ", "Nothing Select",
+							JOptionPane.ERROR_MESSAGE, null);
+					return;
+				}
+				setselectNo(list.getSelectedIndex());
+				Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog((Day_View_Frame) Frame, Day_View_Frame.EDIT);
+				dlg.setVisible(true);
 
-			                // DefaultListModel鞚� listDoing鞐� Add_Edit 彀届棎靹� 鞛呺牓氚涭潃 臧濎泊毳� 於旉皜頃滊嫟
-			                
-			                // Before add tmpDoing to listsDoing and divide into list and list_1
-			                // sort the object tmpDoing for time order
+				Doing tmpDoing = dlg.getDoing();
+				if (tmpDoing != null) {
 
-			                //Add窍磊付磊 Sort秦林绰 何盒
+					listDoing.setElementAt(tmpDoing, getselectNo());
 
-			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
-			                Collections.sort(doingList);
-			                // listDoing鞐� 霌れ柎鞛堧姅 臧濎泊霌れ潉 ArrayList鞚� doingList鞐� 靾滌劀雽�搿� 鞝曤牞
-			                
-			                listDoing.clear();
-//			                listModel.clear();
-//			            	listModel_1.clear();
-			            	
-			                // add Doing list to model
-			                // iterator毳� 鞚挫毄頃� listDoing鞐� doingList鞐� 霌れ柎鞛堧姅 臧濎泊霌れ潉 靾滌劀雽�搿� 於旉皜
-			            	ListIterator<Doing> iter = doingList.listIterator();
-			                while(iter.hasNext()) {
-			                   tmpDoing = iter.next();
-			                   listDoing.addElement(tmpDoing);
+					doingList = Collections.list(listDoing.elements());
+					Collections.sort(doingList);
 
-			                   divide = tmpDoing.toString().split("\\.");
-
-//			                   listModel.addElement(divide[0]);
-//			                   listModel_1.addElement(divide[1]);
-			                   
-			                }
-			            }
-			            
-			            //listModel阑 GUI俊 免仿
-//			            list.setModel(listModel);
-//			            list_1.setModel(listModel_1);
-
+					listDoing.clear();
+					// add Doing list to model
+					ListIterator<Doing> iter = doingList.listIterator();
+					while (iter.hasNext()) {
+						tmpDoing = iter.next();
+						listDoing.addElement(tmpDoing);
 					}
-				});
-				option_Panel.add(btnNewButton);
-				
+					clockTable.repaint();
+				}
+			}
+		});
+		option_Panel.add(btnNewButton_1);
 
-				btnNewButton_1 = new JButton("Edit"); // 楦氹墤韤忥拷毵�
-				btnNewButton_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						if(list.isSelectionEmpty()) {
-							JOptionPane.showMessageDialog(Frame, "Error: You should select to edit ", "Nothing Select",
-									  JOptionPane.ERROR_MESSAGE, null);
-		  						return;
-						}
-						setselectNo(list.getSelectedIndex());
-						Add_Edit_Delete_Dialog dlg = new Add_Edit_Delete_Dialog((Day_View_Frame)Frame, Day_View_Frame.EDIT);
-						dlg.setVisible(true);
-						
-						Doing tmpDoing = dlg.getDoing();
-			            if(tmpDoing != null) {
-			            	
-			            	
+		btnNewButton_2 = new JButton("Delete");
 
-			                listDoing.setElementAt(tmpDoing, getselectNo());
-			                //Add窍磊付磊 Sort秦林绰 何盒
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (list.isSelectionEmpty()) {
+					JOptionPane.showMessageDialog(Frame, "Error: You should select to edit ", "Nothing Select",
+							JOptionPane.ERROR_MESSAGE, null);
+					return;
+				}
+				clockTable.repaint();
+				doingList.remove(list.getSelectedIndex());
+				listDoing.removeElementAt(list.getSelectedIndex());
 
-			                ArrayList<Doing> doingList = Collections.list(listDoing.elements());
-			                Collections.sort(doingList);
-			                
-			                listDoing.clear();
-//			                listModel.clear();
-//			            	listModel_1.clear();
-			            	
-			                // add Doing list to model
-			                ListIterator<Doing> iter = doingList.listIterator();
-			                while(iter.hasNext()) {
-			                   tmpDoing = iter.next();
-			                   listDoing.addElement(tmpDoing);
+			}
+		});
+		option_Panel.add(btnNewButton_2);
 
-			                   
-//			                   listModel.addElement(divide[0]);
-//			                   listModel_1.addElement(divide[1]);
-			                   
-			                }
-			            }
-			            
+		time_doing_Panel = new JPanel();
+		time_doing_Panel.setBackground(Color.LIGHT_GRAY);
+		time_doing_Panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		dialog_Pane.setRightComponent(time_doing_Panel);
 
-			            //listModel阑 GUI俊 免仿
-//			            list.setModel(listModel);
-//			            list_1.setModel(listModel_1);
+		dialog_Pane.setDividerLocation(65);
+		dialog_Pane.setDividerSize(30);
 
-					}
-				});
-				option_Panel.add(btnNewButton_1);
-				
+		GridBagLayout gbl_time_doing_Panel = new GridBagLayout();
+		gbl_time_doing_Panel.columnWidths = new int[] { 151, 0, 0, 0, 0 };
+		gbl_time_doing_Panel.rowHeights = new int[] { 0, 26, 0, 0 };
+		gbl_time_doing_Panel.columnWeights = new double[] { 1.0, 1.0, 2.0, 1.0, Double.MIN_VALUE };
+		gbl_time_doing_Panel.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		time_doing_Panel.setLayout(gbl_time_doing_Panel);
 
-				btnNewButton_2 = new JButton("Delete");//酒流 备泅 X
+		txtTime = new JTextField();
 
-				btnNewButton_2.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if(list.isSelectionEmpty()) {
-							JOptionPane.showMessageDialog(Frame, "Error: You should select to edit ", "Nothing Select",
-									  JOptionPane.ERROR_MESSAGE, null);
-		  						return;
-						}
-						listDoing.removeElementAt(list.getSelectedIndex());
-						
-					}
-				});
-				option_Panel.add(btnNewButton_2);
-				
-				time_doing_Panel = new JPanel();
-				time_doing_Panel.setBackground(Color.LIGHT_GRAY);
-				time_doing_Panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-				dialog_Pane.setRightComponent(time_doing_Panel);
+		txtTime.setFont(new Font("HY????碌帽", Font.PLAIN, 18));
 
-				dialog_Pane.setDividerLocation(65);
-				dialog_Pane.setDividerSize(30);
-				
-				GridBagLayout gbl_time_doing_Panel = new GridBagLayout();
-				gbl_time_doing_Panel.columnWidths = new int[]{151, 0, 0, 0, 0};
-				gbl_time_doing_Panel.rowHeights = new int[]{0, 26, 0, 0};
-				gbl_time_doing_Panel.columnWeights = new double[]{1.0, 1.0, 2.0, 1.0, Double.MIN_VALUE};
-				gbl_time_doing_Panel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-				time_doing_Panel.setLayout(gbl_time_doing_Panel);
-				
-				txtTime = new JTextField();
+		txtTime.setText("Time");
+		GridBagConstraints gbc_txtTime = new GridBagConstraints();
+		gbc_txtTime.gridheight = 2;
+		gbc_txtTime.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTime.fill = GridBagConstraints.BOTH;
+		gbc_txtTime.gridx = 0;
+		gbc_txtTime.gridy = 0;
+		time_doing_Panel.add(txtTime, gbc_txtTime);
+		txtTime.setColumns(10);
 
-				txtTime.setFont(new Font("HY掳脽掳铆碌帽", Font.PLAIN, 18));
+		txtToDo = new JTextField();
 
-				txtTime.setText("Time");
-				GridBagConstraints gbc_txtTime = new GridBagConstraints();
-				gbc_txtTime.gridheight = 2;
-				gbc_txtTime.insets = new Insets(0, 0, 5, 5);
-				gbc_txtTime.fill = GridBagConstraints.BOTH;
-				gbc_txtTime.gridx = 0;
-				gbc_txtTime.gridy = 0;
-				time_doing_Panel.add(txtTime, gbc_txtTime);
-				txtTime.setColumns(10);
-				
-				txtToDo = new JTextField();
+		txtToDo.setFont(new Font("HY????碌帽", Font.PLAIN, 18));
 
-				txtToDo.setFont(new Font("HY掳脽掳铆碌帽", Font.PLAIN, 18));
+		txtToDo.setText("To Do");
+		txtToDo.setColumns(10);
+		GridBagConstraints gbc_txtToDo = new GridBagConstraints();
+		gbc_txtToDo.gridwidth = 3;
+		gbc_txtToDo.gridheight = 2;
+		gbc_txtToDo.insets = new Insets(0, 0, 5, 0);
+		gbc_txtToDo.fill = GridBagConstraints.BOTH;
+		gbc_txtToDo.gridx = 1;
+		gbc_txtToDo.gridy = 0;
+		time_doing_Panel.add(txtToDo, gbc_txtToDo);
 
-				txtToDo.setText("To Do");
-				txtToDo.setColumns(10);
-				GridBagConstraints gbc_txtToDo = new GridBagConstraints();
-				gbc_txtToDo.gridwidth = 3;
-				gbc_txtToDo.gridheight = 2;
-				gbc_txtToDo.insets = new Insets(0, 0, 5, 0);
-				gbc_txtToDo.fill = GridBagConstraints.BOTH;
-				gbc_txtToDo.gridx = 1;
-				gbc_txtToDo.gridy = 0;
-				time_doing_Panel.add(txtToDo, gbc_txtToDo);
-				
-	
-				listDoing = new DefaultListModel<Doing>();
-				
-//				listModel = new DefaultListModel<String>();
-				list = new JList<Doing>(listDoing);
-				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-				
-//				listModel_1 = new DefaultListModel<String>();
+		listDoing = new DefaultListModel<Doing>();
 
-			      
-			    scrollPane = new JScrollPane(list);
-				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-				gbc_scrollPane.gridwidth = 4;
-				gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-				gbc_scrollPane.fill = GridBagConstraints.BOTH;
-				gbc_scrollPane.gridx = 0;
-				gbc_scrollPane.gridy = 2;
-				time_doing_Panel.add(scrollPane, gbc_scrollPane);
-				
-				
+		list = new JList<Doing>(listDoing);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 
-				this.setVisible(true);
-				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			   
-				
+		scrollPane = new JScrollPane(list);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 2;
+		time_doing_Panel.add(scrollPane, gbc_scrollPane);
+
+		this.setVisible(true);
 	}
-	
+
 	public int getselectNo() {
 		return selectNo;
 	}
+
 	public void setselectNo(int selectNo) {
 		this.selectNo = selectNo;
 	}
-	public DefaultListModel<Doing> getlistDoing(){
+
+	public DefaultListModel<Doing> getlistDoing() {
 		return listDoing;
 	}
+
 	public void setlistDoing(DefaultListModel<Doing> listDoing) {
 		this.listDoing = listDoing;
-		
+
 	}
 
+	class ScrollPaneArtifacts extends JPanel {
+		private static final int WIDTH = 10000;
+		private static final int HEIGHT = 960;
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setFont(new Font("Gulim", Font.PLAIN, 20));
+			for (int i = 0; i < 24; i++) {
+				g.drawRect(0, 40 * i, 10000, 40);        // x, y, width, height
+				g.setColor(new Color(255, 255, 255));    // white
+				g.fillRect(0, 40 * i + 1, 10000, 37);    // 
+				g.setColor(new Color(0, 0, 0));          // set Color to Black
+				g.drawString(i + ":00", 0, 40 * i + 30); // draw time sections  
+			}
+
+			int timeStart[][] = new int[100][100]; // to compare with time_from
+			int timeEnd[][] = new int[100][100];   // to compare with time_to
+			
+			int p = 0;
+			if (doingList != null) {
+				for (Doing i : doingList) {
+					int x_start = 0;
+					while (true) {
+						if (timeStart[x_start][0] != 0) {
+							boolean isBreak = true;
+							int end = 0;
+							for(end=0;timeStart[x_start][end] != 0;end++);
+							end--;
+							
+							//System.out.println(end);
+							for(int t=0;t<=end;t++) {
+								if(timeStart[x_start][t] <= i.getTimeFrom()&&timeEnd[x_start][t] > i.getTimeFrom()) {
+									isBreak = false;
+									x_start++;
+								}
+								if(timeStart[x_start][t] <= i.getTimeTo()&&timeEnd[x_start][t] > i.getTimeTo()) {
+									isBreak = false;
+									x_start++;
+								}
+								if(timeStart[x_start][t] > i.getTimeFrom()&&timeEnd[x_start][t] < i.getTimeTo()) {
+									isBreak = false;
+									x_start++;
+								}
+							}
+							if(isBreak) {
+								timeStart[x_start][end+1] = i.getTimeFrom();
+								timeEnd[x_start][end+1] = i.getTimeTo();
+								break;
+							}
+						} else {
+							timeStart[x_start][0] = i.getTimeFrom();
+							timeEnd[x_start][0] = i.getTimeTo();
+							break;
+						}
+					}
+
+					g.setColor(new Color(255, (p*100)%256, (p*200)%256)); // 나중에 색깔 바뀌도록
+					g.fillRect(60 + x_start * 50, (i.getTimeFrom()) * 2 / 3, 50,
+							(i.getTimeTo() - i.getTimeFrom()) * 2 / 3);
+					g.setColor(new Color(0, 0, 0));
+					g.setFont(new Font("Gulim", Font.PLAIN, 15));
+					
+					
+					// draw text for to-do above the each rectangle
+					if(i.getToDo().length()<=5) {
+						g.drawString(i.getToDo(), 60 + x_start * 50+5, (i.getTimeFrom()) * 2 / 3+(i.getTimeTo() - i.getTimeFrom()) / 3);
+					}else {
+						int j = 0;
+						for(j=0;j<i.getToDo().length()-4;j+=5) {
+							g.drawString(i.getToDo().substring(j, j+5), 60 + x_start * 50+5, (i.getTimeFrom()) * 2 / 3+(i.getTimeTo() - i.getTimeFrom()) / 3+15*j/5);
+						}
+						g.drawString(i.getToDo().substring(j), 60 + x_start * 50+5, (i.getTimeFrom()) * 2 / 3+(i.getTimeTo() - i.getTimeFrom()) / 3+15*j/5);
+					}
+					p++;
+				}
+			}
+		}
+
+		public Dimension getPreferredSize() {
+			return new Dimension(WIDTH, HEIGHT);
+		}
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
