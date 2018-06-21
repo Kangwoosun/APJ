@@ -1,6 +1,8 @@
 package mini_project;
 
-public class Doing implements Comparable<Doing>{
+import java.io.Serializable;
+
+public class Doing implements Comparable<Doing>, Serializable{
 	private int timeFrom;
 	private int timeTo;
 	private String toDo;
@@ -33,7 +35,7 @@ public class Doing implements Comparable<Doing>{
 	
 	@Override
 	public String toString() {
-		return String.format("%02d:%02d - %02d:%02d %45s %s", timeFrom/60, timeFrom%60,
+		return String.format("%02d:%02d - %02d:%02d %40s %s", timeFrom/60, timeFrom%60,
 				timeTo/60, timeTo%60, new String("") ,toDo);
 	}
 	
@@ -57,6 +59,13 @@ public class Doing implements Comparable<Doing>{
 		}
 			
 	}
-	
+	@Override
+	public boolean equals(Object anObject) {
+		if (anObject instanceof Doing)
+			if( this == anObject) 
+				return true;
+		
+		return false;
+	}
 	
 }

@@ -83,7 +83,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             JButton btOk = new JButton("OK");
             btOk.addActionListener(new ActionListener() {
                public void actionPerformed(ActionEvent e) {
-            	   //ADD버튼을 눌렀을 때 구현완료
+            	   //ADD踰꾪듉�쓣 �닃���쓣 �븣 援ы쁽�셿猷�
             	   if(Type == Day_View_Frame.ADD) {
             	   try {
             		  
@@ -91,45 +91,64 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             		  int fromHour, fromMin, doing_from;
                  	  int toHour, toMin, doing_to;
                  	  boolean check;
-                 	  //From txt에 input된 값이 형식을 맞췄는지 검사
-                 	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                 	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
+                 	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
                  	  if(!check) {
-                 		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
+                 		 JOptionPane.showMessageDialog(parent, 
+                 				 "Error: From Number should be XX:XX", "Wrong format",
  								  JOptionPane.ERROR_MESSAGE, null);
  						 return;
                  	  }
-                 	//To txt에 input된 값이 형식을 맞췄는지 검사
-                 	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                 	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
+                 	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
                  	  if(!check) {
-                 		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
+                 		 JOptionPane.showMessageDialog(parent, 
+                 				 "Error: To Number should be XX:XX", "Wrong format",
  								  JOptionPane.ERROR_MESSAGE, null);
 
  						 return;
  						 
                  	  }
-                 	  //:을 기준으로 쪼개서 시간과 분을 분리
+                 	  
+                 	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
             		  splitData= txtFrom.getText().split(":");
                  	  
                  	  fromHour = Integer.parseInt(splitData[0]);
-                 	  if (fromHour >= 24) {
-                 		 JOptionPane.showMessageDialog(parent, "Error: From Time's hour should be under than 24", "Wrong number",
+                 	  if (fromHour >= 24 || fromHour<0) {
+                 		 JOptionPane.showMessageDialog(parent, 
+                 				 "Error: From Time's hour should be under than 24 and be greater than or equal to 0", "Wrong hour",
 								  JOptionPane.ERROR_MESSAGE, null);
 
 						 return;
                  	  }
                  	  fromMin = Integer.parseInt(splitData[1]);
+                 	  if(fromMin >= 60 || fromMin<0) {
+                 		 JOptionPane.showMessageDialog(parent, 
+                 				 "Error: From Time's minute should be under than 60 and be greater than or equal to 0", "Wrong minute",
+								  JOptionPane.ERROR_MESSAGE, null);
+
+						 return;
+                 	  }
                  	  doing_from = fromHour*60 + fromMin;
                  	  
                  	  splitData = txtTo.getText().split(":");
                  	  
                  	  toHour = Integer.parseInt(splitData[0]);
-                 	 if (toHour >= 24) {
-                 		 JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24", "Wrong number",
+                 	 if (toHour >= 24 || toHour<0) {
+                 		 JOptionPane.showMessageDialog(parent, 
+                 				 "Error: To Time's hour should be under than 24 and be greater than or equal to 0", "Wrong hour",
 								  JOptionPane.ERROR_MESSAGE, null);
 
 						 return;
                  	  }
                  	  toMin = Integer.parseInt(splitData[1]);
+                 	 if(toMin >= 60|| toMin<0) {
+                 		 JOptionPane.showMessageDialog(parent, 
+                 				 "Error: To Time's minute should be under than 60 and be greater than or equal to 0", "Wrong minute",
+								  JOptionPane.ERROR_MESSAGE, null);
+
+						 return;
+                 	  }
             		  doing_to = toHour*60 + toMin;
             		   
   					 if(0> doing_from || doing_from >= doing_to ){
@@ -139,15 +158,9 @@ public class Add_Edit_Delete_Dialog extends JDialog {
   						 return;
   						 }
   					 
-  					 if(txtEvent.getText().contains(".")) {
-  						JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo", "Wrong String",
-								  JOptionPane.ERROR_MESSAGE, null);
+  					 
+  					doing = new Doing(doing_from, doing_to, txtEvent.getText());
 
-						 return;
-  					 }
-  				    doing.setTimeFrom(doing_from);
-                    doing.setTimeTo(doing_to);
-                    doing.setToDo(txtEvent.getText());
   					 
             	   } catch (NumberFormatException ex) {
             		  JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
@@ -160,7 +173,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             	   
             	   
             	 
-            	   //Edit버튼을 눌렀을 때 구현중
+            	   //Edit踰꾪듉�쓣 �닃���쓣 �븣 援ы쁽以�
             	   else if (Type == Day_View_Frame.EDIT) {
             		   try {
             			  
@@ -169,14 +182,14 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
-                      	  //From txt에 input된 값이 형식을 맞췄는지 검사
+                      	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                       	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
       								  JOptionPane.ERROR_MESSAGE, null);
       						 return;
                       	  }
-                      	//To txt에 input된 값이 형식을 맞췄는지 검사
+                      	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
                       	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
                       	  if(!check) {
                       		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
@@ -185,7 +198,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
       						 return;
       						 
                       	  }
-                      	  //:을 기준으로 쪼개서 시간과 분을 분리
+                      	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
                  		  splitData= txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
@@ -217,16 +230,9 @@ public class Add_Edit_Delete_Dialog extends JDialog {
        						 return;
        						 }
        					 
-       					 if(txtEvent.getText().contains(".")) {
-       						JOptionPane.showMessageDialog(parent, "Error: You must not contain '.' in ToDo", "Wrong String",
-     								  JOptionPane.ERROR_MESSAGE, null);
-
-     						 return;
-       					 }
-       				    doing.setTimeFrom(doing_from);
-                         doing.setTimeTo(doing_to);
-                         doing.setToDo(txtEvent.getText());
        					 
+       					 
+       					doing = new Doing(doing_from, doing_to, txtEvent.getText());
                  	   } catch (NumberFormatException ex) {
                  		  JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
      							  JOptionPane.ERROR_MESSAGE, null);
@@ -236,64 +242,8 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	   setVisible(false);
             	   }
             	   
-            	   //Delete버튼을 눌렀을 때 아직 구현X
-            	   else {
-            		   try {
-                 		  
-                 		  
-                 		  int fromHour, fromMin, doing_from;
-                      	  int toHour, toMin, doing_to;
-                      	  boolean check;
-                      	  //From txt에 input된 값이 형식을 맞췄는지 검사
-                      	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
-                      	  if(!check) {
-                      		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
-      								  JOptionPane.ERROR_MESSAGE, null);
-
-      						 return;
-                      	  }
-                      	//To txt에 input된 값이 형식을 맞췄는지 검사
-                      	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
-                      	  if(!check) {
-                      		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
-      								  JOptionPane.ERROR_MESSAGE, null);
-
-      						 return;
-      						 
-                      	  }
-                      	  //:을 기준으로 쪼개서 시간과 분을 분리
-                      	  String splitData[] = txtFrom.getText().split(":");
-                      	  
-                      	  fromHour = Integer.parseInt(splitData[0]);
-                      	  fromMin = Integer.parseInt(splitData[1]);
-                      	  doing_from = fromHour*60 + fromMin;
-                      	  
-                      	  splitData = txtTo.getText().split(":");
-                      	  
-                      	  toHour = Integer.parseInt(splitData[0]);
-                      	  toMin = Integer.parseInt(splitData[1]);
-                 		  doing_to = toHour*60 + toMin;
-                 		   
-       					 if(0> doing_from || doing_from >= doing_to ){
-       						 JOptionPane.showMessageDialog(parent, "Error: The start Time must be before the end Time", "Wrong range",
-       								  JOptionPane.ERROR_MESSAGE, null);
-
-       						 return;
-       						 }
-       					 
-       					 
-       				    doing.setTimeFrom(doing_from);
-                         doing.setTimeTo(doing_to);
-                         doing.setToDo(txtEvent.getText());
-       					 
-                 	   } catch (NumberFormatException ex) {
-                 		  JOptionPane.showMessageDialog(parent, "Error: You should input Nubmer", "Wrong type",
-     							  JOptionPane.ERROR_MESSAGE, null);
-       						return;
-                 	   }
-                 	   
-                 	   setVisible(false);
-                   }
+            	   //Delete踰꾪듉�쓣 �닃���쓣 �븣 �븘吏� 援ы쁽X
+            	   
                    
                 	   
             	   
@@ -328,7 +278,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 		  
 		  txtEvent.setText(tmpDoing.getToDo());
       }
-      doing = new Doing(0,0,"");
+
    }
 
 
