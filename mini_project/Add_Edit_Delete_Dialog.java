@@ -180,49 +180,72 @@ public class Add_Edit_Delete_Dialog extends JDialog {
             		   try {
             			  
             			  
-            			  String splitData[];
+            			   String splitData[];
                  		  int fromHour, fromMin, doing_from;
                       	  int toHour, toMin, doing_to;
                       	  boolean check;
                       	  //From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
-                      	  check = txtFrom.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+
+                      	  check = txtFrom.getText().matches("\\d{2}:\\d{2}");
+
                       	  if(!check) {
-                      		 JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX", "Wrong number",
+                      		 JOptionPane.showMessageDialog(parent, 
+                      				 "Error: From Number should be XX:XX", "Wrong format",
       								  JOptionPane.ERROR_MESSAGE, null);
       						 return;
                       	  }
+                      	//To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
 
-                      	  check = txtTo.getText().matches("[0-2]\\d{1}:[0-5]\\d{1}");
+                      	  check = txtTo.getText().matches("\\d{2}:\\d{2}");
+
                       	  if(!check) {
-                      		 JOptionPane.showMessageDialog(parent, "Error: To Number should be XX:XX", "Wrong number",
+                      		 JOptionPane.showMessageDialog(parent, 
+                      				 "Error: To Number should be XX:XX", "Wrong format",
       								  JOptionPane.ERROR_MESSAGE, null);
 
       						 return;
       						 
                       	  }
+
                       	  //:�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
                  		  splitData= txtFrom.getText().split(":");
                       	  
                       	  fromHour = Integer.parseInt(splitData[0]);
-                      	  if (fromHour >= 24) {
-                      		 JOptionPane.showMessageDialog(parent, "Error: From Time's hour should be under than 24", "Wrong number",
+                      	  if (fromHour >= 24 || fromHour<0) {
+                      		 JOptionPane.showMessageDialog(parent, 
+                      				 "Error: From Time's hour should be under than 24 and be greater than or equal to 0", "Wrong hour",
      								  JOptionPane.ERROR_MESSAGE, null);
 
      						 return;
                       	  }
                       	  fromMin = Integer.parseInt(splitData[1]);
+                      	  if(fromMin >= 60 || fromMin<0) {
+                      		 JOptionPane.showMessageDialog(parent, 
+                      				 "Error: From Time's minute should be under than 60 and be greater than or equal to 0", "Wrong minute",
+     								  JOptionPane.ERROR_MESSAGE, null);
+
+     						 return;
+                      	  }
                       	  doing_from = fromHour*60 + fromMin;
                       	  
                       	  splitData = txtTo.getText().split(":");
                       	  
                       	  toHour = Integer.parseInt(splitData[0]);
-                      	 if (toHour >= 24) {
-                      		 JOptionPane.showMessageDialog(parent, "Error:  Time's hour should be under than 24", "Wrong number",
+                      	 if (toHour >= 24 || toHour<0) {
+                      		 JOptionPane.showMessageDialog(parent, 
+                      				 "Error: To Time's hour should be under than 24 and be greater than or equal to 0", "Wrong hour",
      								  JOptionPane.ERROR_MESSAGE, null);
 
      						 return;
                       	  }
                       	  toMin = Integer.parseInt(splitData[1]);
+                      	 if(toMin >= 60|| toMin<0) {
+                      		 JOptionPane.showMessageDialog(parent, 
+                      				 "Error: To Time's minute should be under than 60 and be greater than or equal to 0", "Wrong minute",
+     								  JOptionPane.ERROR_MESSAGE, null);
+
+     						 return;
+                      	  }
                  		  doing_to = toHour*60 + toMin;
                  		   
        					 if(0> doing_from || doing_from >= doing_to ){
@@ -231,8 +254,6 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
        						 return;
        						 }
-       					 
-       					 
        					 
        					doing = new Doing(doing_from, doing_to, txtEvent.getText());
                  	   } catch (NumberFormatException ex) {
