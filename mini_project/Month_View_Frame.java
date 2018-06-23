@@ -35,11 +35,12 @@ import java.awt.Dimension;
 import javax.swing.border.BevelBorder;
 import java.awt.SystemColor;
 
-
 import javax.swing.border.LineBorder;
 
 public class Month_View_Frame implements ActionListener {
-	private GregorianCalendar cal1, cal2;
+
+	// fields that are components for Main Frame and create, organize, update the
+	// GUI.
 	JFrame frame;
 	private JPanel main;
 	private JPanel up;
@@ -50,27 +51,31 @@ public class Month_View_Frame implements ActionListener {
 	private JButton next_button;
 	private JPanel datep;
 	private JPanel dayp;
-  
-	private int currentMonth;
-	private int currentYear;
-	private int currentDay;
-	private String days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
-			"October", "November", "December" };
 
 	private JButton[][] monthButtons = new JButton[6][7];
 	private JLabel[] dayLabels = new JLabel[7];
 	private int[][] monthArr = new int[6][7];
 
-	
-	/**
-	 * Launch the application.
-	 */
+	// fields to calculate the current date and display each day for each year and
+	// month.
+	private GregorianCalendar cal1, cal2;
+	private int currentMonth;
+	private int currentYear;
+	private int currentDay;
 
+	private String days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+			"October", "November", "December" };
 
+	// fields to manage file output
 	private OutputStream output_S;
 	private BufferedOutputStream bOutput_S;
 	private ObjectOutputStream objOutput_S;
+
+	// methods
+	/**
+	 * Launch the application.
+	 */
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -85,11 +90,10 @@ public class Month_View_Frame implements ActionListener {
 		});
 	}
 
-
-
 	/**
 	 * Create the application.
 	 */
+
 	public Month_View_Frame() {
 		initialize();
 	}
@@ -106,33 +110,29 @@ public class Month_View_Frame implements ActionListener {
 		currentYear = cal1.get(Calendar.YEAR);
 		currentMonth = cal1.get(Calendar.MONTH);
 
-
-		// main frame- frame
+		// main frame - frame
 		frame = new JFrame();
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Calendars");
 
-		/*
-		 * change the look & feel try{ UIManager.setLookAndFeel
-		 * ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		 * SwingUtilities.updateComponentTreeUI(frame) ; }catch(Exception e){
-		 * //bottomInfo.setText("ERROR : LookAndFeel setting failed"); }
-		 */
-
-		// main panel
-		
+		// main panel - up panel, down panel will be attached
 		main = new JPanel();
 		frame.getContentPane().add(main, BorderLayout.CENTER);
 		main.setLayout(new BorderLayout(0, 0));
-		
+
+		// up panel - previous_button, monthChoice, year, next_button will be attached
 		up = new JPanel();
 		up.setBackground(Color.white);
 		main.add(up, BorderLayout.NORTH);
 		up.setPreferredSize(new Dimension(750, 50));
 
+		/*
+		 * previous_button - set the currenMonth to previous month. specially, when the
+		 * selected month is January, set year to currentYear-1 and set month to
+		 * December.
+		 */
 		previous_button = new JButton("<");
-
 		previous_button.setLocation(116, 0);
 		previous_button.setSize(70, 50);
 		previous_button.addActionListener(new ActionListener() {
@@ -154,12 +154,13 @@ public class Month_View_Frame implements ActionListener {
 				}
 			}
 		});
-		
+
 		up.setLayout(null);
 		up.add(previous_button);
 
+		// monthChoice - this JCombobox helps to choose the Month directly in range of
+		// current year
 		monthChoice = new JComboBox<String>();
-
 		monthChoice.setBounds(200, 0, 161, 50);
 		monthChoice.setFont(new Font("援대┝", Font.PLAIN, 15));
 
@@ -171,12 +172,9 @@ public class Month_View_Frame implements ActionListener {
 		monthChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// Object o = ae.getSource();
-
 				int selectMonth = monthChoice.getSelectedIndex();
 				monthChoice.setSelectedIndex(selectMonth);
 				cal1.set(Calendar.MONTH, selectMonth);
-
-			
 				currentMonth = cal1.get(Calendar.MONTH);
 				display_cal();
 			}
@@ -184,17 +182,18 @@ public class Month_View_Frame implements ActionListener {
 
 		up.add(monthChoice);
 
-
+		// year - this button shows the current year and cannot be modified
 		year = new JButton("" + currentYear);
 		year.setBounds(373, 0, 138, 48);
 		year.setFont(new Font("援대┝", Font.BOLD, 17));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
 
-
+		/*
+		 * next_button - set the currenMonth to next month. specially, when the selected
+		 * month is December, set year to currentYear+1 and set month to January.
+		 */
 		next_button = new JButton(">");
-		//next_button.setBorder(new EtchedBorder());
-		//next_button.setBackground(Color.white);
 		next_button.setBounds(525, 0, 70, 50);
 		next_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -220,11 +219,13 @@ public class Month_View_Frame implements ActionListener {
 		});
 		up.add(next_button);
 
+		// down panel - composed of two Panels, datep and dayp
 		down = new JPanel();
 		down.setBackground(Color.white);
 		main.add(down, BorderLayout.CENTER);
 		down.setLayout(new BorderLayout(0, 0));
 
+		// dayp - JPanel contains dayLabels that display day's name
 		dayp = new JPanel();
 		dayp.setPreferredSize(new Dimension(750, 30));
 		dayp.setBackground(Color.white);
@@ -237,6 +238,7 @@ public class Month_View_Frame implements ActionListener {
 		}
 		down.add(dayp, BorderLayout.NORTH);
 
+		// datep - JPanel contains monthButtons that shows every days in the each month
 		datep = new JPanel();
 		datep.setLayout(new GridLayout(6, 7));
 
@@ -253,73 +255,77 @@ public class Month_View_Frame implements ActionListener {
 		display_cal();
 	}
 
+	// action when the monthButtons are clicked - open the Day_View_Frame and manage
+	// File I/O for each day
 	public void actionPerformed(ActionEvent ae) {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				if (ae.getSource() == monthButtons[i][j]) {
 					try {
-						Day_View_Frame day_view_frame =  new Day_View_Frame(frame,new String[] {Integer.toString(currentYear),
-								months[currentMonth], Integer.toString(monthArr[i][j])});
-						
+						Day_View_Frame day_view_frame = new Day_View_Frame(frame,
+								new String[] { Integer.toString(currentYear), months[currentMonth],
+										Integer.toString(monthArr[i][j]) });
+
 						// save day_view_frame's listDoing
 						DefaultListModel<Doing> tmplistOriginDoing = day_view_frame.getlistDoing();
 						day_view_frame.setVisible(true);
-						
+
 						DefaultListModel<Doing> tmplistDoing = day_view_frame.getlistDoing();
-					
-						// if there's no inputfile and day_view_frame's listDoing is null, it doesn't output Objectfile
-						if(tmplistDoing.isEmpty() && !day_view_frame.getcheckFile())
+
+						// if there's no input file and day_view_frame's listDoing is null, it doesn't
+						// output Object file
+						if (tmplistDoing.isEmpty() && !day_view_frame.getcheckFile())
 							return;
-						// if there's inputfile and day_view_frame's listDoing is null, it delete file that read by program
-						if(tmplistDoing.isEmpty() && day_view_frame.getcheckFile()) {
-							File f = new File(String.format("%d%02d%02d.dat",
-										currentYear, currentMonth+1,monthArr[i][j] ));
+
+						// if there's input file and day_view_frame's listDoing is null, it delete file
+						// that read by program
+						if (tmplistDoing.isEmpty() && day_view_frame.getcheckFile()) {
+							File f = new File(
+									String.format("%d%02d%02d.dat", currentYear, currentMonth + 1, monthArr[i][j]));
 							f.delete();
 							return;
 						}
-						
+
 						// check listOriginDoing and listDoing are equal
 						boolean check = false;
-						if(tmplistDoing.getSize() == tmplistOriginDoing.getSize())
-							for(int l = 0; l<tmplistDoing.getSize(); l++) {
+						if (tmplistDoing.getSize() == tmplistOriginDoing.getSize())
+							for (int l = 0; l < tmplistDoing.getSize(); l++) {
 								check = tmplistDoing.getElementAt(l).equals(tmplistOriginDoing.getElementAt(l));
-								if(!check)
+								if (!check)
 									break;
 							}
 						// if listOriginDoing and listDoing aren't equal, then it write Object
-						if(check == false) {
-							
+						if (check == false) {
+
+							try {
+								output_S = new FileOutputStream(
+										String.format("%d%02d%02d.dat", currentYear, currentMonth + 1, monthArr[i][j]));
+								bOutput_S = new BufferedOutputStream(output_S);
+								objOutput_S = new ObjectOutputStream(bOutput_S);
+								objOutput_S.writeObject(tmplistDoing);
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
 								try {
-									output_S = new FileOutputStream(String.format("%d%02d%02d.dat",
-											currentYear, currentMonth+1,monthArr[i][j] ));
-									bOutput_S = new BufferedOutputStream(output_S);
-									objOutput_S = new ObjectOutputStream(bOutput_S);
-									objOutput_S.writeObject(tmplistDoing);
-								}catch (Exception e) {
+									objOutput_S.close();
+								} catch (IOException e) {
 									e.printStackTrace();
-								}finally {
-									try {
-										objOutput_S.close();
-									}catch(IOException e) {
-										e.printStackTrace();
-									}
-								
 								}
+
+							}
 						}
-						
-						
-					}catch (Exception e) {
-							e.printStackTrace();
+
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				
-					
-					
+
 					return;
 				}
 			}
 		}
 	}
 
+	// display_cal - print out the each day's number, to-do list and design the monthButtons
 	public void display_cal() {
 		cal2 = new GregorianCalendar(currentYear, currentMonth, 1);
 
@@ -331,12 +337,10 @@ public class Month_View_Frame implements ActionListener {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				monthButtons[i][j].setEnabled(true);
-				
 				if (monthButtons[i][j] != null) {
-					
+
 					monthButtons[i][j].setBorder(new EtchedBorder()); //
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
-					//monthButtons[i][j].setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
 					monthButtons[i][j].setFont(new Font("怨좊뵓", Font.ITALIC, 15));
 					if (date_Now == 1 && j + 1 < currentDay) {
 						monthButtons[i][j].setText("");
@@ -353,7 +357,6 @@ public class Month_View_Frame implements ActionListener {
 				}
 				if (j == 0) {
 					monthButtons[i][j].setBackground(Color.PINK);
-					// monthButtons[i][j].setBackground(Color.red);
 				}
 			}
 		}

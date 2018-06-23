@@ -264,12 +264,6 @@ public class Add_Edit_Delete_Dialog extends JDialog {
                  	   
                  	   setVisible(false);
             	   }
-            	   
-            	   //Delete踰꾪듉�쓣 �닃���쓣 �븣 �븘吏� 援ы쁽X
-
-                   
-                	   
-            	   
             	}
                
                
