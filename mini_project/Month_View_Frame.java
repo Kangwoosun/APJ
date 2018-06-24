@@ -72,17 +72,18 @@ public class Month_View_Frame implements ActionListener {
 	private String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 			"October", "November", "December" };
 
-	// fields to manage file output
+	// fields to manage File output
 	private OutputStream output_S;
 	private BufferedOutputStream bOutput_S;
 	private ObjectOutputStream objOutput_S;
 
-	// fields to FileIO
+	// fields to manage File Input
 	private InputStream input_S;
 	private BufferedInputStream bInput_S;
 	private ObjectInputStream objInput_S;
 
 	// methods
+
 	/**
 	 * Launch the application.
 	 */
@@ -172,7 +173,7 @@ public class Month_View_Frame implements ActionListener {
 		// current year
 		monthChoice = new JComboBox<String>();
 		monthChoice.setBounds(200, 0, 161, 50);
-		monthChoice.setFont(new Font("�뤃���뵝", Font.PLAIN, 15));
+		monthChoice.setFont(new Font("Dialog", Font.PLAIN, 15));
 
 		for (int i = 0; i < months.length; i++) {
 			monthChoice.addItem(months[i]);
@@ -195,7 +196,7 @@ public class Month_View_Frame implements ActionListener {
 		// year - this button shows the current year and cannot be modified
 		year = new JButton("" + currentYear);
 		year.setBounds(373, 0, 138, 48);
-		year.setFont(new Font("�뤃���뵝", Font.BOLD, 17));
+		year.setFont(new Font("Dialog", Font.BOLD, 17));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -243,7 +244,6 @@ public class Month_View_Frame implements ActionListener {
 		for (int i = 0; i < days.length; i++) {
 			dayLabels[i] = new JLabel(days[i] + "   ");
 			dayLabels[i].setHorizontalAlignment(JLabel.RIGHT);
-			// dayLabels[i].setFont(helvB16);
 			dayp.add(dayLabels[i]);
 		}
 		down.add(dayp, BorderLayout.NORTH);
@@ -254,8 +254,6 @@ public class Month_View_Frame implements ActionListener {
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				// count_i = i;
-				// count_j = j;
 				monthButtons[i][j] = new JButton("");
 				monthButtons[i][j].addActionListener(this);
 				datep.add(monthButtons[i][j]);
@@ -313,10 +311,7 @@ public class Month_View_Frame implements ActionListener {
 								bOutput_S = new BufferedOutputStream(output_S);
 								objOutput_S = new ObjectOutputStream(bOutput_S);
 								objOutput_S.writeObject(tmplistDoing);
-								
-								
-								
-								
+
 							} catch (Exception e) {
 								e.printStackTrace();
 							} finally {
@@ -327,8 +322,7 @@ public class Month_View_Frame implements ActionListener {
 								}
 
 							}
-							
-							
+
 							try {
 								input_S = new FileInputStream(
 										String.format("%d%02d%02d.dat", currentYear, currentMonth + 1, monthArr[i][j]));
@@ -336,13 +330,12 @@ public class Month_View_Frame implements ActionListener {
 								objInput_S = new ObjectInputStream(bInput_S);
 
 								tmplistDoing = (DefaultListModel<Doing>) objInput_S.readObject();
-								
+
 							} catch (Exception e) {
 								e.printStackTrace();
 							} finally {
 								try {
 									objInput_S.close();
-									// list.setModel(listDoing);
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -350,14 +343,13 @@ public class Month_View_Frame implements ActionListener {
 							String tmp = new String("");
 							Doing tmpDoing = tmplistDoing.getElementAt(0);
 							tmp = tmpDoing.getToDo();
-							if(tmpDoing.getToDo().length() > 5) 
+							if (tmpDoing.getToDo().length() > 5)
 								tmp = tmpDoing.getToDo().substring(0, 3) + "...";
-							
-							String today = String.format("%-15s%d", tmp , monthArr[i][j]);
-							
+
+							String today = String.format("%-15s%d", tmp, monthArr[i][j]);
+
 							monthButtons[i][j].setText(today);
-						
-							
+
 						}
 
 					} catch (Exception e) {
@@ -387,7 +379,7 @@ public class Month_View_Frame implements ActionListener {
 
 					monthButtons[i][j].setBorder(new EtchedBorder());
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
-					monthButtons[i][j].setFont(new Font("�⑥쥓逾�", Font.ITALIC, 15));
+					monthButtons[i][j].setFont(new Font("Dialog", Font.ITALIC, 15));
 
 					if (date_Now == 1 && j + 1 < currentDay) {
 						monthButtons[i][j].setText("");
@@ -408,13 +400,12 @@ public class Month_View_Frame implements ActionListener {
 								objInput_S = new ObjectInputStream(bInput_S);
 
 								tmplistDoing = (DefaultListModel<Doing>) objInput_S.readObject();
-								
+
 							} catch (Exception e) {
 								e.printStackTrace();
 							} finally {
 								try {
 									objInput_S.close();
-									// list.setModel(listDoing);
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -422,11 +413,10 @@ public class Month_View_Frame implements ActionListener {
 							String tmp = new String("");
 							Doing tmpDoing = tmplistDoing.getElementAt(0);
 							tmp = tmpDoing.getToDo();
-							if(tmpDoing.getToDo().length() > 5) 
+							if (tmpDoing.getToDo().length() > 5)
 								tmp = tmpDoing.getToDo().substring(0, 3) + "...";
-							
-							
-							String today = String.format("%-15s%d", tmp , date_Now);
+
+							String today = String.format("%-15s%d", tmp, date_Now);
 							monthArr[i][j] = date_Now;
 							monthButtons[i][j].setText(today);
 							date_Now++;

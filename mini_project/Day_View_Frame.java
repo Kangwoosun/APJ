@@ -112,7 +112,6 @@ public class Day_View_Frame extends JDialog {
 	 * the title of the frame and open the file which is match with each
 	 * date(ex-20180601)
 	 */
-
 	public Day_View_Frame(JFrame frame, String[] str) {
 		super(frame, str[1] + " - " + str[2], true);
 		getContentPane().setLayout(null);
@@ -368,7 +367,7 @@ public class Day_View_Frame extends JDialog {
 		return i + 1;
 	}
 
-	// methods to checkfile
+	// methods to check file
 	public boolean getcheckFile() {
 		return checkFile;
 	}
@@ -408,6 +407,7 @@ public class Day_View_Frame extends JDialog {
 								;
 							end--;
 
+							// to compare with existing jobs
 							for (int t = 0; t <= end; t++) {
 								if (timeStart[x_start][t] <= i.getTimeFrom() && timeEnd[x_start][t] > i.getTimeFrom()) {
 									isBreak = false;
