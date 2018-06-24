@@ -38,7 +38,7 @@ public class Doing implements Comparable<Doing>, Serializable{
 	// Using when display at jlist
 	@Override
 	public String toString() {
-		return String.format("%02d:%02d - %02d:%02d %40s %s", timeFrom/60, timeFrom%60,
+		return String.format("%02d:%02d - %02d:%02d %13s %s", timeFrom/60, timeFrom%60,
 				timeTo/60, timeTo%60, new String("") ,toDo);
 	}
 	

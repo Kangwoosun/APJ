@@ -14,13 +14,18 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.awt.Paint;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
@@ -71,6 +76,11 @@ public class Month_View_Frame implements ActionListener {
 	private OutputStream output_S;
 	private BufferedOutputStream bOutput_S;
 	private ObjectOutputStream objOutput_S;
+
+	// fields to FileIO
+	private InputStream input_S;
+	private BufferedInputStream bInput_S;
+	private ObjectInputStream objInput_S;
 
 	// methods
 	/**
@@ -162,7 +172,7 @@ public class Month_View_Frame implements ActionListener {
 		// current year
 		monthChoice = new JComboBox<String>();
 		monthChoice.setBounds(200, 0, 161, 50);
-		monthChoice.setFont(new Font("援대┝", Font.PLAIN, 15));
+		monthChoice.setFont(new Font("�뤃���뵝", Font.PLAIN, 15));
 
 		for (int i = 0; i < months.length; i++) {
 			monthChoice.addItem(months[i]);
@@ -185,7 +195,7 @@ public class Month_View_Frame implements ActionListener {
 		// year - this button shows the current year and cannot be modified
 		year = new JButton("" + currentYear);
 		year.setBounds(373, 0, 138, 48);
-		year.setFont(new Font("援대┝", Font.BOLD, 17));
+		year.setFont(new Font("�뤃���뵝", Font.BOLD, 17));
 		up.add(year);
 		year.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -303,6 +313,10 @@ public class Month_View_Frame implements ActionListener {
 								bOutput_S = new BufferedOutputStream(output_S);
 								objOutput_S = new ObjectOutputStream(bOutput_S);
 								objOutput_S.writeObject(tmplistDoing);
+								
+								
+								
+								
 							} catch (Exception e) {
 								e.printStackTrace();
 							} finally {
@@ -313,6 +327,37 @@ public class Month_View_Frame implements ActionListener {
 								}
 
 							}
+							
+							
+							try {
+								input_S = new FileInputStream(
+										String.format("%d%02d%02d.dat", currentYear, currentMonth + 1, monthArr[i][j]));
+								bInput_S = new BufferedInputStream(input_S);
+								objInput_S = new ObjectInputStream(bInput_S);
+
+								tmplistDoing = (DefaultListModel<Doing>) objInput_S.readObject();
+								
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								try {
+									objInput_S.close();
+									// list.setModel(listDoing);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+							String tmp = new String("");
+							Doing tmpDoing = tmplistDoing.getElementAt(0);
+							tmp = tmpDoing.getToDo();
+							if(tmpDoing.getToDo().length() > 5) 
+								tmp = tmpDoing.getToDo().substring(0, 3) + "...";
+							
+							String today = String.format("%-15s%d", tmp , monthArr[i][j]);
+							
+							monthButtons[i][j].setText(today);
+						
+							
 						}
 
 					} catch (Exception e) {
@@ -325,7 +370,8 @@ public class Month_View_Frame implements ActionListener {
 		}
 	}
 
-	// display_cal - print out the each day's number, to-do list and design the monthButtons
+	// display_cal - print out the each day's number, to-do list and design the
+	// monthButtons
 	public void display_cal() {
 		cal2 = new GregorianCalendar(currentYear, currentMonth, 1);
 
@@ -339,9 +385,10 @@ public class Month_View_Frame implements ActionListener {
 				monthButtons[i][j].setEnabled(true);
 				if (monthButtons[i][j] != null) {
 
-					monthButtons[i][j].setBorder(new EtchedBorder()); //
+					monthButtons[i][j].setBorder(new EtchedBorder());
 					monthButtons[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
-					monthButtons[i][j].setFont(new Font("怨좊뵓", Font.ITALIC, 15));
+					monthButtons[i][j].setFont(new Font("�⑥쥓逾�", Font.ITALIC, 15));
+
 					if (date_Now == 1 && j + 1 < currentDay) {
 						monthButtons[i][j].setText("");
 						monthButtons[i][j].setEnabled(false);
@@ -349,10 +396,48 @@ public class Month_View_Frame implements ActionListener {
 						monthButtons[i][j].setText("");
 						monthButtons[i][j].setEnabled(false);
 					} else {
-						String today = "" + date_Now;
-						monthArr[i][j] = date_Now;
-						monthButtons[i][j].setText(today);
-						date_Now++;
+
+						File f = new File(String.format("%d%02d%02d.dat", currentYear, currentMonth + 1, date_Now));
+						DefaultListModel<Doing> tmplistDoing = new DefaultListModel<Doing>();
+						if (f.exists()) {
+
+							try {
+								input_S = new FileInputStream(
+										String.format("%d%02d%02d.dat", currentYear, currentMonth + 1, date_Now));
+								bInput_S = new BufferedInputStream(input_S);
+								objInput_S = new ObjectInputStream(bInput_S);
+
+								tmplistDoing = (DefaultListModel<Doing>) objInput_S.readObject();
+								
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								try {
+									objInput_S.close();
+									// list.setModel(listDoing);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+							String tmp = new String("");
+							Doing tmpDoing = tmplistDoing.getElementAt(0);
+							tmp = tmpDoing.getToDo();
+							if(tmpDoing.getToDo().length() > 5) 
+								tmp = tmpDoing.getToDo().substring(0, 3) + "...";
+							
+							
+							String today = String.format("%-15s%d", tmp , date_Now);
+							monthArr[i][j] = date_Now;
+							monthButtons[i][j].setText(today);
+							date_Now++;
+						}
+
+						else {
+							String today = "" + date_Now;
+							monthArr[i][j] = date_Now;
+							monthButtons[i][j].setText(today);
+							date_Now++;
+						}
 					}
 				}
 				if (j == 0) {
