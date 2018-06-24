@@ -160,8 +160,9 @@ public class Day_View_Frame extends JDialog {
 
 		// txtTime designing
 		txtTime = new JTextField();
-		txtTime.setFont(new Font("HY????碌帽", Font.PLAIN, 18));
+		txtTime.setFont(new Font("Dialog", Font.PLAIN, 20));
 		txtTime.setText("Time");
+		txtTime.setEditable(false);
 		txtTime.setColumns(10);
 		GridBagConstraints gbc_txtTime = new GridBagConstraints();
 		gbc_txtTime.gridheight = 2;
@@ -173,9 +174,10 @@ public class Day_View_Frame extends JDialog {
 
 		// txtTodo designing
 		txtToDo = new JTextField();
-		txtToDo.setFont(new Font("HY????碌帽", Font.PLAIN, 18));
+		txtToDo.setFont(new Font("Dialog", Font.PLAIN, 20));
 		txtToDo.setText("To Do");
 		txtToDo.setColumns(10);
+		txtToDo.setEditable(false);
 		GridBagConstraints gbc_txtToDo = new GridBagConstraints();
 		gbc_txtToDo.gridwidth = 3;
 		gbc_txtToDo.gridheight = 2;
@@ -280,6 +282,7 @@ public class Day_View_Frame extends JDialog {
 		// list & listDoing
 		listDoing = new DefaultListModel<Doing>();
 		list = new JList<Doing>(listDoing);
+		list.setFont(new Font("굴림", Font.PLAIN, 18));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 

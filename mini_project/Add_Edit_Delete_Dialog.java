@@ -60,7 +60,6 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 		// Dislpay base format of textField (ex. Event name, XX:XX)
 		{
 			txtEvent = new JTextField("Event name");
-			txtEvent.setForeground(Color.GRAY);
 			txtEvent.addFocusListener(new FocusListener() {
 				@Override
 				public void focusGained(FocusEvent e) {
