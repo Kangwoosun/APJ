@@ -51,51 +51,53 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 		main_Panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(main_Panel, BorderLayout.CENTER);
 		GridBagLayout gbl_main_Panel = new GridBagLayout();
-		gbl_main_Panel.columnWidths = new int[]{69, 277, 0};
-		gbl_main_Panel.rowHeights = new int[]{55, 55, 55, 0, 0};
-		gbl_main_Panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_main_Panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_main_Panel.columnWidths = new int[] { 69, 277, 0 };
+		gbl_main_Panel.rowHeights = new int[] { 55, 55, 55, 0, 0 };
+		gbl_main_Panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gbl_main_Panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		main_Panel.setLayout(gbl_main_Panel);
-		
-				{
-					txtEvent = new JTextField("Event name");
-					txtEvent.setForeground(Color.GRAY);
-					txtEvent.addFocusListener(new FocusListener() {
-						@Override
-						public void focusGained(FocusEvent e) {
-							if (txtEvent.getText().equals("Event name")) {
-								txtEvent.setText("");
-								txtEvent.setForeground(Color.BLACK);
-							}
-						}
-		
-						@Override
-						public void focusLost(FocusEvent e) {
-							if (txtEvent.getText().isEmpty()) {
-								txtEvent.setForeground(Color.GRAY);
-								txtEvent.setText("Event name");
-							}
-						}
-		
-					});
-					{
-						JLabel labelEvent = new JLabel("Event");
-						labelEvent.setFont(new Font("굴림", Font.PLAIN, 18));
-						GridBagConstraints gbc_labelEvent = new GridBagConstraints();
-						gbc_labelEvent.fill = GridBagConstraints.BOTH;
-						gbc_labelEvent.insets = new Insets(0, 0, 5, 5);
-						gbc_labelEvent.gridx = 0;
-						gbc_labelEvent.gridy = 0;
-						main_Panel.add(labelEvent, gbc_labelEvent);
+
+		// Dislpay base format of textField (ex. Event name, XX:XX)
+		{
+			txtEvent = new JTextField("Event name");
+			txtEvent.setForeground(Color.GRAY);
+			txtEvent.addFocusListener(new FocusListener() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if (txtEvent.getText().equals("Event name")) {
+						txtEvent.setText("");
+						txtEvent.setForeground(Color.BLACK);
 					}
-					GridBagConstraints gbc_txtEvent = new GridBagConstraints();
-					gbc_txtEvent.fill = GridBagConstraints.BOTH;
-					gbc_txtEvent.insets = new Insets(0, 0, 5, 0);
-					gbc_txtEvent.gridx = 1;
-					gbc_txtEvent.gridy = 0;
-					main_Panel.add(txtEvent, gbc_txtEvent);
-					txtEvent.setColumns(10);
 				}
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					if (txtEvent.getText().isEmpty()) {
+						txtEvent.setForeground(Color.GRAY);
+						txtEvent.setText("Event name");
+					}
+				}
+
+			});
+			{
+				JLabel labelEvent = new JLabel("Event");
+				labelEvent.setFont(new Font("굴림", Font.PLAIN, 18));
+				GridBagConstraints gbc_labelEvent = new GridBagConstraints();
+				gbc_labelEvent.fill = GridBagConstraints.BOTH;
+				gbc_labelEvent.insets = new Insets(0, 0, 5, 5);
+				gbc_labelEvent.gridx = 0;
+				gbc_labelEvent.gridy = 0;
+				main_Panel.add(labelEvent, gbc_labelEvent);
+			}
+			GridBagConstraints gbc_txtEvent = new GridBagConstraints();
+			gbc_txtEvent.fill = GridBagConstraints.BOTH;
+			gbc_txtEvent.insets = new Insets(0, 0, 5, 0);
+			gbc_txtEvent.gridx = 1;
+			gbc_txtEvent.gridy = 0;
+			main_Panel.add(txtEvent, gbc_txtEvent);
+			txtEvent.setColumns(10);
+		}
+		// Dislpay base format of textField (ex. Event name, XX:XX)
 		{
 			txtFrom = new JTextField("XX:XX");
 			txtFrom.addFocusListener(new FocusListener() {
@@ -134,6 +136,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 			main_Panel.add(txtFrom, gbc_txtFrom);
 			txtFrom.setColumns(10);
 		}
+		// Dislpay base format of textField (ex. Event name, XX:XX)
 		{
 			txtTo = new JTextField("XX:XX");
 			txtTo.addFocusListener(new FocusListener() {
@@ -182,7 +185,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 				btOk.setHorizontalAlignment(SwingConstants.LEADING);
 				btOk.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						// ADD踰꾪듉�쓣 �닃���쓣 �븣 援ы쁽�셿猷�
+						// If Type's value is Day_View_Frame.ADD(0x1), operate add
 						if (Type == Day_View_Frame.ADD) {
 							try {
 
@@ -190,17 +193,17 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 								int fromHour, fromMin, doing_from;
 								int toHour, toMin, doing_to;
 								boolean check;
-								// From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
-
+								
+								// Check txtFrom's format (user's input) using regular expression
 								check = txtFrom.getText().matches("\\d{2}:\\d{2}");
-
+								
 								if (!check) {
 									JOptionPane.showMessageDialog(parent, "Error: From Number should be XX:XX",
 											"Wrong format", JOptionPane.ERROR_MESSAGE, null);
 									return;
 								}
-								// To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
-
+								
+								// Check txtTo's format (user's input) using regular expression
 								check = txtTo.getText().matches("\\d{2}:\\d{2}");
 
 								if (!check) {
@@ -211,10 +214,11 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
 								}
 
-								// :�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
+								// Divide txtFrom's value by ':'
 								splitData = txtFrom.getText().split(":");
 
 								fromHour = Integer.parseInt(splitData[0]);
+								// Check txtFrom's hour is under than 24, and greater than or equal to 0
 								if (fromHour >= 24 || fromHour < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: From Time's hour should be under than 24 and be greater than or equal to 0",
@@ -222,6 +226,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
 									return;
 								}
+								// Check txtFrom's minute is under than 60, and greater than or equal to 0
 								fromMin = Integer.parseInt(splitData[1]);
 								if (fromMin >= 60 || fromMin < 0) {
 									JOptionPane.showMessageDialog(parent,
@@ -232,9 +237,11 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 								}
 								doing_from = fromHour * 60 + fromMin;
 
+								//Divde txtFrom's value by ':'
 								splitData = txtTo.getText().split(":");
 
 								toHour = Integer.parseInt(splitData[0]);
+								// check txtTo's hour is under than 60, and greater than or equal to 0
 								if (toHour >= 24 || toHour < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: To Time's hour should be under than 24 and be greater than or equal to 0",
@@ -243,6 +250,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 									return;
 								}
 								toMin = Integer.parseInt(splitData[1]);
+								// Check txtTo's minute is under than 24, and greater than or equal to 0
 								if (toMin >= 60 || toMin < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: To Time's minute should be under than 60 and be greater than or equal to 0",
@@ -251,7 +259,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 									return;
 								}
 								doing_to = toHour * 60 + toMin;
-
+								// Check start time is before end time
 								if (0 > doing_from || doing_from >= doing_to) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: The start Time must be before the end Time", "Wrong range",
@@ -270,16 +278,19 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
 							setVisible(false);
 						}
-
+						
+						// If Type's value is Day_View_Frame.EDIT(0x2), operate edit
 						else if (Type == Day_View_Frame.EDIT) {
+							//Operate same as add
+							
 							try {
 
 								String splitData[];
 								int fromHour, fromMin, doing_from;
 								int toHour, toMin, doing_to;
 								boolean check;
-								// From txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
-
+								
+								// Check txtFrom's format (user's input) using regular expression
 								check = txtFrom.getText().matches("\\d{2}:\\d{2}");
 
 								if (!check) {
@@ -287,8 +298,8 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 											"Wrong format", JOptionPane.ERROR_MESSAGE, null);
 									return;
 								}
-								// To txt�뿉 input�맂 媛믪씠 �삎�떇�쓣 留욎톬�뒗吏� 寃��궗
-
+								
+								// Check txtTo's format (user's input) using regular expression
 								check = txtTo.getText().matches("\\d{2}:\\d{2}");
 
 								if (!check) {
@@ -299,10 +310,12 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
 								}
 
-								// :�쓣 湲곗��쑝濡� 履쇨컻�꽌 �떆媛꾧낵 遺꾩쓣 遺꾨━
+								//Divde txtFrom's value by ':'
 								splitData = txtFrom.getText().split(":");
 
 								fromHour = Integer.parseInt(splitData[0]);
+								
+								// Check txtFrom's hour is under than 24, and greater than or equal to 0
 								if (fromHour >= 24 || fromHour < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: From Time's hour should be under than 24 and be greater than or equal to 0",
@@ -311,6 +324,8 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 									return;
 								}
 								fromMin = Integer.parseInt(splitData[1]);
+								
+								// Check txtFrom's minute is under than 60, and greater than or equal to 0
 								if (fromMin >= 60 || fromMin < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: From Time's minute should be under than 60 and be greater than or equal to 0",
@@ -319,10 +334,13 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 									return;
 								}
 								doing_from = fromHour * 60 + fromMin;
-
+								
+								//Divde txtFrom's value by ':'
 								splitData = txtTo.getText().split(":");
 
 								toHour = Integer.parseInt(splitData[0]);
+								
+								// Check txtTo's hour is under than 24, and greater than or equal to 0
 								if (toHour >= 24 || toHour < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: To Time's hour should be under than 24 and be greater than or equal to 0",
@@ -331,6 +349,8 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 									return;
 								}
 								toMin = Integer.parseInt(splitData[1]);
+								
+								// Check txtTo's minute is under than 60, and greater than or equal to 0
 								if (toMin >= 60 || toMin < 0) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: To Time's minute should be under than 60 and be greater than or equal to 0",
@@ -340,6 +360,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 								}
 								doing_to = toHour * 60 + toMin;
 
+								// Check start time is before end time
 								if (0 > doing_from || doing_from >= doing_to) {
 									JOptionPane.showMessageDialog(parent,
 											"Error: The start Time must be before the end Time", "Wrong range",
@@ -357,8 +378,6 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 
 							setVisible(false);
 						}
-
-						// Delete踰꾪듉�쓣 �닃���쓣 �븣 �븘吏� 援ы쁽X
 
 					}
 
@@ -369,6 +388,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 			}
 
 			{
+				// If user click 'Cancel', set doing is null and setVisible is false
 				JButton btCancel = new JButton("Cancel");
 				btCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -383,6 +403,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 				btPane.add(btCancel);
 			}
 		}
+		// only one of different add and edit, display selected list by users
 		if (Type == Day_View_Frame.EDIT) {
 			Doing tmpDoing = parent.getlistDoing().getElementAt(parent.getselectNo());
 			txtFrom.setText(String.format("%02d:%02d", tmpDoing.getTimeFrom() / 60, tmpDoing.getTimeFrom() % 60));
