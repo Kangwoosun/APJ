@@ -14,7 +14,7 @@ public class Doing implements Comparable<Doing>, Serializable{
 		this.toDo = toDo;
 	}
 	/*
-	 *  generalic get & set function
+	 *  generic get & set function
 	 */
 	public int getTimeFrom() {
 		return this.timeFrom;
@@ -35,7 +35,7 @@ public class Doing implements Comparable<Doing>, Serializable{
 		this.toDo = toDo;
 	}
 	
-	// Using when display at jlist
+	// Using when display at Jlist
 	@Override
 	public String toString() {
 		return String.format("%02d:%02d - %02d:%02d %13s %s", timeFrom/60, timeFrom%60,
@@ -65,7 +65,7 @@ public class Doing implements Comparable<Doing>, Serializable{
 		}
 			
 	}
-	// Using when compare originlistdoing and returned listdoing
+	// Using when compare origin listdoing and returned listdoing
 	@Override
 	public boolean equals(Object anObject) {
 		if (anObject instanceof Doing)

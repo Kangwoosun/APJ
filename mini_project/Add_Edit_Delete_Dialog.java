@@ -96,6 +96,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 			main_Panel.add(txtEvent, gbc_txtEvent);
 			txtEvent.setColumns(10);
 		}
+		
 		// Dislpay base format of textField (ex. Event name, XX:XX)
 		{
 			txtFrom = new JTextField("XX:XX");
@@ -236,7 +237,7 @@ public class Add_Edit_Delete_Dialog extends JDialog {
 								}
 								doing_from = fromHour * 60 + fromMin;
 
-								//Divde txtFrom's value by ':'
+								//Divide txtFrom's value by ':'
 								splitData = txtTo.getText().split(":");
 
 								toHour = Integer.parseInt(splitData[0]);
