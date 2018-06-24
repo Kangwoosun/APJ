@@ -1,6 +1,6 @@
 README.txt
 
-Team Student name: 12171615 박민우, 12171575 강우선
+Team Student name: 12171615 Park min woo, 12171575 Kang woo sun
 Version of the Java: Oxygen.2 Release (4.7.2)
 
 We make 4 java files("Month_View_Frame.java", "Day_View_Frame.java", "Add_Edit_Delete_Dialog.java", "Doing.java")
