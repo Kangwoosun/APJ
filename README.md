@@ -1,4 +1,4 @@
-# <Information>
+<Information>
 =============
 - Version of the Java: Oxygen.2 Release (4.7.2)
 
