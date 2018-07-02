@@ -3,14 +3,18 @@
 
 - We make 4 java files("Month_View_Frame.java", "Day_View_Frame.java", "Add_Edit_Delete_Dialog.java", "Doing.java") to design and activate the GUI program. 
 
+
 ## <Team Student name>
 - 12171615 Park min woo
 
 - 12171575 Kang woo sun
+
+
 ## <Result>
 - Park min woo : A+
 
 - Kang woo sun : A0 // :( Why am I not an a+ 
+
 
 ## <Month_View_Frame.java>
 - have class Month_View_Frame that implements ActionListener. And in the class Month_View_Frame, there are many      fields and methods used to calculate the current date and display each day for each year and month. And also in the    class, there are fields and methods that are components for Main Frame and create, organize, update the GUI.
