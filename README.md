@@ -1,13 +1,12 @@
-#Team Student name: 12171615 Park min woo, 12171575 Kang woo sun
+# Team Student name: 12171615 Park min woo, 12171575 Kang woo sun
 ## Result : 
 	Park min woo : A+
-	Kang woo sun : A0 Why am I not an a + :( 
+	Kang woo sun : A0 // :( Why am I not an a+ 
 
-	
-Version of the Java: Oxygen.2 Release (4.7.2)
+## <Summary>
+- Version of the Java: Oxygen.2 Release (4.7.2)
 
-We make 4 java files("Month_View_Frame.java", "Day_View_Frame.java", "Add_Edit_Delete_Dialog.java", "Doing.java")
-to design and activate the GUI program. 
+- We make 4 java files("Month_View_Frame.java", "Day_View_Frame.java", "Add_Edit_Delete_Dialog.java", "Doing.java") to design and activate the GUI program. 
 
 
 ## <Month_View_Frame.java>
