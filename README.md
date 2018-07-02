@@ -1,4 +1,3 @@
-
 # <Information>
 - Version of the Java: Oxygen.2 Release (4.7.2)
 
@@ -6,9 +5,11 @@
 
 ## <Team Student name>
 - 12171615 Park min woo
+
 - 12171575 Kang woo sun
 ## <Result>
 - Park min woo : A+
+
 - Kang woo sun : A0 // :( Why am I not an a+ 
 
 ## <Month_View_Frame.java>
