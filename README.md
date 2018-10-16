@@ -9,6 +9,12 @@
 
 - 12171575 Kang woo sun: A0 // [ :( Why am I not an A+??!! ]
 
+## Used technology
+- GUI (used JDialog, JFrame)
+- File input&output (used Serializable, etc)
+- String Regualr Expressions
+- Exception Handling (used JOptionPane, etc)
+- Inheritance, Polymorphism
 
 ## Month_View_Frame.java
 - have class Month_View_Frame that implements ActionListener. And in the class Month_View_Frame, there are many      fields and methods used to calculate the current date and display each day for each year and month. And also in the    class, there are fields and methods that are components for Main Frame and create, organize, update the GUI.
